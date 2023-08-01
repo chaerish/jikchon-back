@@ -18,11 +18,23 @@ public enum ErrorCode {
     INVALID_PARAMETER(40001, "요청 파라미터 오류"),
 
     /**
+     * 401
+     */
+    EXPIRED_TOKEN(40101, "토큰 유효 시간이 만료되었습니다"),
+    INVALID_TOKEN(40402, "유효하지 않은 토큰입니다."),
+    LOGIN_REQUIRED(40103, "토큰이 존재하지 않습니다. 로그인 이후 요청해주세요"),
+
+    /**
+     * 401
+     */
+    FORBIDDEN(403, "권한이 없습니다."),
+
+    /**
      * 404 NOT FOUND
      */
     NOT_FOUND(404, "요청한 자원을 찾을 수 없습니다."),
-    NOT_FOUND_COUNTRY(40401, "존재하지 않는 국가코드 입니다."),
-    NOT_FOUND_SAMPLE(40402, "존재하지 않는 샘플 입니다.");
+    NOT_FOUND_MEMBER(404, "존재하지 않는 사용자 정보입니다");
+
 
     private final int code;
     private final String message;
