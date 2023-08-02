@@ -1,8 +1,8 @@
 package smu.likelion.jikchon.service;
 
 import smu.likelion.jikchon.base.PageResult;
-import smu.likelion.jikchon.dto.ProductRequestDto;
-import smu.likelion.jikchon.dto.ProductReturnDto;
+import smu.likelion.jikchon.dto.product.ProductRequestDto;
+import smu.likelion.jikchon.dto.product.ProductReturnDto;
 
 import org.springframework.data.domain.Pageable;
 

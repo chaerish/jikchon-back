@@ -6,8 +6,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import smu.likelion.jikchon.base.BaseResponse;
-import smu.likelion.jikchon.dto.ProductRequestDto;
-import smu.likelion.jikchon.service.ProductService;
+import smu.likelion.jikchon.dto.product.ProductRequestDto;
 import smu.likelion.jikchon.service.ProductServiceImpl;
 import org.springframework.data.domain.Pageable;
 @Controller

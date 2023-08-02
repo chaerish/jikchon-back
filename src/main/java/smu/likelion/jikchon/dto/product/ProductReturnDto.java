@@ -1,4 +1,4 @@
-package smu.likelion.jikchon.dto;
+package smu.likelion.jikchon.dto.product;
 
 import lombok.*;
 import smu.likelion.jikchon.domain.Product;

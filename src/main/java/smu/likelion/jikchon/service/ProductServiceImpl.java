@@ -3,15 +3,12 @@ package smu.likelion.jikchon.service;
 import org.springframework.data.domain.Page;
 import smu.likelion.jikchon.base.PageResult;
 import smu.likelion.jikchon.domain.Product;
-import smu.likelion.jikchon.dto.ProductRequestDto;
-import smu.likelion.jikchon.dto.ProductReturnDto;
-import smu.likelion.jikchon.exception.CustomException;
+import smu.likelion.jikchon.dto.product.ProductRequestDto;
+import smu.likelion.jikchon.dto.product.ProductReturnDto;
 import smu.likelion.jikchon.exception.CustomNotFoundException;
 import smu.likelion.jikchon.exception.ErrorCode;
 import smu.likelion.jikchon.repository.ProductRepository;
 import org.springframework.data.domain.Pageable;
-
-import java.util.Optional;
 
 
 public class ProductServiceImpl implements ProductService {

@@ -1,11 +1,8 @@
 package smu.likelion.jikchon.domain;
 
 import jakarta.persistence.*;
-import jdk.jfr.Category;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import smu.likelion.jikchon.dto.ProductRequestDto;
-import smu.likelion.jikchon.dto.ProductReturnDto;
 
 @Entity
 @Getter
