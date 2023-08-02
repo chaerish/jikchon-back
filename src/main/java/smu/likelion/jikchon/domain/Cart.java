@@ -15,4 +15,11 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    @Column(name="quantity")
+    private Long quantity;
+
+    @OneToOne
+    @JoinColumn(name="memberId")
+    private Member member;
+
 }
