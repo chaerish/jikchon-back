@@ -15,6 +15,7 @@ public class ProductService{
     private ProductRepository productRepository;
 
     public PageResult<ProductReturnDto.Simple> recommendProduct(){
+
         return null;
     }
 

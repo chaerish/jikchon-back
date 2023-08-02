@@ -23,6 +23,19 @@ public class CartProduct {
     @Column(name="productId")
     private Product product;
 
-    private int count;
+    private Long quantity;
+    public CartProduct createCartProduct(Cart cart,Product product,Long quantity){
+        CartProduct cartProduct = new CartProduct();
+        cartProduct.setCart(cart);
+        cartProduct.setProduct(product);
+        cartProduct.setQuantity(quantity);
+        return cartProduct;
+    }
+    //수량 증가
+    public void addQuantity(Long quantity){
+        this.quantity+=quantity;
+    }
+
+
 
 }

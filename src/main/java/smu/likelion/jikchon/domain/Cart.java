@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 @Entity
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -21,5 +22,12 @@ public class Cart {
     @OneToOne
     @JoinColumn(name="memberId")
     private Member member;
+
+    public static Cart createCart(Member member){
+        Cart cart=new Cart();
+        cart.setMember(member);
+        return cart;
+    }
+
 
 }
