@@ -24,8 +24,9 @@ public class MemberRequestDto {
         String userName;
         String zipcode;
         String address;
+        String companyNumber;
 
-        public Member toEntity() {
+        public Member toCustomerEntity() {
             return Member.builder()
                     .phoneNumber(phoneNumber)
                     .password(password)
@@ -33,6 +34,17 @@ public class MemberRequestDto {
                     .zipcode(zipcode)
                     .address(address)
                     .role(MemberRole.ROLE_CUSTOMER)
+                    .build();
+        }
+
+        public Member toSellerEntity() {
+            return Member.builder()
+                    .phoneNumber(phoneNumber)
+                    .password(password)
+                    .username(userName)
+                    .zipcode(zipcode)
+                    .address(address)
+                    .role(MemberRole.ROLE_SELLER)
                     .build();
         }
     }

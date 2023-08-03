@@ -17,6 +17,12 @@ public class BaseResponse<T> {
     int code;
     String message;
     T data;
+    public static BaseResponse<Void> ok() {
+        return BaseResponse.<Void>builder()
+                .code(200)
+                .message("요청이 정상적으로 수행되었습니다.")
+                .build();
+    }
 
     public static <T> BaseResponse<T> ok(T data) {
         return BaseResponse.<T>builder()

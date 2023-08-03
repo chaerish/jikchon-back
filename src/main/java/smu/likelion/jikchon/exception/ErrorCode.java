@@ -21,8 +21,9 @@ public enum ErrorCode {
      * 401
      */
     EXPIRED_TOKEN(40101, "토큰 유효 시간이 만료되었습니다"),
-    INVALID_TOKEN(40402, "유효하지 않은 토큰입니다."),
+    INVALID_TOKEN(40102, "유효하지 않은 토큰입니다."),
     LOGIN_REQUIRED(40103, "토큰이 존재하지 않습니다. 로그인 이후 요청해주세요"),
+    REFRESH_TOKEN_NOT_EXIST(40104, "리프레쉬 토큰이 존재하지 않습니다"),
 
     /**
      * 401
@@ -33,8 +34,12 @@ public enum ErrorCode {
      * 404 NOT FOUND
      */
     NOT_FOUND(404, "요청한 자원을 찾을 수 없습니다."),
-    NOT_FOUND_MEMBER(404, "존재하지 않는 사용자 정보입니다");
+    NOT_FOUND_MEMBER(404, "존재하지 않는 사용자 정보입니다"),
 
+    /**
+     * 500 서버에러
+     */
+    INTERNAL_SERVER_ERROR(500, "서버 오류입니다.");
 
     private final int code;
     private final String message;

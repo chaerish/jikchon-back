@@ -3,7 +3,14 @@ package smu.likelion.jikchon.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Collection;
+import java.util.Collections;
 
 @Entity
 @Getter
@@ -29,11 +36,16 @@ public class Member {
     String password;
     String zipcode;
     String address;
-
     @Column(unique = true)
     String companyNumber;
+    @OneToOne(mappedBy = "member")
+    JwtRefreshToken jwtRefreshToken;
 
     public void encodePassword(PasswordEncoder passwordEncoder) {
         password = passwordEncoder.encode(password);
+    }
+
+    public Collection<GrantedAuthority> getAuthority() {
+        return Collections.singleton(new SimpleGrantedAuthority(role.toString()));
     }
 }
