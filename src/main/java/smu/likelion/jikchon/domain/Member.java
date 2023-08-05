@@ -5,6 +5,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.List;
+
 @Entity
 @Getter
 @AllArgsConstructor
@@ -29,9 +31,11 @@ public class Member {
     String password;
     String zipcode;
     String address;
-
     @Column(unique = true)
     String companyNumber;
+    @OneToMany(mappedBy = "cart")
+    private List<Cart> cart;
+
 
     public void encodePassword(PasswordEncoder passwordEncoder) {
         password = passwordEncoder.encode(password);

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -29,11 +31,10 @@ public class Product {
     @ManyToOne
     @JoinColumn(name="memberId")
     private Member member;
-//    @OneToMany
+//    @ManyToOne
 //    @JoinColumn(name="categoryId")
 //    private Category categoryId;
-    @ManyToOne
-    @JoinColumn(name="cartId")
-    private Cart cart;
+    @OneToMany(mappedBy = "cart")
+    private List<Cart> cart;
 
 }

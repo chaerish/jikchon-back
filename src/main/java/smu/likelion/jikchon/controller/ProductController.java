@@ -6,8 +6,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import smu.likelion.jikchon.base.BaseResponse;
+import smu.likelion.jikchon.base.PageResult;
 import smu.likelion.jikchon.dto.product.ProductRequestDto;
 import org.springframework.data.domain.Pageable;
+import smu.likelion.jikchon.dto.product.ProductReturnDto;
 import smu.likelion.jikchon.service.ProductService;
 
 @Controller
@@ -17,17 +19,17 @@ public class ProductController {
 
     //사용자 추천 프로덕트 보기
 //    @GetMapping("")
-//    public BaseResponse<?> recommendProduct() {
+//    public BaseResponse<PageResult<ProductReturnDto.Simple>> recommendProduct() {
 //        return BaseResponse.ok("아직 구현 안 됨 ");
 //    }
     //프로덕트 목록 조회
     @GetMapping("")
-    public BaseResponse<?> getAllProduct(@PathVariable("memberId") Long id, @PageableDefault(size=12)Pageable pageable){
+    public BaseResponse<PageResult<ProductReturnDto.Simple>> getAllProduct(@PathVariable("memberId") Long id, @PageableDefault(size=12)Pageable pageable){
         return BaseResponse.ok(productService.getAllProduct(id,pageable));
     }
     //프로덕트 상세 조회
     @GetMapping("/{productId}")
-    public BaseResponse<?> getDetailProduct(@PathVariable("productId") Long id){
+    public BaseResponse<ProductReturnDto.Detail> getDetailProduct(@PathVariable("productId") Long id){
         return BaseResponse.ok(productService.findById(id));
     }
     //프로덕트 등록

@@ -9,7 +9,7 @@ import smu.likelion.jikchon.dto.product.ProductReturnDto;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product,Long> {
-    Page<ProductReturnDto.Simple> findAllByMemberId(Long memberId, Pageable pageable);
+    Page<Product> findAllByMemberId(Long memberId, Pageable pageable);
 
 
 }

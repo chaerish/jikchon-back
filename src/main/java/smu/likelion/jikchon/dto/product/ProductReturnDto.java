@@ -4,7 +4,6 @@ import lombok.*;
 import smu.likelion.jikchon.domain.Product;
 
 @NoArgsConstructor
-@AllArgsConstructor
 public class ProductReturnDto {
     @Getter
     @Setter

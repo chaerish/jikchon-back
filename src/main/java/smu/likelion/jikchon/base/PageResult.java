@@ -18,7 +18,7 @@ public class PageResult<T> {
         totalElements=data.getTotalElements();
         content=data.getContent();
     }
-    public static PageResult ok(Page data){
-        return new PageResult(data);
+    public static<T> PageResult<T> ok(Page<T>data){
+        return new PageResult<>(data);
     }
 }
