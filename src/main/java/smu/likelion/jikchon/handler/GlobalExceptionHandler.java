@@ -8,6 +8,7 @@ import smu.likelion.jikchon.base.BaseResponse;
 import smu.likelion.jikchon.exception.CustomBadRequestException;
 import smu.likelion.jikchon.exception.CustomForbiddenException;
 import smu.likelion.jikchon.exception.CustomNotFoundException;
+import smu.likelion.jikchon.exception.CustomUnauthorizedException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -18,6 +19,11 @@ public class GlobalExceptionHandler {
         return BaseResponse.fail(e.getErrorCode());
     }
 
+    @ExceptionHandler(CustomUnauthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public BaseResponse<?> customUnauthorizedHandler(CustomUnauthorizedException e) {
+        return BaseResponse.fail(e.getErrorCode());
+    }
     @ExceptionHandler(CustomBadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public BaseResponse<?> customBadRequestHandler(CustomBadRequestException e) {
