@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 import smu.likelion.jikchon.domain.member.Member;
 import smu.likelion.jikchon.domain.member.MemberRole;
 
+
 public class MemberRequestDto {
 
     @Getter
