@@ -1,8 +1,9 @@
-package smu.likelion.jikchon.domain;
+package smu.likelion.jikchon.domain.member;
 
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import smu.likelion.jikchon.domain.member.Member;
 import smu.likelion.jikchon.dto.member.TokenResponseDto;
 
 @Entity

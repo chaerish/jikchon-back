@@ -18,7 +18,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
-import smu.likelion.jikchon.domain.Member;
+import smu.likelion.jikchon.domain.member.Member;
 import smu.likelion.jikchon.dto.member.TokenResponseDto;
 import smu.likelion.jikchon.exception.CustomUnauthorizedException;
 import smu.likelion.jikchon.exception.ErrorCode;
@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 public class TokenProvider {
     private static final String TOKEN_TYPE = "Bearer";
     private static final String AUTHORITY_KEY = "auth";
-    private static final String REFRESH_TOKEN_HEADER = "Refresh_Token";
+    private static final String REFRESH_TOKEN_HEADER = "REFRESH_TOKEN";
     public static final long JWT_ACCESS_TOKEN_VALIDITY = 2 * 60 * 60 * 1000L;
     public static final long JWT_REFRESH_TOKEN_VALIDITY = 7 * 24 * 60 * 60 * 1000L;
     @Value("${jwt.secret-key}")

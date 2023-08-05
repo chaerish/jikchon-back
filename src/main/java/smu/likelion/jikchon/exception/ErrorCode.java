@@ -16,6 +16,9 @@ public enum ErrorCode {
      */
     BAD_REQUEST(400,"잘못된 요청입니다."),
     INVALID_PARAMETER(40001, "요청 파라미터 오류"),
+    DUPLICATE_PHONE_NUMBER(40002, "전화번호 중복"),
+    NOT_VERIFIED_COMPANY_NUMBER(40003,"사업자 등록 번호 인증을 진행해주세요."),
+
 
     /**
      * 401
@@ -39,7 +42,8 @@ public enum ErrorCode {
     /**
      * 500 서버에러
      */
-    INTERNAL_SERVER_ERROR(500, "서버 오류입니다.");
+    INTERNAL_SERVER_ERROR(500, "서버 오류입니다."),
+    OPEN_API_ERROR(50001, "오픈 API 호출에 오류가 있습니다.");
 
     private final int code;
     private final String message;
