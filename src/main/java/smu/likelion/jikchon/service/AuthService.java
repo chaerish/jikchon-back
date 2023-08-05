@@ -14,7 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import smu.likelion.jikchon.domain.Member;
+import smu.likelion.jikchon.domain.member.Member;
 import smu.likelion.jikchon.dto.member.MemberRequestDto;
 import smu.likelion.jikchon.dto.member.TokenResponseDto;
 import smu.likelion.jikchon.exception.CustomNotFoundException;

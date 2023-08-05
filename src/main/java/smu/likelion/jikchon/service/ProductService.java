@@ -2,7 +2,7 @@ package smu.likelion.jikchon.service;
 
 import org.springframework.data.domain.Page;
 import smu.likelion.jikchon.base.PageResult;
-import smu.likelion.jikchon.domain.Member;
+import smu.likelion.jikchon.domain.member.Member;
 import smu.likelion.jikchon.domain.Product;
 import smu.likelion.jikchon.dto.product.ProductRequestDto;
 import smu.likelion.jikchon.dto.product.ProductReturnDto;

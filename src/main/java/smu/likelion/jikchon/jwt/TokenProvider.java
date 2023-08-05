@@ -17,7 +17,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
-import smu.likelion.jikchon.domain.Member;
+import smu.likelion.jikchon.domain.member.Member;
 import smu.likelion.jikchon.dto.member.TokenResponseDto;
 import smu.likelion.jikchon.exception.CustomUnauthorizedException;
 import smu.likelion.jikchon.exception.ErrorCode;

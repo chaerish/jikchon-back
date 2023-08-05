@@ -3,7 +3,7 @@ package smu.likelion.jikchon.dto.member;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
-import smu.likelion.jikchon.domain.Member;
+import smu.likelion.jikchon.domain.member.Member;
 import smu.likelion.jikchon.domain.MemberRole;
 
 public class MemberRequestDto {

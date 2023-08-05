@@ -3,6 +3,7 @@ package smu.likelion.jikchon.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import smu.likelion.jikchon.domain.member.Member;
 
 import java.util.List;
 

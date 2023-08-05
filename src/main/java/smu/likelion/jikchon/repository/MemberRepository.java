@@ -1,7 +1,7 @@
 package smu.likelion.jikchon.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import smu.likelion.jikchon.domain.Member;
+import smu.likelion.jikchon.domain.member.Member;
 
 import java.util.Optional;
 
