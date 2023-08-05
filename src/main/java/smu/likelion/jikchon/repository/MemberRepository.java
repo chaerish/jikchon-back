@@ -10,6 +10,9 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByPhoneNumber(String phoneNumber);
 
+    Optional<Member> findById(Long id);
+
     @Query("select m from Member as m where m.jwtRefreshToken.refreshToken = :refreshToken")
     Optional<Member> findByRefreshToken(@Param("refreshToken") String refreshToken);
+
 }
