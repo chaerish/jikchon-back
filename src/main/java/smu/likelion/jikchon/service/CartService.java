@@ -46,7 +46,7 @@ public class CartService {
             throw new CustomNotFoundException(ErrorCode.NOT_FOUND);
         });
         boolean productInCart = false;
-        for (Cart cart : member.getCart()) {
+        for (Cart cart : member.getCartList()) {
             if (cart.getProduct().equals(product)) {
                 // 이미 있는 상품이라면 수량만 증가시킴
                 cart.addQuantity();

@@ -6,9 +6,11 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import smu.likelion.jikchon.domain.Cart;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Entity
 @Getter
@@ -38,6 +40,9 @@ public class Member {
     String companyNumber;
     @OneToOne(mappedBy = "member")
     JwtRefreshToken jwtRefreshToken;
+
+    @OneToMany(mappedBy = "member")
+    List<Cart> cartList;
 
     public void encodePassword(PasswordEncoder passwordEncoder) {
         password = passwordEncoder.encode(password);
