@@ -47,4 +47,3 @@ public class Member {
         return Collections.singleton(new SimpleGrantedAuthority(role.toString()));
     }
 }
-
