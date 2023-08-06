@@ -14,40 +14,40 @@ import smu.likelion.jikchon.dto.product.ProductReturnDto;
 import smu.likelion.jikchon.service.ProductService;
 
 @Controller
-@RequestMapping("/home/products")
+@RequestMapping("")
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
 
     //사용자 추천 프로덕트 보기
-//    @GetMapping("")
+//    @GetMapping("/home/products")
 //    public BaseResponse<PageResult<ProductReturnDto.Simple>> recommendProduct() {
 //        return BaseResponse.ok("아직 구현 안 됨 ");
 //    }
     //프로덕트 목록 조회
-    @GetMapping("")
+    @GetMapping("/products")
     public BaseResponse<PageResult<ProductReturnDto.Simple>> getAllProduct(@PathVariable("memberId") Long id, @PageableDefault(size=12)Pageable pageable){
         return BaseResponse.ok(productService.getAllProduct(id,pageable));
     }
     //프로덕트 상세 조회
-    @GetMapping("/{productId}")
+    @GetMapping("/products/{productId}")
     public BaseResponse<ProductReturnDto.Detail> getDetailProduct(@PathVariable("productId") Long id){
         return BaseResponse.ok(productService.findById(id));
     }
     //프로덕트 등록
-    @PostMapping
+    @PostMapping("members/products")
     public BaseResponse<?> registerProduct(@RequestBody ProductRequestDto productRequestDto){
         productService.save(productRequestDto);
         return BaseResponse.ok(null);
     }
     //프로덕트 수정
-    @PutMapping("/{productId}")
+    @PutMapping("products/{productId}")
     public BaseResponse<?> updateProduct(@PathVariable("productId") Long id, @RequestBody ProductRequestDto productRequestDto){
         productService.update(id,productRequestDto);
         return BaseResponse.ok(null);
     }
     //프로덕트 삭제
-    @DeleteMapping("/{productId}")
+    @DeleteMapping("products/{productId}")
     public BaseResponse<?> deleteProduct(@PathVariable("productId") Long id){
         productService.delete(id);
         return BaseResponse.ok(null);
