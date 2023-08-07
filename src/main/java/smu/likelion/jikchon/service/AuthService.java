@@ -49,6 +49,7 @@ public class AuthService implements UserDetailsService {
 
     @Transactional
     public MemberResponseDto.Simple signUpCustomer(MemberRequestDto.SignUp memberRequestDto) {
+        checkDuplicatePhoneNumber(memberRequestDto.getPhoneNumber());
         Member member = memberRequestDto.toCustomerEntity();
         member.encodePassword(passwordEncoder);
 
@@ -57,42 +58,45 @@ public class AuthService implements UserDetailsService {
 
     @Transactional
     public MemberResponseDto.Simple signUpSeller(MemberRequestDto.SignUp memberRequestDto) {
+        checkDuplicatePhoneNumber(memberRequestDto.getPhoneNumber());
         isVerified(memberRequestDto);
 
         Member member = memberRequestDto.toSellerEntity();
         member.encodePassword(passwordEncoder);
 
         return MemberResponseDto.Simple.of(memberRepository.save(member));
+
     }
 
     public void isVerified(MemberRequestDto.SignUp memberRequestDto) {
         Optional<VerifiedMember> verifiedMemberOptional = verifiedCacheRepository.findByPhoneNumber(memberRequestDto.getPhoneNumber());
 
-        if(verifiedMemberOptional.isPresent()) {
+        if (verifiedMemberOptional.isPresent()) {
             VerifiedMember verifiedMember = verifiedMemberOptional.get();
-            if(!Objects.equals(memberRequestDto.getCompanyNumber(), verifiedMember.getCompanyNumber())) {
+            if (!Objects.equals(memberRequestDto.getCompanyNumber(), verifiedMember.getCompanyNumber())) {
                 throw new CustomBadRequestException(ErrorCode.NOT_VERIFIED_COMPANY_NUMBER);
             }
             verifiedCacheRepository.delete(verifiedMember);
-        }
-        else {
+        } else {
             throw new CustomBadRequestException(ErrorCode.NOT_VERIFIED_COMPANY_NUMBER);
         }
     }
 
     @Transactional(readOnly = true)
-    public void checkDuplicatePhoneNumber(MemberRequestDto.PhoneNumber memberRequestDto) {
-        memberRepository.findByPhoneNumber(memberRequestDto.getPhoneNumber())
+    public void checkDuplicatePhoneNumber(String phoneNumber) {
+        memberRepository.findByPhoneNumber(phoneNumber)
                 .ifPresent(member -> {
                     throw new CustomBadRequestException(ErrorCode.DUPLICATE_PHONE_NUMBER);
                 });
     }
 
 
-     public void verifyCompanyNumber(MemberRequestDto.VerifyCompanyNumber verifyCompanyNumberRequest) {
+    public void verifyCompanyNumber(MemberRequestDto.VerifyCompanyNumber verifyCompanyNumberRequest) {
         final String VERIFIED_STATUS_CODE = "01";
         final String requestUrl = "https://api.odcloud.kr/api/nts-businessman/v1/status?" +
                 "serviceKey=bFcIfbKjGI8rVFG9xZouBt%2B3s0kITpf0u6Loz8ekrvseXj%2Bye16tUmvGrBgLdK5zbVA3cAanmNPa%2F1o%2B2n2feQ%3D%3D";
+
+        checkDuplicatePhoneNumber(verifyCompanyNumberRequest.getPhoneNumber());
 
         verifiedCacheRepository.findByPhoneNumber(verifyCompanyNumberRequest.getPhoneNumber())
                 .ifPresent(verifiedCacheRepository::delete);
@@ -142,8 +146,7 @@ public class AuthService implements UserDetailsService {
             } else {
                 throw new CustomInternalServerErrorException(ErrorCode.INTERNAL_SERVER_ERROR);
             }
-            JSONObject jsonObject = new JSONObject(responseBuilder.toString());
-            return jsonObject;
+            return new JSONObject(responseBuilder.toString());
         } catch (IOException e) {
             throw new CustomInternalServerErrorException(ErrorCode.OPEN_API_ERROR);
         } finally {

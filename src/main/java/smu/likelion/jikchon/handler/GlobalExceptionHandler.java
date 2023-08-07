@@ -5,13 +5,24 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import smu.likelion.jikchon.base.BaseResponse;
-import smu.likelion.jikchon.exception.CustomBadRequestException;
-import smu.likelion.jikchon.exception.CustomForbiddenException;
-import smu.likelion.jikchon.exception.CustomNotFoundException;
-import smu.likelion.jikchon.exception.CustomUnauthorizedException;
+import smu.likelion.jikchon.exception.*;
+
+import java.sql.SQLIntegrityConstraintViolationException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(CustomBadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public BaseResponse<?> customBadRequestHandler(CustomBadRequestException e) {
+        return BaseResponse.fail(e.getErrorCode());
+    }
+
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public BaseResponse<?> duplicateUniqueKeyHandler(SQLIntegrityConstraintViolationException e) {
+        return BaseResponse.fail(ErrorCode.DUPLICATE_UNIQUE_KEY);
+    }
 
     @ExceptionHandler(CustomNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -22,11 +33,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(CustomUnauthorizedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public BaseResponse<?> customUnauthorizedHandler(CustomUnauthorizedException e) {
-        return BaseResponse.fail(e.getErrorCode());
-    }
-    @ExceptionHandler(CustomBadRequestException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public BaseResponse<?> customBadRequestHandler(CustomBadRequestException e) {
         return BaseResponse.fail(e.getErrorCode());
     }
 
