@@ -35,4 +35,13 @@ public enum SubCategory {
 
     private final Category parentCategory;
     private final String description;
+
+    public  static SubCategory fromDescription(String description){
+        for(SubCategory subCategory:SubCategory.values()){
+            if(subCategory.getDescription().equals(description)){
+                return subCategory;
+            }
+        }
+    }
+
 }
