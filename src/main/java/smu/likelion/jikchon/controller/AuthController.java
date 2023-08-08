@@ -40,7 +40,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public BaseResponse<TokenResponseDto.AccessToken> login(HttpServletResponse response, @RequestBody MemberRequestDto.Login loginRequestDto) {
+    public BaseResponse<TokenResponseDto> login(HttpServletResponse response, @RequestBody MemberRequestDto.Login loginRequestDto) {
         return BaseResponse.ok(authService.login(response, loginRequestDto));
     }
 
@@ -51,7 +51,7 @@ public class AuthController {
 //    }
 
     @PostMapping("/refresh")
-    public BaseResponse<TokenResponseDto.AccessToken> refreshAccessToken(HttpServletRequest request) {
+    public BaseResponse<TokenResponseDto> refreshAccessToken(HttpServletRequest request) {
         return BaseResponse.ok(authService.refreshAccessToken(request));
     }
 

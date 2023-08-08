@@ -27,6 +27,7 @@ import smu.likelion.jikchon.jwt.TokenProvider;
 import smu.likelion.jikchon.repository.JwtRefreshTokenRepository;
 import smu.likelion.jikchon.repository.MemberRepository;
 import smu.likelion.jikchon.repository.VerifiedCacheRepository;
+import smu.likelion.jikchon.security.JwtType;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -173,7 +174,7 @@ public class AuthService implements UserDetailsService {
     }
 
     @Transactional
-    public TokenResponseDto.AccessToken login(HttpServletResponse response, MemberRequestDto.Login loginRequestDto) {
+    public TokenResponseDto login(HttpServletResponse response, MemberRequestDto.Login loginRequestDto) {
         Authentication authenticationToken = new UsernamePasswordAuthenticationToken(
                 loginRequestDto.getPhoneNumber(), loginRequestDto.getPassword()
         );
@@ -181,36 +182,38 @@ public class AuthService implements UserDetailsService {
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        TokenResponseDto.FullInfo fullTokenInfo = tokenProvider.generateTokenResponse(authentication);
+        TokenResponseDto accessToken = tokenProvider.generateTokenResponse(JwtType.ACCESS_TOKEN, authentication);
 
-        Long memberId = Long.parseLong(authentication.getName());
-        createOrUpdateRefreshToken(memberId, fullTokenInfo);
+        TokenResponseDto refreshToken = tokenProvider.generateTokenResponse(JwtType.REFRESH_TOKEN, authentication);
+        createOrUpdateRefreshToken(refreshToken);
 
-        setRefreshTokenCookie(response, fullTokenInfo.getRefreshToken());
+        setRefreshTokenCookie(response, refreshToken);
 
-        return TokenResponseDto.AccessToken.of(fullTokenInfo);
+        return accessToken;
     }
 
-    private void createOrUpdateRefreshToken(Long memberId, TokenResponseDto.FullInfo tokenResponseDto) {
+    private void createOrUpdateRefreshToken(TokenResponseDto refreshTokenDto) {
+        Long memberId = tokenProvider.getMemberIdFromRefreshToken(refreshTokenDto.getToken());
+
         JwtRefreshToken refreshToken = jwtRefreshTokenRepository.findByMemberId(memberId)
                 .orElse(JwtRefreshToken.builder().
                         member(Member.builder().id(memberId).build())
                         .build());
 
-        refreshToken.updateRefreshToken(tokenResponseDto);
+        refreshToken.updateRefreshToken(refreshTokenDto);
         jwtRefreshTokenRepository.save(refreshToken);
     }
 
-    private void setRefreshTokenCookie(HttpServletResponse response, String refreshToken) {
+    private void setRefreshTokenCookie(HttpServletResponse response, TokenResponseDto refreshTokenDto) {
 
-        refreshToken = "Bearer " + refreshToken;
-        refreshToken = URLEncoder.encode(refreshToken, StandardCharsets.UTF_8);
+        String cookieValue = "Bearer " + refreshTokenDto.getToken();
+        cookieValue = URLEncoder.encode(cookieValue, StandardCharsets.UTF_8);
 
-        Cookie cookie = new Cookie("REFRESH_TOKEN", refreshToken);
+        Cookie cookie = new Cookie(JwtType.REFRESH_TOKEN.getHeader(), cookieValue);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
         cookie.setDomain("localhost");
-        cookie.setMaxAge(24 * 60 * 60);
+        cookie.setMaxAge((int) refreshTokenDto.getExpiresIn());
         response.addCookie(cookie);
     }
 
@@ -225,7 +228,7 @@ public class AuthService implements UserDetailsService {
     }
 
     @Transactional(readOnly = true)
-    public TokenResponseDto.AccessToken refreshAccessToken(HttpServletRequest request) {
+    public TokenResponseDto refreshAccessToken(HttpServletRequest request) {
         String refreshToken = tokenProvider.getRefreshToken(request);
         tokenProvider.validateAccessToken(refreshToken);
 
@@ -233,7 +236,7 @@ public class AuthService implements UserDetailsService {
                 new CustomUnauthorizedException(ErrorCode.INVALID_TOKEN)
         );
 
-        return tokenProvider.generateTokenResponse(member);
+        return tokenProvider.generateTokenResponse(JwtType.ACCESS_TOKEN, member);
     }
 
     @Override
