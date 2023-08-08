@@ -18,6 +18,8 @@ public enum ErrorCode {
     INVALID_PARAMETER(40001, "요청 파라미터 오류"),
     DUPLICATE_PHONE_NUMBER(40002, "전화번호 중복"),
     NOT_VERIFIED_COMPANY_NUMBER(40003,"사업자 등록 번호 인증을 진행해주세요."),
+    DUPLICATE_UNIQUE_KEY(40004, "UNIQUE 컬럼이 중복 됨"),
+
 
 
     /**

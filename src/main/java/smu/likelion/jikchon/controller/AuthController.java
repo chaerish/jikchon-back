@@ -29,7 +29,7 @@ public class AuthController {
 
     @PostMapping("/phone-number")
     public BaseResponse<Void> checkDuplicatePhoneNumber(@RequestBody MemberRequestDto.PhoneNumber memberRequestDto) {
-        authService.checkDuplicatePhoneNumber(memberRequestDto);
+        authService.checkDuplicatePhoneNumber(memberRequestDto.getPhoneNumber());
         return BaseResponse.ok();
     }
 
