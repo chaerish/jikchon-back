@@ -56,7 +56,7 @@ public class TokenProvider {
                 .setExpiration(new Date(nowMillisecond + jwtType.getValidMillisecond()))
                 .claim(AUTHORITY_KEY, authority)
                 //todo : key 어떻게 할 지..
-                .signWith(refershTokenKey, SignatureAlgorithm.HS256)
+                .signWith(getKey(jwtType), SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -149,5 +149,14 @@ public class TokenProvider {
             }
         }
         return Optional.empty();
+    }
+
+    private Key getKey(JwtType jwtType) {
+        if (jwtType == JwtType.ACCESS_TOKEN) {
+            return accessTokenKey;
+        } else if (jwtType == JwtType.REFRESH_TOKEN) {
+            return refershTokenKey;
+        }
+        return null;
     }
 }

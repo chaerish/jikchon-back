@@ -209,7 +209,7 @@ public class AuthService implements UserDetailsService {
         String cookieValue = "Bearer " + refreshTokenDto.getToken();
         cookieValue = URLEncoder.encode(cookieValue, StandardCharsets.UTF_8);
 
-        Cookie cookie = new Cookie("REFRESH_TOKEN", cookieValue);
+        Cookie cookie = new Cookie(JwtType.REFRESH_TOKEN.getHeader(), cookieValue);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
         cookie.setDomain("localhost");
