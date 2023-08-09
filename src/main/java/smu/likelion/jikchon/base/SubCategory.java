@@ -38,7 +38,7 @@ public enum SubCategory {
     private final Category parentCategory;
     private final String description;
 
-    public static SubCategory fromDescription(String description){
+    public static SubCategory fromDescription(String description){ //문자열을 enum으로 변환
         for(SubCategory subCategory:SubCategory.values()){
             if(subCategory.getDescription().equals(description)){
                 return subCategory;
