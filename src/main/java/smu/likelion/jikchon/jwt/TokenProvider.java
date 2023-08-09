@@ -22,6 +22,7 @@ import smu.likelion.jikchon.domain.member.Member;
 import smu.likelion.jikchon.dto.member.TokenResponseDto;
 import smu.likelion.jikchon.exception.CustomUnauthorizedException;
 import smu.likelion.jikchon.exception.ErrorCode;
+import smu.likelion.jikchon.security.JwtType;
 
 import java.security.Key;
 import java.util.Collection;
@@ -34,9 +35,6 @@ import java.util.stream.Collectors;
 public class TokenProvider {
     private static final String TOKEN_TYPE = "Bearer";
     private static final String AUTHORITY_KEY = "auth";
-    private static final String REFRESH_TOKEN_HEADER = "REFRESH_TOKEN";
-    public static final long JWT_ACCESS_TOKEN_VALIDITY = 2 * 60 * 60 * 1000L;
-    public static final long JWT_REFRESH_TOKEN_VALIDITY = 7 * 24 * 60 * 60 * 1000L;
     @Value("${jwt.secret-key}")
     private String accessTokenSecretKey;
 
@@ -50,50 +48,34 @@ public class TokenProvider {
         accessTokenKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(accessTokenSecretKey));
         refershTokenKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(refreshTokenSecretKey));
     }
-    public String generateAccessToken(Member member) {
+
+    private String generateToken(JwtType jwtType, Long memberId, String authority, long nowMillisecond) {
         return Jwts.builder()
                 .setIssuer("jikchon")
-                .setSubject(member.getId().toString())
-                .claim(AUTHORITY_KEY, member.getRole().toString())
-                .setExpiration(new Date(new Date().getTime() + JWT_ACCESS_TOKEN_VALIDITY))
-                .signWith(accessTokenKey, SignatureAlgorithm.HS256)
+                .setSubject(memberId.toString())
+                .setExpiration(new Date(nowMillisecond + jwtType.getValidMillisecond()))
+                .claim(AUTHORITY_KEY, authority)
+                //todo : key 어떻게 할 지..
+                .signWith(getKey(jwtType), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public String generateAccessToken(long nowSecond, Authentication authentication) {
-        return Jwts.builder()
-                .setIssuer("jikchon")
-                .setSubject(authentication.getName())
-                .claim(AUTHORITY_KEY, authentication.getAuthorities().stream()
-                        .map(GrantedAuthority::getAuthority).collect(Collectors.joining(",")))
-                .setExpiration(new Date(nowSecond + JWT_ACCESS_TOKEN_VALIDITY))
-                .signWith(accessTokenKey, SignatureAlgorithm.HS256)
-                .compact();
-    }
-
-    public String generateRefreshToken(long nowSecond, Authentication authentication) {
-        return Jwts.builder()
-                .setIssuer("jikchon")
-                .setSubject(authentication.getName())
-                .setExpiration(new Date(nowSecond + JWT_REFRESH_TOKEN_VALIDITY))
-                .signWith(refershTokenKey, SignatureAlgorithm.HS256)
-                .compact();
-    }
-
-    public TokenResponseDto.FullInfo generateTokenResponse(Authentication authentication) {
-        long nowSecond = new Date().getTime();
-        return TokenResponseDto.FullInfo.builder()
-                .accessToken(generateAccessToken(nowSecond, authentication))
-                .expiresIn(nowSecond + JWT_ACCESS_TOKEN_VALIDITY)
-                .refreshToken(generateRefreshToken(nowSecond, authentication))
-                .refreshTokenExpiresIn(nowSecond + JWT_REFRESH_TOKEN_VALIDITY)
+    private TokenResponseDto generateTokenResponse(JwtType jwtType, Long memberId, String authority) {
+        long nowMillisecond = new Date().getTime();
+        return TokenResponseDto.builder()
+                .token(generateToken(jwtType, memberId, authority, nowMillisecond))
+                .expiresIn((nowMillisecond + jwtType.getValidMillisecond()) / 1000L)
                 .build();
     }
 
-    public TokenResponseDto.AccessToken generateTokenResponse(Member member) {
-        return TokenResponseDto.AccessToken.builder()
-                .accessToken(generateAccessToken(member))
-                .build();
+    public TokenResponseDto generateTokenResponse(JwtType jwtType, Authentication authentication) {
+        return generateTokenResponse(jwtType,
+                Long.valueOf(authentication.getName()),
+                authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(",")));
+    }
+
+    public TokenResponseDto generateTokenResponse(JwtType jwtType, Member member) {
+        return generateTokenResponse(jwtType, member.getId(), member.getAuthority().toString());
     }
 
 
@@ -119,6 +101,7 @@ public class TokenProvider {
     public Claims parseAccessTokenClaims(String token) {
         return parseClaims(token, accessTokenKey);
     }
+
     public Claims parseRefreshTokenClaims(String token) {
         return parseClaims(token, refershTokenKey);
     }
@@ -145,7 +128,7 @@ public class TokenProvider {
     }
 
     public String getRefreshToken(HttpServletRequest request) {
-        String token = getCookieByName(request, REFRESH_TOKEN_HEADER).orElseThrow(() ->
+        String token = getCookieByName(request, JwtType.REFRESH_TOKEN.getHeader()).orElseThrow(() ->
                 new CustomUnauthorizedException(ErrorCode.REFRESH_TOKEN_NOT_EXIST)
         );
 
@@ -166,5 +149,14 @@ public class TokenProvider {
             }
         }
         return Optional.empty();
+    }
+
+    private Key getKey(JwtType jwtType) {
+        if (jwtType == JwtType.ACCESS_TOKEN) {
+            return accessTokenKey;
+        } else if (jwtType == JwtType.REFRESH_TOKEN) {
+            return refershTokenKey;
+        }
+        return null;
     }
 }

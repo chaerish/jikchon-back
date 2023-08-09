@@ -6,6 +6,12 @@ import lombok.experimental.FieldDefaults;
 import smu.likelion.jikchon.domain.member.Member;
 import smu.likelion.jikchon.dto.member.TokenResponseDto;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Date;
+
 @Entity
 @Getter
 @AllArgsConstructor
@@ -21,10 +27,11 @@ public class JwtRefreshToken {
     @JoinColumn(name = "member_id")
     Member member;
     String refreshToken;
-    long expiredTime;
+    ZonedDateTime expiredTime;
 
-    public void updateRefreshToken(TokenResponseDto.FullInfo tokenResponseDto) {
-        refreshToken = tokenResponseDto.getRefreshToken();
-        expiredTime = tokenResponseDto.getRefreshTokenExpiresIn();
+    public void updateRefreshToken(TokenResponseDto tokenResponseDto) {
+        refreshToken = tokenResponseDto.getToken();
+        //todo: systemDefault 고치기
+        Instant.ofEpochSecond(tokenResponseDto.getExpiresIn()).atZone(ZoneId.systemDefault());
     }
 }

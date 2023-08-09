@@ -27,6 +27,7 @@ import smu.likelion.jikchon.jwt.TokenProvider;
 import smu.likelion.jikchon.repository.JwtRefreshTokenRepository;
 import smu.likelion.jikchon.repository.MemberRepository;
 import smu.likelion.jikchon.repository.VerifiedCacheRepository;
+import smu.likelion.jikchon.security.JwtType;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -49,6 +50,7 @@ public class AuthService implements UserDetailsService {
 
     @Transactional
     public MemberResponseDto.Simple signUpCustomer(MemberRequestDto.SignUp memberRequestDto) {
+        checkDuplicatePhoneNumber(memberRequestDto.getPhoneNumber());
         Member member = memberRequestDto.toCustomerEntity();
         member.encodePassword(passwordEncoder);
 
@@ -57,42 +59,45 @@ public class AuthService implements UserDetailsService {
 
     @Transactional
     public MemberResponseDto.Simple signUpSeller(MemberRequestDto.SignUp memberRequestDto) {
+        checkDuplicatePhoneNumber(memberRequestDto.getPhoneNumber());
         isVerified(memberRequestDto);
 
         Member member = memberRequestDto.toSellerEntity();
         member.encodePassword(passwordEncoder);
 
         return MemberResponseDto.Simple.of(memberRepository.save(member));
+
     }
 
     public void isVerified(MemberRequestDto.SignUp memberRequestDto) {
         Optional<VerifiedMember> verifiedMemberOptional = verifiedCacheRepository.findByPhoneNumber(memberRequestDto.getPhoneNumber());
 
-        if(verifiedMemberOptional.isPresent()) {
+        if (verifiedMemberOptional.isPresent()) {
             VerifiedMember verifiedMember = verifiedMemberOptional.get();
-            if(!Objects.equals(memberRequestDto.getCompanyNumber(), verifiedMember.getCompanyNumber())) {
+            if (!Objects.equals(memberRequestDto.getCompanyNumber(), verifiedMember.getCompanyNumber())) {
                 throw new CustomBadRequestException(ErrorCode.NOT_VERIFIED_COMPANY_NUMBER);
             }
             verifiedCacheRepository.delete(verifiedMember);
-        }
-        else {
+        } else {
             throw new CustomBadRequestException(ErrorCode.NOT_VERIFIED_COMPANY_NUMBER);
         }
     }
 
     @Transactional(readOnly = true)
-    public void checkDuplicatePhoneNumber(MemberRequestDto.PhoneNumber memberRequestDto) {
-        memberRepository.findByPhoneNumber(memberRequestDto.getPhoneNumber())
+    public void checkDuplicatePhoneNumber(String phoneNumber) {
+        memberRepository.findByPhoneNumber(phoneNumber)
                 .ifPresent(member -> {
                     throw new CustomBadRequestException(ErrorCode.DUPLICATE_PHONE_NUMBER);
                 });
     }
 
 
-     public void verifyCompanyNumber(MemberRequestDto.VerifyCompanyNumber verifyCompanyNumberRequest) {
+    public void verifyCompanyNumber(MemberRequestDto.VerifyCompanyNumber verifyCompanyNumberRequest) {
         final String VERIFIED_STATUS_CODE = "01";
         final String requestUrl = "https://api.odcloud.kr/api/nts-businessman/v1/status?" +
                 "serviceKey=bFcIfbKjGI8rVFG9xZouBt%2B3s0kITpf0u6Loz8ekrvseXj%2Bye16tUmvGrBgLdK5zbVA3cAanmNPa%2F1o%2B2n2feQ%3D%3D";
+
+        checkDuplicatePhoneNumber(verifyCompanyNumberRequest.getPhoneNumber());
 
         verifiedCacheRepository.findByPhoneNumber(verifyCompanyNumberRequest.getPhoneNumber())
                 .ifPresent(verifiedCacheRepository::delete);
@@ -142,8 +147,7 @@ public class AuthService implements UserDetailsService {
             } else {
                 throw new CustomInternalServerErrorException(ErrorCode.INTERNAL_SERVER_ERROR);
             }
-            JSONObject jsonObject = new JSONObject(responseBuilder.toString());
-            return jsonObject;
+            return new JSONObject(responseBuilder.toString());
         } catch (IOException e) {
             throw new CustomInternalServerErrorException(ErrorCode.OPEN_API_ERROR);
         } finally {
@@ -170,7 +174,7 @@ public class AuthService implements UserDetailsService {
     }
 
     @Transactional
-    public TokenResponseDto.AccessToken login(HttpServletResponse response, MemberRequestDto.Login loginRequestDto) {
+    public TokenResponseDto login(HttpServletResponse response, MemberRequestDto.Login loginRequestDto) {
         Authentication authenticationToken = new UsernamePasswordAuthenticationToken(
                 loginRequestDto.getPhoneNumber(), loginRequestDto.getPassword()
         );
@@ -178,36 +182,38 @@ public class AuthService implements UserDetailsService {
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        TokenResponseDto.FullInfo fullTokenInfo = tokenProvider.generateTokenResponse(authentication);
+        TokenResponseDto accessToken = tokenProvider.generateTokenResponse(JwtType.ACCESS_TOKEN, authentication);
 
-        Long memberId = Long.parseLong(authentication.getName());
-        createOrUpdateRefreshToken(memberId, fullTokenInfo);
+        TokenResponseDto refreshToken = tokenProvider.generateTokenResponse(JwtType.REFRESH_TOKEN, authentication);
+        createOrUpdateRefreshToken(refreshToken);
 
-        setRefreshTokenCookie(response, fullTokenInfo.getRefreshToken());
+        setRefreshTokenCookie(response, refreshToken);
 
-        return TokenResponseDto.AccessToken.of(fullTokenInfo);
+        return accessToken;
     }
 
-    private void createOrUpdateRefreshToken(Long memberId, TokenResponseDto.FullInfo tokenResponseDto) {
+    private void createOrUpdateRefreshToken(TokenResponseDto refreshTokenDto) {
+        Long memberId = tokenProvider.getMemberIdFromRefreshToken(refreshTokenDto.getToken());
+
         JwtRefreshToken refreshToken = jwtRefreshTokenRepository.findByMemberId(memberId)
                 .orElse(JwtRefreshToken.builder().
                         member(Member.builder().id(memberId).build())
                         .build());
 
-        refreshToken.updateRefreshToken(tokenResponseDto);
+        refreshToken.updateRefreshToken(refreshTokenDto);
         jwtRefreshTokenRepository.save(refreshToken);
     }
 
-    private void setRefreshTokenCookie(HttpServletResponse response, String refreshToken) {
+    private void setRefreshTokenCookie(HttpServletResponse response, TokenResponseDto refreshTokenDto) {
 
-        refreshToken = "Bearer " + refreshToken;
-        refreshToken = URLEncoder.encode(refreshToken, StandardCharsets.UTF_8);
+        String cookieValue = "Bearer " + refreshTokenDto.getToken();
+        cookieValue = URLEncoder.encode(cookieValue, StandardCharsets.UTF_8);
 
-        Cookie cookie = new Cookie("REFRESH_TOKEN", refreshToken);
+        Cookie cookie = new Cookie(JwtType.REFRESH_TOKEN.getHeader(), cookieValue);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
         cookie.setDomain("localhost");
-        cookie.setMaxAge(24 * 60 * 60);
+        cookie.setMaxAge((int) refreshTokenDto.getExpiresIn());
         response.addCookie(cookie);
     }
 
@@ -222,7 +228,7 @@ public class AuthService implements UserDetailsService {
     }
 
     @Transactional(readOnly = true)
-    public TokenResponseDto.AccessToken refreshAccessToken(HttpServletRequest request) {
+    public TokenResponseDto refreshAccessToken(HttpServletRequest request) {
         String refreshToken = tokenProvider.getRefreshToken(request);
         tokenProvider.validateAccessToken(refreshToken);
 
@@ -230,7 +236,7 @@ public class AuthService implements UserDetailsService {
                 new CustomUnauthorizedException(ErrorCode.INVALID_TOKEN)
         );
 
-        return tokenProvider.generateTokenResponse(member);
+        return tokenProvider.generateTokenResponse(JwtType.ACCESS_TOKEN, member);
     }
 
     @Override
