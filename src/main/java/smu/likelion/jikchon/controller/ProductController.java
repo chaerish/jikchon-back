@@ -36,21 +36,21 @@ public class ProductController {
     }
     //프로덕트 등록
     @PostMapping("members/products")
-    public BaseResponse<?> registerProduct(@RequestBody ProductRequestDto productRequestDto){
+    public BaseResponse<Void> registerProduct(@RequestBody ProductRequestDto productRequestDto){
         productService.save(productRequestDto);
-        return BaseResponse.ok(null);
+        return BaseResponse.ok();
     }
     //프로덕트 수정
     @PutMapping("products/{productId}")
-    public BaseResponse<?> updateProduct(@PathVariable("productId") Long id, @RequestBody ProductRequestDto productRequestDto){
+    public BaseResponse<Void> updateProduct(@PathVariable("productId") Long id, @RequestBody ProductRequestDto productRequestDto){
         productService.update(id,productRequestDto);
-        return BaseResponse.ok(null);
+        return BaseResponse.ok();
     }
     //프로덕트 삭제
     @DeleteMapping("products/{productId}")
-    public BaseResponse<?> deleteProduct(@PathVariable("productId") Long id){
+    public BaseResponse<Void> deleteProduct(@PathVariable("productId") Long id){
         productService.delete(id);
-        return BaseResponse.ok(null);
+        return BaseResponse.ok();
     }
 
 

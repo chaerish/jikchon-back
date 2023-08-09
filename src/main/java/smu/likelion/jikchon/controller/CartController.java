@@ -21,13 +21,13 @@ public class CartController {
         return BaseResponse.ok(cartService.getMemberCartList(pageable));
     }
     @PostMapping("products/{productId}/cart")
-    public BaseResponse<?> addProductToCart(@PathVariable("productId") Long id){
+    public BaseResponse<Void> addProductToCart(@PathVariable("productId") Long id){
         cartService.addProductToCart(id);
-        return BaseResponse.ok(null);
+        return BaseResponse.ok();
     }
     @DeleteMapping("members/cart/{cartId}")
-    public BaseResponse<?> deleteProductInCart(@PathVariable("cartId") Long id){
+    public BaseResponse<Void> deleteProductInCart(@PathVariable("cartId") Long id){
         cartService.deleteProductInCart(id);
-        return BaseResponse.ok(null);
+        return BaseResponse.ok();
     }
 }

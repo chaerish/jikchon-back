@@ -3,6 +3,8 @@ package smu.likelion.jikchon.base;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy;
+import smu.likelion.jikchon.exception.CustomBadRequestException;
+import smu.likelion.jikchon.exception.ErrorCode;
 
 @AllArgsConstructor
 @Getter
@@ -36,12 +38,12 @@ public enum SubCategory {
     private final Category parentCategory;
     private final String description;
 
-    public  static SubCategory fromDescription(String description){
+    public static SubCategory fromDescription(String description){
         for(SubCategory subCategory:SubCategory.values()){
             if(subCategory.getDescription().equals(description)){
                 return subCategory;
             }
         }
+        throw new CustomBadRequestException(ErrorCode.BAD_REQUEST);
     }
-
 }
