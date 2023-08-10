@@ -13,21 +13,21 @@ import smu.likelion.jikchon.service.CartService;
 
 
 @RestController
-@RequestMapping("/cart")
+@RequestMapping("")
 public class CartController {
     private CartService cartService;
-    @GetMapping("/members")
+    @GetMapping("/members/cart")
     public BaseResponse<PageResult<CartReturnDto>> getMemberCartList(@PageableDefault(size=12) Pageable pageable){
         return BaseResponse.ok(cartService.getMemberCartList(pageable));
     }
-    @PostMapping("products/{productId}")
-    public BaseResponse<?> addProductToCart(@PathVariable("productId") Long id){
+    @PostMapping("products/{productId}/cart")
+    public BaseResponse<Void> addProductToCart(@PathVariable("productId") Long id){
         cartService.addProductToCart(id);
-        return BaseResponse.ok(null);
+        return BaseResponse.ok();
     }
-    @DeleteMapping("/{cartId}")
-    public BaseResponse<?> deleteProductInCart(@PathVariable("cartId") Long id){
+    @DeleteMapping("members/cart/{cartId}")
+    public BaseResponse<Void> deleteProductInCart(@PathVariable("cartId") Long id){
         cartService.deleteProductInCart(id);
-        return BaseResponse.ok(null);
+        return BaseResponse.ok();
     }
 }
