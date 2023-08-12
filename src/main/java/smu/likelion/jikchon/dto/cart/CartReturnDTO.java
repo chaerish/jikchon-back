@@ -8,14 +8,14 @@ import smu.likelion.jikchon.domain.Cart;
 @Getter
 @Setter
 @Builder
-public class CartReturnDto {
+public class CartReturnDTO {
     private Long id;
     private String storeName;
     private String address;
     private Integer quantity;
     private String imageUrl;
-    public static CartReturnDto toCartReturnDto(Cart cart){
-        return CartReturnDto.builder()
+    public static CartReturnDTO toCartReturnDto(Cart cart){
+        return CartReturnDTO.builder()
                 .id(cart.getId())
                 .storeName(cart.getMember().getUsername())
                 .address(cart.getMember().getAddress())
@@ -23,7 +23,4 @@ public class CartReturnDto {
                 .imageUrl(cart.getProduct().getImageUrl())
                 .build();
     }
-
-
-
 }

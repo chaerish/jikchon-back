@@ -40,5 +40,4 @@ public class Product {
     private SubCategory subCategory;
     @OneToMany(mappedBy = "product")
     private List<Cart> cart;
-
 }

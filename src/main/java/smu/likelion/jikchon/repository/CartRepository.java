@@ -8,7 +8,9 @@ import smu.likelion.jikchon.domain.Cart;
 import java.util.Optional;
 
 public interface CartRepository extends JpaRepository<Cart, Long> {
-    Page<Cart> findAllByMemberId(Long memberId,Pageable pageable);
-    Optional <Cart> findByMemberIdAndProductId(Long memberId, Long productId);
-    Optional <Cart> findByIdAndMemberId(Long id, Long memberId);
+    Page<Cart> findAllByMemberId(Long memberId, Pageable pageable);
+
+    Optional<Cart> findByIdAndMemberId(Long id, Long memberId);
+
+    Optional<Cart> findById(Long id);
 }

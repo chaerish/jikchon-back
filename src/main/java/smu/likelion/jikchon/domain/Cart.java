@@ -19,7 +19,7 @@ public class Cart {
     Long id;
 
     @Column(name = "quantity")
-    private int quantity;
+    private long quantity;
 
     @ManyToOne
     @JoinColumn(name = "memberId")
