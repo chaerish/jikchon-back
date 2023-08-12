@@ -14,7 +14,6 @@ import smu.likelion.jikchon.service.CartService;
 public class CartController {
     private CartService cartService;
 
-
     @GetMapping("/members/cart")
     public BaseResponse<PageResult<CartReturnDTO>> getMemberCartList(@PageableDefault(size=12) Pageable pageable){
         return BaseResponse.ok(cartService.getMemberCartList(pageable));

@@ -12,7 +12,7 @@ public class CartReturnDTO {
     private Long id;
     private String storeName;
     private String address;
-    private Long quantity;
+    private Integer quantity;
     private String imageUrl;
     public static CartReturnDTO toCartReturnDto(Cart cart){
         return CartReturnDTO.builder()
