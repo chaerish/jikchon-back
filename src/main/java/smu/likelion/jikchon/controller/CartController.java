@@ -1,21 +1,23 @@
 package smu.likelion.jikchon.controller;
 
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import smu.likelion.jikchon.base.BaseResponse;
 import smu.likelion.jikchon.base.PageResult;
-import smu.likelion.jikchon.dto.cart.CartReturnDTO;
+import smu.likelion.jikchon.dto.cart.CartReturnDto;
 import smu.likelion.jikchon.service.CartService;
 
 
 @RestController
+@RequiredArgsConstructor
 public class CartController {
-    private CartService cartService;
+    private final CartService cartService;
 
     @GetMapping("/members/cart")
-    public BaseResponse<PageResult<CartReturnDTO>> getMemberCartList(@PageableDefault(size=12) Pageable pageable){
+    public BaseResponse<PageResult<CartReturnDto>> getMemberCartList(@PageableDefault(size=12) Pageable pageable){
         return BaseResponse.ok(cartService.getMemberCartList(pageable));
     }
 

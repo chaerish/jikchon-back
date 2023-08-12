@@ -39,7 +39,7 @@ public enum SubCategory {
     private final String description;
 
     public static SubCategory fromId(Integer id) {
-        if (id == 0) {
+        if (id == null) {
             return null;
         }
         for (SubCategory subCategory : SubCategory.values()) {

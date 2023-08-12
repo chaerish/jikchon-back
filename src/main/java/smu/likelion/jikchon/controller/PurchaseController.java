@@ -2,7 +2,7 @@ package smu.likelion.jikchon.controller;
 
 import org.springframework.web.bind.annotation.*;
 import smu.likelion.jikchon.base.BaseResponse;
-import smu.likelion.jikchon.dto.cart.CartRequestDTO;
+import smu.likelion.jikchon.dto.cart.CartRequestDto;
 import smu.likelion.jikchon.dto.purchase.PurchaseDTO;
 import smu.likelion.jikchon.service.PurchaseService;
 
@@ -18,7 +18,7 @@ public class PurchaseController {
     }
 
     @PostMapping("/cart")
-    public BaseResponse<Void> purchaseCartProduct(@RequestBody CartRequestDTO cartRequestDTO) {
+    public BaseResponse<Void> purchaseCartProduct(@RequestBody CartRequestDto cartRequestDTO) {
         purchaseService.purchaseCartProduct(cartRequestDTO);
         return BaseResponse.ok();
     }

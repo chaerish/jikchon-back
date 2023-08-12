@@ -7,7 +7,7 @@ import smu.likelion.jikchon.domain.Cart;
 import smu.likelion.jikchon.domain.Product;
 import smu.likelion.jikchon.domain.Purchase;
 import smu.likelion.jikchon.domain.member.Member;
-import smu.likelion.jikchon.dto.cart.CartRequestDTO;
+import smu.likelion.jikchon.dto.cart.CartRequestDto;
 import smu.likelion.jikchon.dto.purchase.PurchaseDTO;
 import smu.likelion.jikchon.exception.CustomNotFoundException;
 import smu.likelion.jikchon.exception.ErrorCode;
@@ -38,9 +38,9 @@ public class PurchaseService {
             throw new CustomNotFoundException(ErrorCode.NOT_FOUND);
         });
         long quantity = purchaseDTO.getQuantity();
-        if(quantity > product.getQuantity()){
+        if (quantity > product.getQuantity()) {
             throw new CustomNotFoundException(ErrorCode.NOT_FOUND_PRODUCT); //에러코드 품절로 수정 ?!
-        }else{
+        } else {
             Purchase purchase = Purchase.builder()
                     .member(member)
                     .product(product)
@@ -48,13 +48,13 @@ public class PurchaseService {
                     .build();
             purchaseRepository.save(purchase);
 
-            product.setQuantity(product.getQuantity()-quantity);
+            product.setQuantity(product.getQuantity() - quantity);
             purchaseRepository.save(purchase);
             productRepository.save(product);
         }
     }
 
-    public void purchaseCartProduct(CartRequestDTO cartRequestDTO) { //장바구니 Id, 물건 개수를 받아와서 물건 id를 찾아야함
+    public void purchaseCartProduct(CartRequestDto cartRequestDTO) { //장바구니 Id, 물건 개수를 받아와서 물건 id를 찾아야함
         Member member = memberRepository.findById(loginService.getLoginMemberId()).orElseThrow(() -> {
             throw new CustomNotFoundException(ErrorCode.NOT_FOUND_MEMBER);
         });
@@ -63,19 +63,18 @@ public class PurchaseService {
         Product product = cart.getProduct();
         long quantity = cartRequestDTO.getQuantity();
 
-        if(cart.getQuantity() == 0){
+        if (cartRequestDTO.getQuantity() == 0) {
             throw new CustomNotFoundException(ErrorCode.NOT_FOUND_PRODUCT);
-        }else if(quantity>cart.getQuantity()){
+        } else if (quantity > cartRequestDTO.getQuantity()) {
             throw new CustomNotFoundException(ErrorCode.NOT_FOUND_PRODUCT); //이부분 에러코드 수정해야할까요 ?
-        }else{
+        } else {
             Purchase purchase = Purchase.builder()
                     .member(member)
                     .product(cart.getProduct())
                     .quantity(cartRequestDTO.getQuantity())
                     .build();
 
-            product.setQuantity(product.getQuantity()-quantity); //전체 제품을 구매한 개수만큼 줄이기
-            cart.setQuantity(cart.getQuantity()-quantity);
+            product.setQuantity(product.getQuantity() - quantity); //전체 제품을 구매한 개수만큼 줄이기
 
             purchaseRepository.save(purchase);
             productRepository.save(product);
@@ -83,7 +82,7 @@ public class PurchaseService {
         }
     }
 
-    public List<Purchase> purchaseList(Member member){
+    public List<Purchase> purchaseList(Member member) {
         return purchaseRepository.findByMemberId(member.getId());
     }
 
@@ -99,20 +98,18 @@ public class PurchaseService {
         Cart cart = cartRepository.findById(purchaseId).orElseThrow(() -> {
             throw new CustomNotFoundException(ErrorCode.NOT_FOUND_PRODUCT);
         });
-        if(member.equals(purchase.getMember())){
+        if (member.equals(purchase.getMember())) {
             purchaseRepository.delete(purchase);
-            product.setQuantity(currentQuantity+1);
+            product.setQuantity(currentQuantity + 1);
             productRepository.save(product);
-            if(Objects.equals(cart.getId(), purchaseId)){ //장바구니에 있는 경우
+            if (Objects.equals(cart.getId(), purchaseId)) { //장바구니에 있는 경우
                 //장바구니의 개수를 1 증가
-                cart.setQuantity(cart.getQuantity()+1);
-            }else{
+//                cart.setQuantity(cart.getQuantity() + 1);
+            } else {
                 cartRepository.save(cart);
             }
         }
-//        else{ //이부분 수정 필요
-//            throw new Exception(ErrorCode.NOT_FOUND);
-//        }
+
     }
 
 }

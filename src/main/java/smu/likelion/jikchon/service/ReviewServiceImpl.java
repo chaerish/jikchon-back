@@ -3,9 +3,11 @@ package smu.likelion.jikchon.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import smu.likelion.jikchon.base.PageResult;
 import smu.likelion.jikchon.domain.Product;
 import smu.likelion.jikchon.domain.Review;
 import smu.likelion.jikchon.domain.member.Member;
+import smu.likelion.jikchon.dto.review.ReviewResponseDto;
 import smu.likelion.jikchon.dto.review.ReviewSaveRequestDTO;
 import smu.likelion.jikchon.exception.CustomForbiddenException;
 import smu.likelion.jikchon.exception.CustomNotFoundException;
@@ -14,7 +16,6 @@ import smu.likelion.jikchon.repository.MemberRepository;
 import smu.likelion.jikchon.repository.ProductRepository;
 import smu.likelion.jikchon.repository.ReviewRepository;
 
-import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -47,13 +48,12 @@ public class ReviewServiceImpl implements ReviewService {
 
     //todo : 리팩토링
     @Override
-    public Long deleteReview(Long reviewId) {
+    public void deleteReview(Long reviewId) {
         Review review = reviewRepository.findById(reviewId).orElseThrow(() ->
                 new CustomNotFoundException(ErrorCode.NOT_FOUND_REVIEW));
 
         if (Objects.equals(review.getMember().getId(), loginService.getLoginMemberId())) {
             reviewRepository.delete(review);
-            return 200L;
         } else {
             throw new CustomForbiddenException(ErrorCode.FORBIDDEN);
         }
@@ -73,7 +73,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     //도움 필요 ,,
     @Override
-    public List<Review> getReviewList(Long productId) {
-        return reviewRepository.findAllByProductId(productId);
+    public PageResult<ReviewResponseDto> getReviewList(Long productId) {
+        return PageResult.ok(reviewRepository.findAllByProductId(productId).map(ReviewResponseDto::of));
     }
 }
