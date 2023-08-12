@@ -17,6 +17,7 @@ public class BaseResponse<T> {
     int code;
     String message;
     T data;
+
     public static BaseResponse<Void> ok() {
         return BaseResponse.<Void>builder()
                 .code(200)
