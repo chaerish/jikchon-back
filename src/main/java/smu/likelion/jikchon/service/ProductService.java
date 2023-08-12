@@ -11,7 +11,6 @@ import smu.likelion.jikchon.dto.product.ProductReturnDto;
 import smu.likelion.jikchon.exception.CustomException;
 import smu.likelion.jikchon.exception.CustomNotFoundException;
 import smu.likelion.jikchon.exception.ErrorCode;
-import smu.likelion.jikchon.repository.MemberRepository;
 import smu.likelion.jikchon.repository.ProductRepository;
 import org.springframework.data.domain.Pageable;
 
@@ -61,7 +60,7 @@ public class ProductService {
             throw new CustomException(ErrorCode.FORBIDDEN);
         }
         product.setProductName(productRequestDto.getProductName());
-        product.setSubCategory(SubCategory.fromDescription(productRequestDto.getSubCategory()));
+        product.setSubCategory(SubCategory.fromDescription(productRequestDto.getCategory()));
         product.setPrice(productRequestDto.getPrice());
         product.setQuantity(productRequestDto.getQuantity());
         product.setIntro(productRequestDto.getIntro());
