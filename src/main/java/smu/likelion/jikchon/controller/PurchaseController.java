@@ -12,17 +12,19 @@ public class PurchaseController {
     private PurchaseService purchaseService;
 
     @PostMapping("/")
-    public BaseResponse<Void> purchaseProduct(@RequestBody PurchaseDTO purchaseDTO){
+    public BaseResponse<Void> purchaseProduct(@RequestBody PurchaseDTO purchaseDTO) {
         purchaseService.purchaseProduct(purchaseDTO);
         return BaseResponse.ok();
     }
+
     @PostMapping("/cart")
-    public BaseResponse<Void> purchaseCartProduct(@RequestBody CartRequestDTO cartRequestDTO){
+    public BaseResponse<Void> purchaseCartProduct(@RequestBody CartRequestDTO cartRequestDTO) {
         purchaseService.purchaseCartProduct(cartRequestDTO);
         return BaseResponse.ok();
     }
-    @DeleteMapping("/{purchasesId")
-    public BaseResponse<Void> deleteProduct(@PathVariable("purchasesId")Long purchaseId){
+
+    @DeleteMapping("/{purchasesId}")
+    public BaseResponse<Void> deleteProduct(@PathVariable("purchasesId") Long purchaseId) {
         purchaseService.deleteProduct(purchaseId);
         return BaseResponse.ok();
     }

@@ -39,7 +39,7 @@ public class PurchaseService {
         });
         long quantity = purchaseDTO.getQuantity();
         if(quantity > product.getQuantity()){
-            throw new ProductNotFoundException(ErrorCode.NOT_FOUND_PRODUCT); //에러코드 품절로 수정 ?!
+            throw new CustomNotFoundException(ErrorCode.NOT_FOUND_PRODUCT); //에러코드 품절로 수정 ?!
         }else{
             Purchase purchase = Purchase.builder()
                     .member(member)
