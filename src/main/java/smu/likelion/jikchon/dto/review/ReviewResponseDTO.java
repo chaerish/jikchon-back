@@ -1,8 +1,6 @@
 package smu.likelion.jikchon.dto.review;
 
 import lombok.*;
-import smu.likelion.jikchon.domain.Member;
-import smu.likelion.jikchon.domain.Product;
 import smu.likelion.jikchon.domain.Review;
 
 @Getter

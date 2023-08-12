@@ -1,6 +1,7 @@
 package smu.likelion.jikchon.controller;
 
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -13,9 +14,10 @@ import smu.likelion.jikchon.dto.product.ProductReturnDto;
 import smu.likelion.jikchon.service.ProductService;
 
 @Controller
-@RequestMapping("home/products")
+@RequestMapping("/home/products")
+@RequiredArgsConstructor
 public class ProductController {
-    private ProductService productService;
+    private final ProductService productService;
 
     //사용자 추천 프로덕트 보기
 //    @GetMapping("")

@@ -1,6 +1,8 @@
 package smu.likelion.jikchon.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
 import smu.likelion.jikchon.base.PageResult;
 import smu.likelion.jikchon.domain.member.Member;
 import smu.likelion.jikchon.domain.Product;
@@ -12,11 +14,12 @@ import smu.likelion.jikchon.repository.MemberRepository;
 import smu.likelion.jikchon.repository.ProductRepository;
 import org.springframework.data.domain.Pageable;
 
-
+@Service
+@RequiredArgsConstructor
 public class ProductService{
-    private ProductRepository productRepository;
-    private LoginService loginService;
-    private MemberRepository memberRepository;
+    private final ProductRepository productRepository;
+    private final LoginService loginService;
+    private final MemberRepository memberRepository;
 
     public PageResult<ProductReturnDto.Simple> recommendProduct(){
 

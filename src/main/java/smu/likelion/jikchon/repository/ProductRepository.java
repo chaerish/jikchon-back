@@ -18,6 +18,6 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findById(Long productId);
-    List<Product> findReviewsByProductId(Long productId);
+//    List<Product> findReviewsByProductId(Long productId);
     Page<Product> findAllByMemberId(Long memberId, Pageable pageable);
 }

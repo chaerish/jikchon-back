@@ -28,6 +28,7 @@ public class Cart {
     @ManyToOne
     @JoinColumn(name = "productId")
     private Product product;
+
     public Cart(Member member,Product product){
         this.member=member;
         this.product=product;
