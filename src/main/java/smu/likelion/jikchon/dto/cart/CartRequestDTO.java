@@ -8,8 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class CartRequestDto {
-    private Long productId;
+public class CartRequestDTO {
+    private Long cartId;
     private Long quantity;
 
 

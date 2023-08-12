@@ -9,7 +9,7 @@ import smu.likelion.jikchon.base.PageResult;
 import smu.likelion.jikchon.domain.Cart;
 import smu.likelion.jikchon.domain.member.Member;
 import smu.likelion.jikchon.domain.Product;
-import smu.likelion.jikchon.dto.cart.CartReturnDto;
+import smu.likelion.jikchon.dto.cart.CartReturnDTO;
 import smu.likelion.jikchon.exception.CustomNotFoundException;
 import smu.likelion.jikchon.exception.ErrorCode;
 import smu.likelion.jikchon.repository.CartRepository;
@@ -28,10 +28,10 @@ public class CartService {
     private final LoginService loginService;
 
     //유저의 장바구니 조회 - 페이징이용
-    public PageResult<CartReturnDto> getMemberCartList(Pageable pageable){
+    public PageResult<CartReturnDTO> getMemberCartList(Pageable pageable){
         Long id=loginService.getLoginMemberId(); //로그인한 사용자 id
-        Page<CartReturnDto> cartReturnDto=cartRepository.findAllByMemberId(id,pageable).map(CartReturnDto::toCartReturnDto);
-        PageResult<CartReturnDto> result = PageResult.ok(cartReturnDto);
+        Page<CartReturnDTO> cartReturnDto=cartRepository.findAllByMemberId(id,pageable).map(CartReturnDTO::toCartReturnDto);
+        PageResult<CartReturnDTO> result = PageResult.ok(cartReturnDto);
         return result;
     }
 

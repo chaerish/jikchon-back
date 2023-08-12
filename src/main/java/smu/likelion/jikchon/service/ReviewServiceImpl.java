@@ -2,10 +2,11 @@ package smu.likelion.jikchon.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import smu.likelion.jikchon.domain.Member;
 import smu.likelion.jikchon.domain.Product;
 import smu.likelion.jikchon.domain.Review;
+import smu.likelion.jikchon.domain.member.Member;
 import smu.likelion.jikchon.dto.review.ReviewSaveRequestDTO;
+import smu.likelion.jikchon.exception.CustomNotFoundException;
 import smu.likelion.jikchon.exception.ErrorCode;
 import smu.likelion.jikchon.repository.MemberRepository;
 import smu.likelion.jikchon.repository.ProductRepository;
@@ -20,16 +21,16 @@ public class ReviewServiceImpl implements ReviewService{
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
     private final ProductRepository productRepository;
-    private final MemberService memberService;
+    private final LoginService loginService;
 
     @Override
     public void saveReview(Long productId, ReviewSaveRequestDTO reviewSaveRequestDTO){
-        Long memberId = memberService.getMemberId();
+        Long memberId = loginService.getLoginMemberId();
         Product product = productRepository.findById(productId).orElseThrow(()->{
-            throw new Exception(ErrorCode.PRODUCT_NOT_FOUND);
+            throw new CustomNotFoundException(ErrorCode.NOT_FOUND_PRODUCT);
         });
         Member member = memberRepository.findById(memberId).orElseThrow(()->{
-            throw new Exception(ErrorCode.MEMBER_NOT_FOUND);
+            throw new CustomNotFoundException(ErrorCode.NOT_FOUND_MEMBER);
         });
         if(productRepository.findById(productId).isPresent() && memberRepository.findById(memberId).isPresent()){
             reviewRepository.save(Review.builder()
@@ -42,12 +43,12 @@ public class ReviewServiceImpl implements ReviewService{
     @Override
     public int deleteReview(Long reviewId){
         Optional<Review> review = reviewRepository.findById(reviewId);
-        Optional<Member> member = memberService.getMemberId();
+        Optional<Member> member = loginService.getMemberId();
         if(review.get() == null){
-            throw new Exception(ErrorCode.REVIEW_NOT_FOUND);
+            throw new CustomNotFoundException(ErrorCode.NOT_FOUND_REVIEW);
         }
         if(member.get() == null){
-            throw new Exception(ErrorCode.MEMBER_NOT_FOUND);
+            throw new CustomNotFoundException(ErrorCode.NOT_FOUND_MEMBER);
         }else{
             reviewRepository.delete(review.get());
             return 200;
@@ -55,7 +56,7 @@ public class ReviewServiceImpl implements ReviewService{
     }
     @Override
     public Long updateReview(Long reviewId, ReviewSaveRequestDTO reviewSaveRequestDTO){
-        Long memberId = memberService.getMemberId();
+        Long memberId = loginService.getMemberId();
         Optional<Review> review = reviewRepository.findReviewsByMemberId(memberId);
         if(review.isPresent()){
             Review review1 = review.get();

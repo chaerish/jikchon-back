@@ -37,5 +37,4 @@ public class Product {
 //    private Category categoryId;
     @OneToMany(mappedBy = "cart")
     private List<Cart> cart;
-
 }
