@@ -32,7 +32,6 @@ public class ProductReturnDto {
     public static class Detail{ //상세정보
         private Long productId;
         private String productName;
-
         private String category;
         private String subCategory;
         private String address;

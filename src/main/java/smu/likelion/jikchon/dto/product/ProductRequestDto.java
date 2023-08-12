@@ -11,16 +11,17 @@ import smu.likelion.jikchon.domain.Product;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter @Getter
+@Setter
+@Getter
 public class ProductRequestDto {
     private String productName;
     private String subCategory;
     private Long price;
     private Long quantity;
     private String intro;
-    private Long memberId; // 판매자의 아이디
-    public Product toEntity(){
-        SubCategory subCategory=SubCategory.fromDescription(this.subCategory);
+
+    public Product toEntity(Long memberId) {
+        SubCategory subCategory = SubCategory.fromDescription(this.subCategory);
         return Product.builder()
                 .productName(this.productName)
                 .subCategory(subCategory)

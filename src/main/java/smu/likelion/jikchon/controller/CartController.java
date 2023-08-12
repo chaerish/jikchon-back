@@ -11,7 +11,6 @@ import smu.likelion.jikchon.service.CartService;
 
 
 @RestController
-@RequestMapping("")
 public class CartController {
     private CartService cartService;
 

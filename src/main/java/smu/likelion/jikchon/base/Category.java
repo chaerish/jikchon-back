@@ -4,17 +4,14 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public enum Category {
-    // 농산물
-    PRODUCE,
+    PRODUCE(1, "농산물"),
 
-    // 축산물
-    LIVESTOCK,
+    LIVESTOCK(2, "축산물"),
 
-    // 수산물
-    SEAFOOD,
+    SEAFOOD(3, "수산물"),
 
-    // 가공식품
-    PROCESSED_FOODS;
+    PROCESSED_FOODS(4, "가공식품");
 
-//    private final String description;
+    private final int id;
+    private final String description;
 }
