@@ -6,24 +6,27 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import smu.likelion.jikchon.base.BaseResponse;
 import smu.likelion.jikchon.base.PageResult;
-import smu.likelion.jikchon.dto.cart.CartReturnDTO;
+import smu.likelion.jikchon.dto.cart.CartReturnDto;
 import smu.likelion.jikchon.service.CartService;
 
 
 @RestController
-@RequestMapping("/cart")
+@RequestMapping("")
 public class CartController {
     private CartService cartService;
-    @GetMapping("/members")
-    public BaseResponse<PageResult<CartReturnDTO>> getMemberCartList(@PageableDefault(size=12) Pageable pageable){
+
+
+    @GetMapping("/members/cart")
+    public BaseResponse<PageResult<CartReturnDto>> getMemberCartList(@PageableDefault(size=12) Pageable pageable){
         return BaseResponse.ok(cartService.getMemberCartList(pageable));
     }
-    @PostMapping("products/{productId}")
+
+    @PostMapping("products/{productId}/cart")
     public BaseResponse<?> addProductToCart(@PathVariable("productId") Long id){
         cartService.addProductToCart(id);
         return BaseResponse.ok(null);
     }
-    @DeleteMapping("/{cartId}")
+    @DeleteMapping("members/cart/{cartId}")
     public BaseResponse<?> deleteProductInCart(@PathVariable("cartId") Long id){
         cartService.deleteProductInCart(id);
         return BaseResponse.ok(null);

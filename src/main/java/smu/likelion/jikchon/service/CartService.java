@@ -9,12 +9,10 @@ import smu.likelion.jikchon.base.PageResult;
 import smu.likelion.jikchon.domain.Cart;
 import smu.likelion.jikchon.domain.member.Member;
 import smu.likelion.jikchon.domain.Product;
-import smu.likelion.jikchon.dto.cart.CartReturnDTO;
 import smu.likelion.jikchon.exception.CustomNotFoundException;
 import smu.likelion.jikchon.exception.ErrorCode;
 import smu.likelion.jikchon.repository.CartRepository;
 import smu.likelion.jikchon.repository.MemberRepository;
-import org.springframework.data.domain.Page;
 import smu.likelion.jikchon.repository.ProductRepository;
 
 @Service

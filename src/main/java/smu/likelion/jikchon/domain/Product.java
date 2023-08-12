@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import smu.likelion.jikchon.base.Category;
+import smu.likelion.jikchon.base.SubCategory;
 import smu.likelion.jikchon.domain.member.Member;
 
 import java.util.List;
@@ -33,9 +34,10 @@ public class Product {
     @ManyToOne
     @JoinColumn(name="memberId")
     private Member member;
-
     @Enumerated(EnumType.STRING)
     private Category category;
+    @Enumerated(EnumType.STRING)
+    private SubCategory subCategory;
     @OneToMany(mappedBy = "product")
     private List<Cart> cart;
 }
