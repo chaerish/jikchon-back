@@ -8,11 +8,13 @@ import org.springframework.stereotype.Component;
 import smu.likelion.jikchon.exception.CustomUnauthorizedException;
 import smu.likelion.jikchon.exception.ErrorCode;
 
+import java.io.IOException;
+
 
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) {
-        throw new CustomUnauthorizedException(ErrorCode.LOGIN_REQUIRED);
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
     }
 }
