@@ -17,4 +17,6 @@ spring:
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
 
 jwt:
-  secret-key: faoiej2o3i5j2oirj3o8frawefawe9411rl32kjr32klr
+  secret-key:
+    access: 6c2b43352d4b22a7029db45421399dbe8d0dbef7cda7c99c714f4534a8af8e7aa410f834dc6fb5dc1a1810258e93c1bdf07c747d4382beb166a19227b4f0e682
+    refresh: 958839e6b09d054057e16b4607124ec6208148ccc60d54500037fc671b2b5aacf5a6d1ca629156e9abf46f457192b563d406bab6fc7e56be1653a670f8ac0754

@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import smu.likelion.jikchon.base.SubCategory;
 import smu.likelion.jikchon.domain.member.JwtRefreshToken;
 import smu.likelion.jikchon.domain.member.Member;
 import smu.likelion.jikchon.domain.member.VerifiedMember;
@@ -36,6 +37,8 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -46,6 +49,8 @@ public class AuthService implements UserDetailsService {
     private final TokenProvider tokenProvider;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+
+    private final LoginService loginService;
 
 
     @Transactional
@@ -251,4 +256,15 @@ public class AuthService implements UserDetailsService {
                 .authorities(member.getAuthority())
                 .build();
     }
+
+    @Transactional
+    public void registerInterestCategory(MemberRequestDto.InterestCategory interestCategoryRequestDto) {
+        Member member = memberRepository.findById(loginService.getLoginMemberId()).orElseThrow(() ->
+                new CustomNotFoundException(ErrorCode.NOT_FOUND_MEMBER));
+
+        Set<SubCategory> interRestCategoryList = interestCategoryRequestDto.getInterestCategory().stream().map(SubCategory::fromDescription).collect(Collectors.toSet());
+        member.updateInterestCategoryList(interRestCategoryList);
+    }
+
+
 }

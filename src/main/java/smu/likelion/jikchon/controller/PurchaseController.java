@@ -1,5 +1,6 @@
 package smu.likelion.jikchon.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import smu.likelion.jikchon.base.BaseResponse;
 import smu.likelion.jikchon.dto.cart.CartRequestDto;
@@ -8,10 +9,11 @@ import smu.likelion.jikchon.service.PurchaseService;
 
 @RestController
 @RequestMapping("/purchases")
+@RequiredArgsConstructor
 public class PurchaseController {
-    private PurchaseService purchaseService;
+    private final PurchaseService purchaseService;
 
-    @PostMapping("/")
+    @PostMapping
     public BaseResponse<Void> purchaseProduct(@RequestBody PurchaseDTO purchaseDTO) {
         purchaseService.purchaseProduct(purchaseDTO);
         return BaseResponse.ok();

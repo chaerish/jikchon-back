@@ -44,6 +44,12 @@ public class AuthController {
         return BaseResponse.ok(authService.login(response, loginRequestDto));
     }
 
+    @PostMapping("/interest")
+    public BaseResponse<Void> registerInterestCategory(@RequestBody MemberRequestDto.InterestCategory interestCategoryRequestDto) {
+        authService.registerInterestCategory(interestCategoryRequestDto);
+        return BaseResponse.ok();
+    }
+
 //    @PutMapping
 //    public BaseResponse<Void> update(@RequestBody MemberRequestDto.SignUp memberRequestDto) {
 //        authService.update(memberRequestDto);

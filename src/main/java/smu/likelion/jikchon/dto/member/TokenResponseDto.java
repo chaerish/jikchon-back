@@ -11,5 +11,5 @@ import lombok.experimental.FieldDefaults;
 public class TokenResponseDto {
     String token;
     long expiresIn;
-
+    String role;
 }

@@ -17,6 +17,7 @@ import smu.likelion.jikchon.dto.product.ProductReturnDto;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
@@ -27,4 +28,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("select p from Product as p where (:subCategory is null or p.subCategory=:subCategory)")
     Page<Product> findAllByCategoryAndInterest(@Param("subCategory") SubCategory subCategory, Pageable pageable);
+
+    @Query("select pd from Product as pd " +
+            "join Purchase as pc " +
+            "on pc.product.id = pd.id " +
+            "where pd.subCategory in" +
+            "(select m.interestCategoryList from Member as m where m.id = :loginMemberId)")
+    List<Product> findAllRecommendProduct(@Param("loginMemberId") Long loginMemberId);
 }

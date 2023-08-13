@@ -7,6 +7,8 @@ import lombok.experimental.FieldDefaults;
 import smu.likelion.jikchon.domain.member.Member;
 import smu.likelion.jikchon.domain.member.MemberRole;
 
+import java.util.List;
+
 
 public class MemberRequestDto {
 
@@ -66,5 +68,12 @@ public class MemberRequestDto {
     public static class VerifyCompanyNumber {
         String phoneNumber;
         String companyNumber;
+    }
+
+    @Getter
+    @Setter
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    public static class InterestCategory {
+        List<String> interestCategory;
     }
 }
