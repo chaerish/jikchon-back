@@ -3,25 +3,26 @@ package smu.likelion.jikchon.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import smu.likelion.jikchon.domain.member.Member;
-
-import java.util.List;
+import smu.likelion.jikchon.domain.enumurate.Target;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "orders")
-public class Order extends BaseTimeEntity {
+@Table(name = "images")
+public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    Member member;
-    @OneToMany(mappedBy = "order")
-    List<Purchase> purchaseList;
+    String imageUrl;
+    @Enumerated(EnumType.STRING)
+    Target target;
+    Long targetId;
+
+    public Image(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }

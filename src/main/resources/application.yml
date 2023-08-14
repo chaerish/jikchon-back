@@ -16,10 +16,6 @@ spring:
       hibernate.format_sql: true
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
 
-  mvc:
-    view:
-      prefix: /static/html
-      suffix: .html
 
 jwt:
   secret-key:
