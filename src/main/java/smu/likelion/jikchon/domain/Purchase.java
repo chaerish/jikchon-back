@@ -19,16 +19,25 @@ public class Purchase {
     Long id;
     //물품, 회원
     @Column(name = "quantity")
-    private Long quantity;
+    Integer quantity;
+    Integer price;
 
     @Column(name = "status")
-    private Long status;
+    Long status;
 
     @ManyToOne
-    @JoinColumn(name = "productId")
-    private Member member;
+    @JoinColumn(name = "product_id")
+    Member member;
 
     @ManyToOne
-    @JoinColumn(name = "memberId")
-    private Product product;
+    @JoinColumn(name = "member_id")
+    Product product;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    Order order;
+
+    public int calculatePrice() {
+        return price * quantity;
+    }
 }

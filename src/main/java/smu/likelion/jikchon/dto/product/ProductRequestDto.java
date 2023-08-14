@@ -15,7 +15,7 @@ import smu.likelion.jikchon.domain.Product;
 public class ProductRequestDto {
     private String productName;
     private String category;
-    private Long price;
+    private Integer price;
     private Long quantity;
     private String intro;
 

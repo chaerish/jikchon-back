@@ -16,7 +16,7 @@ public class ProductReturnDto {
         private Long productId;
         private String productName;
         private String subCategory;
-        private Long price;
+        private Integer price;
         private String imageUrl;
 
         public static ProductReturnDto.Simple of(Product product) {
@@ -52,7 +52,7 @@ public class ProductReturnDto {
         private String category;
         private String subCategory;
         private String address;
-        private Long price;
+        private Integer price;
         private Long quantity;
         private String imageUrl;
         private String intro;

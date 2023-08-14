@@ -16,7 +16,7 @@ public class CartReturnDto {
     String storeName;
     String productName;
     String address;
-    Long price;
+    Integer price;
     String imageUrl;
 
     public static CartReturnDto toCartReturnDto(Cart cart){
