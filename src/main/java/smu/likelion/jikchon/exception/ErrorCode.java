@@ -46,6 +46,8 @@ public enum ErrorCode {
     NOT_FOUND_MEMBER(40401, "존재하지 않는 사용자 정보입니다"),
     NOT_FOUND_REVIEW(40402, "존재하지 않는 리뷰입니다"),
     NOT_FOUND_CART(40403, "존재하지 않는 장바구니 품목입니다."),
+    NOT_FOUND_ORDER(40404, "존재하지 않는 주문 번호입니다."),
+
 
 
 

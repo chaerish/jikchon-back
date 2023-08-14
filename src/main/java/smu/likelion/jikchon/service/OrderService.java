@@ -13,14 +13,12 @@ import smu.likelion.jikchon.domain.member.Member;
 import smu.likelion.jikchon.dto.order.OrderRequestDto;
 import smu.likelion.jikchon.dto.order.OrderResponseDto;
 import smu.likelion.jikchon.dto.purchase.PurchaseRequestDto;
+import smu.likelion.jikchon.exception.CustomForbiddenException;
 import smu.likelion.jikchon.exception.CustomNotFoundException;
 import smu.likelion.jikchon.exception.ErrorCode;
 import smu.likelion.jikchon.repository.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,6 +31,7 @@ public class OrderService {
     private final PurchaseRepository purchaseRepository;
     private final CartRepository cartRepository;
 
+    @Transactional
     public OrderResponseDto.Simple purchaseProduct(PurchaseRequestDto purchaseRequestDto) {
         return OrderResponseDto.Simple.of(createOrder(Collections.singletonList(purchaseRequestDto)));
     }
@@ -56,14 +55,14 @@ public class OrderService {
                     .quantity(purchaseRequestDto.getQuantity())
                     .build());
 
+            //todo : 한방쿼리
             cartRepository.delete(cart);
         }
 
         return OrderResponseDto.Simple.of(createOrder(cartOrderList));
     }
 
-    @Transactional
-    public Order createOrder(List<PurchaseRequestDto> purchaseRequestDtoList) {
+    private Order createOrder(List<PurchaseRequestDto> purchaseRequestDtoList) {
         Order order = Order.builder()
                 .member(Member.builder().id(loginService.getLoginMemberId()).build())
                 .build();
@@ -96,5 +95,17 @@ public class OrderService {
         return PageResult.ok(
                 orderRepository.findAllByMemberId(loginService.getLoginMemberId(), pageable)
                         .map(OrderResponseDto.BriefForCustomer::of));
+    }
+
+    @Transactional(readOnly = true)
+    public OrderResponseDto.Receipt getOrderReceipt(Long orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(() ->
+                new CustomNotFoundException(ErrorCode.NOT_FOUND_ORDER));
+
+        if (!Objects.equals(order.getMember().getId(), loginService.getLoginMemberId())) {
+            throw new CustomForbiddenException(ErrorCode.FORBIDDEN);
+        }
+
+        return OrderResponseDto.Receipt.of(order);
     }
 }
