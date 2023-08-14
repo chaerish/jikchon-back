@@ -21,8 +21,12 @@ public class Image {
     @Enumerated(EnumType.STRING)
     Target target;
     Long targetId;
-
-    public Image(String imageUrl) {
-        this.imageUrl = imageUrl;
+    @ManyToOne
+    @JoinColumn(name = "productId")
+    private Product product;
+    public Image(String imageUrl) {this.imageUrl = imageUrl;}
+    public Image(Product product, String url) {
+        this.imageUrl=url;
+        this.product=product;
     }
 }

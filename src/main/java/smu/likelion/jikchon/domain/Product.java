@@ -39,6 +39,9 @@ public class Product {
     private List<Cart> cart;
     @OneToMany(mappedBy = "product")
     private List<Purchase> purchaseList;
+    @OneToMany(mappedBy = "product")
+    private List<Image> image;
+
 
     public void reduceQuantity(int purchaseQuantity) {
         if (quantity - purchaseQuantity < 0) {
