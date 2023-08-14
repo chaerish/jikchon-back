@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import smu.likelion.jikchon.base.BaseResponse;
 import smu.likelion.jikchon.exception.*;
 
+import java.nio.file.AccessDeniedException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 @RestControllerAdvice
@@ -36,7 +37,7 @@ public class GlobalExceptionHandler {
         return BaseResponse.fail(e.getErrorCode());
     }
 
-    @ExceptionHandler(CustomForbiddenException.class)
+    @ExceptionHandler({CustomForbiddenException.class, AccessDeniedException.class})
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public BaseResponse<?> customForbiddenHandler(CustomBadRequestException e) {
         return BaseResponse.fail(e.getErrorCode());

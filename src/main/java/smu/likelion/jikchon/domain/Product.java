@@ -6,6 +6,8 @@ import lombok.experimental.FieldDefaults;
 import smu.likelion.jikchon.base.Category;
 import smu.likelion.jikchon.base.SubCategory;
 import smu.likelion.jikchon.domain.member.Member;
+import smu.likelion.jikchon.exception.CustomBadRequestException;
+import smu.likelion.jikchon.exception.ErrorCode;
 
 import java.util.List;
 
@@ -21,18 +23,13 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @Column(name="productName")
     private String productName;
-    @Column(name="productImg")
     private String imageUrl;
-    @Column(name="price")
-    private Long price;
-    @Column(name="intro")
+    private Integer price;
     private String intro;
-    @Column(name="quantity")
     private Long quantity;
     @ManyToOne
-    @JoinColumn(name="memberId")
+    @JoinColumn(name = "memberId")
     private Member member;
     @Enumerated(EnumType.STRING)
     private Category category;
@@ -40,4 +37,13 @@ public class Product {
     private SubCategory subCategory;
     @OneToMany(mappedBy = "product")
     private List<Cart> cart;
+    @OneToMany(mappedBy = "product")
+    private List<Purchase> purchaseList;
+
+    public void reduceQuantity(int purchaseQuantity) {
+        if (quantity - purchaseQuantity < 0) {
+            throw new CustomBadRequestException(ErrorCode.OUT_OF_STOCK);
+        }
+        this.quantity -= purchaseQuantity;
+    }
 }

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import smu.likelion.jikchon.domain.member.Member;
+import smu.likelion.jikchon.domain.member.MemberRole;
 import smu.likelion.jikchon.dto.member.TokenResponseDto;
 import smu.likelion.jikchon.exception.CustomUnauthorizedException;
 import smu.likelion.jikchon.exception.ErrorCode;
@@ -35,10 +36,10 @@ import java.util.stream.Collectors;
 public class TokenProvider {
     private static final String TOKEN_TYPE = "Bearer";
     private static final String AUTHORITY_KEY = "auth";
-    @Value("${jwt.secret-key}")
+    @Value("${jwt.secret-key.access}")
     private String accessTokenSecretKey;
 
-    @Value("${jwt.secret-key}")
+    @Value("${jwt.secret-key.refresh}")
     private String refreshTokenSecretKey;
     private Key accessTokenKey;
     private Key refershTokenKey;
@@ -55,7 +56,6 @@ public class TokenProvider {
                 .setSubject(memberId.toString())
                 .setExpiration(new Date(nowMillisecond + jwtType.getValidMillisecond()))
                 .claim(AUTHORITY_KEY, authority)
-                //todo : key 어떻게 할 지..
                 .signWith(getKey(jwtType), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -65,6 +65,7 @@ public class TokenProvider {
         return TokenResponseDto.builder()
                 .token(generateToken(jwtType, memberId, authority, nowMillisecond))
                 .expiresIn((nowMillisecond + jwtType.getValidMillisecond()) / 1000L)
+                .role(MemberRole.getRoleName(authority))
                 .build();
     }
 
@@ -102,6 +103,7 @@ public class TokenProvider {
         return parseClaims(token, accessTokenKey);
     }
 
+    //todo : 메서드 통합
     public Claims parseRefreshTokenClaims(String token) {
         return parseClaims(token, refershTokenKey);
     }

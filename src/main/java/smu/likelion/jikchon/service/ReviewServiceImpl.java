@@ -1,6 +1,7 @@
 package smu.likelion.jikchon.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import smu.likelion.jikchon.base.PageResult;
@@ -8,7 +9,7 @@ import smu.likelion.jikchon.domain.Product;
 import smu.likelion.jikchon.domain.Review;
 import smu.likelion.jikchon.domain.member.Member;
 import smu.likelion.jikchon.dto.review.ReviewResponseDto;
-import smu.likelion.jikchon.dto.review.ReviewSaveRequestDTO;
+import smu.likelion.jikchon.dto.review.ReviewSaveRequestDto;
 import smu.likelion.jikchon.exception.CustomForbiddenException;
 import smu.likelion.jikchon.exception.CustomNotFoundException;
 import smu.likelion.jikchon.exception.ErrorCode;
@@ -26,10 +27,9 @@ public class ReviewServiceImpl implements ReviewService {
     private final ProductRepository productRepository;
     private final LoginService loginService;
 
-
     //todo : 리팩토링
     @Override
-    public void saveReview(Long productId, ReviewSaveRequestDTO reviewSaveRequestDTO) {
+    public void saveReview(Long productId, ReviewSaveRequestDto reviewSaveRequestDTO) {
         Long memberId = loginService.getLoginMemberId();
         Product product = productRepository.findById(productId).orElseThrow(() -> {
             throw new CustomNotFoundException(ErrorCode.NOT_FOUND_PRODUCT);
@@ -61,9 +61,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public Long updateReview(Long reviewId, ReviewSaveRequestDTO reviewSaveRequestDTO) {
+    public Long updateReview(Long reviewId, ReviewSaveRequestDto reviewSaveRequestDTO) {
         Long memberId = loginService.getLoginMemberId();
-        Review review = reviewRepository.findReviewsByMemberId(memberId).orElseThrow(() ->
+        Review review = reviewRepository.findReviewByMemberId(memberId).orElseThrow(() ->
                 new CustomNotFoundException(ErrorCode.NOT_FOUND_REVIEW));
 
         review.setStarRating(reviewSaveRequestDTO.getStarRating());
@@ -73,7 +73,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     //도움 필요 ,,
     @Override
-    public PageResult<ReviewResponseDto> getReviewList(Long productId) {
-        return PageResult.ok(reviewRepository.findAllByProductId(productId).map(ReviewResponseDto::of));
+    public PageResult<ReviewResponseDto> getReviewList(Long productId, Pageable pageable) {
+        return PageResult.ok(reviewRepository.findAllByProductId(productId, pageable).map(ReviewResponseDto::of));
     }
 }

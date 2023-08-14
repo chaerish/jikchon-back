@@ -6,7 +6,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReviewSaveRequestDTO {
+public class ReviewSaveRequestDto {
     private String content;
     private Integer starRating;
 }

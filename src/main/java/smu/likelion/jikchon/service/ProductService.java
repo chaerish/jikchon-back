@@ -20,12 +20,12 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final LoginService loginService;
 
-    public PageResult<ProductReturnDto.Simple> recommendProduct() {
-        return null;
+    public ProductReturnDto.Multiple getRecommendProductList() {
+        return ProductReturnDto.Multiple.of(productRepository.findAllRecommendProduct(loginService.getLoginMemberId()));
     }
 
     //todo : 사용자 선택 카테고리 우선 정렬
-    public PageResult<ProductReturnDto.Simple> getProductByCategory(Integer subCategoryId, Pageable pageable) {
+    public PageResult<ProductReturnDto.Simple> getProductListByCategory(Integer subCategoryId, Pageable pageable) {
         Page<Product> products = productRepository.findAllByCategoryAndInterest(SubCategory.fromId(subCategoryId), pageable);
         Page<ProductReturnDto.Simple> product = products.map(ProductReturnDto.Simple::of);
         return PageResult.ok(product);
