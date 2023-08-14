@@ -21,6 +21,8 @@ public enum ErrorCode {
     DUPLICATE_UNIQUE_KEY(40004, "UNIQUE 컬럼이 중복 됨"),
     NOT_FOUND_PRODUCT(40005,"물건을 찾을 수 없습니다"),
     OUT_OF_STOCK(40006,"재고가 부족합니다"),
+    INVALID_FILE_TYPE(40007,"파일 타입이 잘못되었습니다."),
+
 
 
 

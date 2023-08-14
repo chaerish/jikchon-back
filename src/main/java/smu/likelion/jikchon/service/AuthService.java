@@ -16,7 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import smu.likelion.jikchon.base.SubCategory;
+import smu.likelion.jikchon.domain.enumurate.SubCategory;
 import smu.likelion.jikchon.domain.member.JwtRefreshToken;
 import smu.likelion.jikchon.domain.member.Member;
 import smu.likelion.jikchon.domain.member.VerifiedMember;

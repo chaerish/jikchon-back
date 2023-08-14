@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import smu.likelion.jikchon.base.PageResult;
-import smu.likelion.jikchon.base.SubCategory;
+import smu.likelion.jikchon.domain.enumurate.SubCategory;
 import smu.likelion.jikchon.domain.Product;
 import smu.likelion.jikchon.dto.product.ProductRequestDto;
 import smu.likelion.jikchon.dto.product.ProductReturnDto;

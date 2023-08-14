@@ -1,8 +1,7 @@
-package smu.likelion.jikchon.base;
+package smu.likelion.jikchon.domain.enumurate;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy;
 import smu.likelion.jikchon.exception.CustomBadRequestException;
 import smu.likelion.jikchon.exception.ErrorCode;
 
