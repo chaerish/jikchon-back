@@ -23,24 +23,26 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    private String productName;
-    private String imageUrl;
-    private Integer price;
-    private String intro;
-    private Long quantity;
+    String productName;
+    String imageUrl;
+    Integer price;
+    String intro;
+    Long quantity;
     @ManyToOne
     @JoinColumn(name = "memberId")
-    private Member member;
+    Member member;
     @Enumerated(EnumType.STRING)
-    private Category category;
+    Category category;
     @Enumerated(EnumType.STRING)
-    private SubCategory subCategory;
+    SubCategory subCategory;
+
     @OneToMany(mappedBy = "product")
-    private List<Cart> cart;
+    List<Cart> cartList;
     @OneToMany(mappedBy = "product")
-    private List<Purchase> purchaseList;
+    List<Purchase> purchaseList;
     @OneToMany(mappedBy = "product")
-    private List<Image> image;
+    List<Image> image;
+
 
 
     public void reduceQuantity(int purchaseQuantity) {

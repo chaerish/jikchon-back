@@ -17,12 +17,12 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    private Integer starRating;
-    private String content;
+    Integer starRating;
+    String content;
     @ManyToOne
-    @JoinColumn(name = "memberId")
-    private Member member;
+    @JoinColumn(name = "member_id")
+    Member member;
     @ManyToOne
-    @JoinColumn(name = "productId")
-    private Product product;
+    @JoinColumn(name = "product_id")
+    Product product;
 }
