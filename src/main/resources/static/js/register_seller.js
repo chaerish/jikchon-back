@@ -102,6 +102,7 @@ function authenticateCompanyRegistration() {
     if (response.status === 200) {
       warningCompanyRegistration.classList.remove('show');
       isCompanyRegistrationAuthenticated = true;
+      window.alert('사업자 등록번호 인증에 성공했어요.');
     } else if (response.status === 403) {
       warningCompanyRegistration.classList.add('show');
       warningMSGCompanyRegistration.innerText = '사업자 등록번호가 올바르지 않거나 이미 가입된 번호예요.';
@@ -152,8 +153,6 @@ btnRegister.addEventListener('click', () => {
     window.alert('비밀번호를 올바르게 입력해 주세요.');
   } else if (warningPWCheck.classList.contains('show')) {
     window.alert('비밀번호가 일치하지 않습니다.');
-  } else if (warningEmail.classList.contains('show')) {
-    window.alert('이메일을 올바르게 입력해 주세요.');
   } else if (warningPhoneNumber.classList.contains('show')) {
     window.alert('전화번호를 올바르게 입력해 주세요.');
   } else if (warningCompanyRegistration.classList.contains('show') && !isCompanyRegistrationAuthenticated) {
