@@ -1,4 +1,4 @@
-import { checkTokenExistence, checkTokenValid } from "./common/jwt_token_check";
+import { checkTokenExistence, checkTokenValid,checkUserRole } from "./common/jwt_token_check";
 document.addEventListener("DOMContentLoaded", function() {
     var idValue = getQueryParamValue('id');
     console.log(currentUrl)
