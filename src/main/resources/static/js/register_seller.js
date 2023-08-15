@@ -116,6 +116,38 @@ function authenticateCompanyRegistration() {
   });
 }
 
+function autoLogin() {
+  // 회원가입 후 자동 로그인
+  fetch('/members/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      phoneNumber: inputName.value,
+      password: inputPW.value,
+    }),
+  })
+  .then(response => {
+    if (response.status === 200) {
+      return response.json();
+    } else {
+      throw new Error(response.status, '로그인 실패');
+    }
+  })
+  .then(response => {
+    localStorage.setItem('access_token', response.data.token);
+    localStorage.setItem('expires_in', response.data.expiresIn);
+    localStorage.setItem('user_role', response.data.role);
+    window.alert('로그인에 성공하였습니다.');
+    window.location.href = '/customer/recommend';
+  })
+  .catch(error => {
+    console.error('Error:', error)
+    window.alert(`${response.status}: 로그인에 실패하였습니다.`);
+  });
+}
+
 inputPW.onblur = () => {
   // 비밀번호 유효성 검사
   if (!REGEX_PASSWORD.test(inputPW.value)) {
@@ -179,34 +211,7 @@ btnRegister.addEventListener('click', () => {
       if (response.status === 200) {
         window.alert('회원가입에 성공하였습니다. 자동으로 로그인합니다.');
         // 회원가입 후 자동 로그인
-        fetch('/members/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            phoneNumber: inputName.value,
-            password: inputPW.value,
-          }),
-        })
-        .then(response => {
-          if (response.status === 200) {
-            return response.json();
-          } else {
-            throw new Error(response.status, '로그인 실패');
-          }
-        })
-        .then(response => {
-            localStorage.setItem('access_token', response.data.token);
-            localStorage.setItem('expires_in', response.data.expiresIn);
-            localStorage.setItem('user_role', response.data.role);
-            window.alert('로그인에 성공하였습니다.');
-        })
-        .catch(error => {
-          console.error('Error:', error)
-          window.alert(`${response.status}: 로그인에 실패하였습니다.`);
-        });
-        window.location.href = '/customer/recommend';
+        autoLogin();
       } else throw new Error(response.status, '회원가입 실패');
     })
     .catch(error => {
