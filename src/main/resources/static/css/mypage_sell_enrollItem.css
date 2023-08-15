@@ -1,0 +1,109 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+main{
+    margin-top: 1.5rem;
+    margin-top: 6rem;
+}
+.page-title{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+
+    color: #000;
+    text-align: center;
+    font-family: Pretendard;
+    font-size: 1.75rem;
+    font-style: normal;
+    font-weight: 650;
+    line-height: normal;
+}
+.image-container{      
+    width: 10rem;
+    height: 10rem;
+    background: #EFEFEF;
+}
+.item-image{
+    display:none;
+}
+.upload-image-button{color: #FFF;
+    text-align: center;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    display: flex;
+    width: 9.875rem;
+    height: 2rem;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    background: #D92B3A;
+}
+.enroll-image-box{
+    margin-top:1rem;
+}
+.enroll-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.25rem;
+}
+.item-enroll-title{
+    color: #000;
+    font-family: Pretendard;
+    font-size: 1.1rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+.input{
+    margin-top : 10px;
+    width: 20rem;
+    height: 2.3rem; 
+    border: 1px solid #000;
+}
+.field{
+    margin-top : 10px;
+    width: 20rem;
+    height: 5rem;
+    border: 1px solid #000;
+}
+.item-detailed{
+    margin-top:10px;
+    width: 20rem;
+    height:10rem;
+    border: 1px solid #000;
+}
+select{
+    margin-top: 10px;
+    width:10rem;
+    height: 2rem;
+    border: 1px solid #000;
+}
+.submit-button{
+    margin-top : 2rem;
+    display: flex;
+    width: 20rem;
+    height: 3rem;
+    padding: 0.75rem 7.75rem;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    flex-shrink: 0;
+
+    background:#000;
+
+    color:#FFF;
+    font-family: Pretendard;
+    font-size: 1.1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}

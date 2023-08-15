@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../css/header.css" rel="stylesheet">
+  <link href="../css/navbar.css" rel="stylesheet">
+  <link href="../css/reset.css" rel="stylesheet">
+  <link href="../css/footer.css" rel="stylesheet">
+  <link href="../css/mypage_con_recommend.css" rel="stylesheet">
+  
+  <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+  <script src="../js/mypage_con_recommend.js" defer></script>
+  <script type = "module" src="../js/navbar.js" defer></script>
+  <script type = "module" src="../js/common/jwt_token_check.js" defer></script>
+
+  <title>상품 추천</title>
+</head>
+<body>
+  <header class="header">
+    <div class="main-logo-container">
+      <!-- 아래 a href 속성에 링크 추가-->
+      <a href=""><img src="../images/main_logo.png"/></a>
+    </div>
+  </header>
+
+  <nav>
+    <a class="back-button" href="">
+      <img src="../images/back_icon.svg">
+    </a>
+    <a class="cart-button" href="">
+      <img src="../images/cart_icon.svg">
+    </a>
+    <a class="home-button" href="">
+      <img src="../images/home_icon.svg">
+    </a>
+    <a class="mypage-button" href="">
+      <img src="../images/mypage_icon.svg">
+    </a>
+  </nav>
+    <main>
+        <div class="menu-title-box">
+            <div class = "menu-title">
+                <p>자주 구매하시는 상품을<br/>눌러주세요</p>
+            </div>
+        </div>
+        <div class = "recommend-reset-box">
+            <img class = "recommend-reset"src="../images/reset.png"/>
+        </div>
+        <div class = "recommend-box">
+            <div class = "recommend-items-list">
+                <div class="recommend-items-list-row">
+                    <div class = "recommend-item-box">
+                        <img src="../images/recommend-1.png" class="item-image" id = "item-image" data-item-name="과일"/>
+                        <p class = "item-name">사과</p>
+                    </div>
+                    <div class = "recommend-item-box">
+                        <img src="../images/recommend-2.png" class="item-image" id = "item-image" data-item-name="계란"/>
+                        <p class = "item-name">계란</p>
+                    </div>
+                    <div class = "recommend-item-box" >
+                        <img src="../images/recommend-3.png" class="item-image" id = "item-image" data-item-name="돼지고기"/>
+                        <p class = "item-name">돼지고기</p>
+                    </div>
+                </div>
+                    <div class = "recommend-items-list-row">
+                        <div class = "recommend-item-box">
+                            <img src="../images/recommend-4.png" class="item-image" id = "item-image" data-item-name="생선류"/>
+                            <p class = "item-name">고등어</p>
+                        </div>
+                        <div class = "recommend-item-box">
+                            <img src="../images/recommend-5.png" class="item-image" id = "item-image" data-item-name="김/해조류"/>
+                            <p class = "item-name">김</p>
+                        </div>
+                        <div class = "recommend-item-box">
+                            <img src="../images/recommend-6.png" class="item-image" id = "item-image" data-item-name="유제품"/>
+                            <p class = "item-name">우유</p>
+                        </div>
+                    </div>
+                    <div class = "recommend-items-list-row">
+                        <div class = "recommend-item-box">
+                            <img src="../images/recommend-7.png" class="item-image" id = "item-image" data-item-name="양념류"/>
+                            <p class = "item-name">고추장</p>
+                        </div>
+                        <div class = "recommend-item-box">
+                            <img src="../images/recommend-8.png" class="item-image" id = "item-image" data-item-name="곡물"/>
+                            <p class = "item-name">쌀</p>
+                        </div>
+                        <div class = "recommend-item-box">
+                            <img src="../images/recommend-9.png" class="item-image" id = "item-image" data-item-name="수산물"/>
+                            <p class = "item-name">조개</p>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class = "button-box">
+                <button class = "submit" id = "submit">저장하기</button>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+      <p>&#169; 2023. Team JikChon All rights reserved.</p>
+    </footer>
+  
+    <script src="../js/header.js"></script>
+    <script src="../js/navbar.js"></script>
+</body>
+</html>

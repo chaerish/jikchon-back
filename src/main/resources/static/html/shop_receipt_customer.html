@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../css/reset.css" rel="stylesheet">
+  <link href="../css/header.css" rel="stylesheet">
+  <link href="../css/navbar.css" rel="stylesheet">
+  <link href="../css/footer.css" rel="stylesheet">
+  <link href="../css/con_shop_receipt.css" rel="stylesheet">
+
+  <script src = "../js/con_shop_receipt.js"></script>
+  <script type = "module" src="../js/navbar.js" defer></script>
+  <script type = "module" src="../js/common/jwt_token_check.js" defer></script>
+
+  <title>직촌 - 영수증</title>
+</head>
+<body>
+
+  <header class="header">
+    <div class="main-logo-container">
+      <!-- 아래 a href 속성에 링크 추가-->
+      <a href=""><img src="../images/main_logo.png"/></a>
+    </div>
+  </header>
+
+  <nav>
+    <a class="back-button" href="">
+      <img src="../images/back_icon.svg">
+    </a>
+    <a class="cart-button" href="">
+      <img src="../images/cart_icon.svg">
+    </a>
+    <a class="home-button" href="">
+      <img src="../images/home_icon.svg">
+    </a>
+    <a class="mypage-button" href="">
+      <img src="../images/mypage_icon.svg">
+    </a>
+  </nav>
+
+  <section class="buyer-info-container">
+    <div class = "buyer-info-box">
+      <h1>주문번호</h1>
+      <p id = "buyer-num" class="buyer-num">123456789</p>
+    </div>
+  </section>
+
+  <section class="receipt-container">
+    <div class="receipt-header">
+      <p>상품명(상품코드)</p>
+      <p>수량</p>
+      <p>금액</p>
+    </div>
+    <hr class="receipt-divider">
+    <!-- Test Product Component - START -->
+    <div id = "productBox" class = productBox></div>
+    
+    <!-- Test Product Component - END -->
+    <hr class="receipt-divider">
+    <div class="total-price-container">
+      <h1>결제 금액 :</h1>
+      <!-- Test Total Price -->
+      <p id = "total-price">10,850원</p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>&#169; 2023. Team JikChon All rights reserved.</p>
+  </footer>
+  
+  <script src="../js/header.js"></script>
+</body>
+</html>

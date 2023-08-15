@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../css/header.css" rel="stylesheet">
+  <link href="../css/navbar.css" rel="stylesheet">
+  <link href="../css/reset.css" rel="stylesheet">
+  <link href="../css/footer.css" rel="stylesheet">
+  <link href="../css/mypage_con_checkOrder.css" rel="stylesheet">
+
+  <script src="../js/mypage_con_checkOrder.js"></script>
+  <script type = "module" src="../js/navbar.js" defer></script>
+  <script type = "module" src="../js/common/jwt_token_check.js" defer></script>
+
+  <title>구매목록확인</title>
+</head>
+<body>
+  <header class="header">
+    <div class="main-logo-container">
+      <!-- 아래 a href 속성에 링크 추가-->
+      <a href=""><img src="../images/main_logo.png"/></a>
+    </div>
+  </header>
+
+  <nav>
+    <a class="back-button" href="">
+      <img src="../images/back_icon.svg">
+    </a>
+    <a class="cart-button" href="">
+      <img src="../images/cart_icon.svg">
+    </a>
+    <a class="home-button" href="">
+      <img src="../images/home_icon.svg">
+    </a>
+    <a class="mypage-button" href="">
+      <img src="../images/mypage_icon.svg">
+    </a>
+  </nav>
+
+  <main>
+    <div class = "menu-title-box">
+        <p class = "menu-title">구매 목록 확인</p>
+    </div>
+    <div id = "order-list" class = "order-list"></div>
+
+  </main>
+  <footer class="footer">
+    <p>&#169; 2023. Team JikChon All rights reserved.</p>
+  </footer>
+  
+  <script src="../js/header.js"></script>
+  <script src="../js/navbar.js"></script>
+</body>
+</html>

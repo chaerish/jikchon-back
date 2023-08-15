@@ -1,0 +1,112 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+.container {
+    font-family: 'Pretendard-Regular';
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    margin: 70px auto;
+    background-color: #F8F8F8;
+}
+
+.container h1 {
+    width: 100%;
+    text-align: center;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin: 0;
+    padding: 2.5rem 0 2.5rem 0;    
+    background-color: white;
+}
+
+h2 {
+    text-align: center;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    background-color: white;
+    padding: 0 0 1.5rem 0;
+}
+
+
+.recommend-box {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+    gap: 1rem;
+}
+
+.reload {
+    width: 1.75rem;
+    height: 1.75rem;
+    flex-shrink: 0;    
+    align-self: flex-end;
+    margin-right: 1rem;
+}
+
+.recommend-list ul {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    row-gap: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.recommend-list li {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    background: #FFF;
+    gap: 0.25rem;
+    margin: auto;
+    padding: 1rem 0.75rem;
+    border-radius: 1.25rem;
+    border: 2px solid white;
+}
+
+.prod-img {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 0.625rem;
+    background: lightgray 50% / cover no-repeat;        
+}
+
+.prod-name {
+    display: flex;
+    width: 5rem;
+    height: 1rem;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;        
+}
+
+.save-btn {
+    margin: 2rem auto 0 auto;
+    display: flex;
+    width: 20rem;
+    padding: 0.75rem 7.75rem;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    color: #FFF;
+    text-align: center;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;        
+}
