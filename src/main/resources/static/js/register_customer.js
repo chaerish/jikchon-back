@@ -55,10 +55,7 @@ function checkPhoneNumberNotDuplicated() {
     } else if (response.status === 403) {
       warningMSGPhoneNumber.innerText = '이미 가입된 전화번호예요.';
       warningPhoneNumber.classList.add('show');
-    } else {
-      warningMSGPhoneNumber.innerText = '전화번호 조회에 실패했어요.';
-      warningPhoneNumber.classList.add('show');
-    }
+    } else throw new Error(error);
   })
   .catch(error => {
     console.error(error);
@@ -119,10 +116,7 @@ btnRegister.addEventListener('click', () => {
       if (response.status === 200) {
         window.alert('회원가입에 성공하였습니다.');
         window.location.href = '/login.html';
-      } else {
-        console.log(response);
-        throw new Error(error);
-      }
+      } else throw new Error(error);
     })
     .catch(error => {
       console.error(error);

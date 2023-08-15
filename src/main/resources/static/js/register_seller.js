@@ -56,17 +56,13 @@ function checkPhoneNumberNotDuplicated() {
       phoneNumber: phoneNumber,
     }),
   })
-  .then(response => response.json())
   .then(response => {
     if (response.status === 200) {
       warningPhoneNumber.classList.remove('show');
     } else if (response.status === 403) {
       warningPhoneNumber.classList.add('show');
       warningMSGPhoneNumber.innerText = '이미 가입된 전화번호예요.';
-    } else {
-      warningPhoneNumber.classList.add('show');
-      warningMSGPhoneNumber.innerText = '전화번호 조회에 실패했어요.';
-    }
+    } else throw new Error(error);
   })
   .catch(error => {
     console.error(error);
@@ -102,7 +98,6 @@ function authenticateCompanyRegistration() {
 			companyNumber : companyRegistration,
     }),
   })
-  .then(response => response.json())
   .then(response => {
     if (response.status === 200) {
       warningCompanyRegistration.classList.remove('show');
@@ -111,11 +106,7 @@ function authenticateCompanyRegistration() {
       warningCompanyRegistration.classList.add('show');
       warningMSGCompanyRegistration.innerText = '사업자 등록번호가 올바르지 않거나 이미 가입된 번호예요.';
       isCompanyRegistrationAuthenticated = false;
-    } else {
-      warningCompanyRegistration.classList.add('show');
-      warningMSGCompanyRegistration.innerText = '사업자 등록번호 조회에 실패했어요.';
-      isCompanyRegistrationAuthenticated = false;
-    }
+    } else throw new Error(error);
   })
   .catch(error => {
     console.error(error);
@@ -186,14 +177,11 @@ btnRegister.addEventListener('click', () => {
         address: inputAddress.value + ', ' + inputDetailAddress.value,
       }),
     })
-    .then(response => response.json())
     .then(response => {
       if (response.status === 200) {
         window.alert('회원가입에 성공하였습니다.');
         window.location.href = '/login.html';
-      } else {
-        window.alert(`${response.status}: 회원가입에 실패하였습니다.`);
-      }
+      } else throw new Error(error);
     })
     .catch(error => {
       console.error(error);
