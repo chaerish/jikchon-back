@@ -88,7 +88,7 @@ function autoLogin() {
     localStorage.setItem('expires_in', response.data.expiresIn);
     localStorage.setItem('user_role', response.data.role);
     window.alert('로그인에 성공하였습니다.');
-    window.location.href = '/customer/recommend';
+    window.location.href = '/';
   })
   .catch(error => {
     console.error('Error:', error)
