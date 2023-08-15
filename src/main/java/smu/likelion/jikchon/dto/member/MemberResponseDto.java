@@ -19,4 +19,21 @@ public class MemberResponseDto {
                     .build();
         }
     }
+
+    @Getter
+    @Builder
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    public static class Profile {
+        String name;
+        String phoneNumber;
+        String address;
+
+        public static Profile of(Member member) {
+            return Profile.builder()
+                    .name(member.getUsername())
+                    .phoneNumber(member.getFormattedPhoneNumber())
+                    .address(member.getAddress())
+                    .build();
+        }
+    }
 }

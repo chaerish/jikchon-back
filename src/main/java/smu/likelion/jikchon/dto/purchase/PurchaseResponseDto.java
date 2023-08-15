@@ -1,31 +1,74 @@
 package smu.likelion.jikchon.dto.purchase;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 import smu.likelion.jikchon.domain.Purchase;
+import smu.likelion.jikchon.dto.member.MemberResponseDto;
 
 
 public class PurchaseResponseDto {
     @Getter
-    @Builder
+    @SuperBuilder
     @FieldDefaults(level = AccessLevel.PRIVATE)
-    public static class Brief {
+    public static class Base {
         Long id;
         String productName;
         int price;
         int quantity;
-        @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        String imageUrl;
 
-        public static Brief of(Purchase purchase) {
-            return Brief.builder()
+        public static Base of(Purchase purchase) {
+            return Base.builder()
                     .id(purchase.getId())
                     .productName(purchase.getProduct().getProductName())
                     .price(purchase.calculatePrice())
                     .quantity(purchase.getQuantity())
+                    .build();
+        }
+    }
+
+    @Getter
+    @SuperBuilder
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    public static class BriefForSeller {
+        Long orderId;
+        Long purchaseId;
+        String productName;
+        int quantity;
+        int totalPrice;
+        String orderAt;
+        String imageUrl;
+        MemberResponseDto.Profile purchaseCustomer;
+
+        public static BriefForSeller of(Purchase purchase) {
+            return BriefForSeller.builder()
+                    .orderId(purchase.getOrder().getId())
+                    .purchaseId(purchase.getId())
+                    .productName(purchase.getProduct().getProductName())
+                    .quantity(purchase.getQuantity())
+                    .totalPrice(purchase.calculatePrice())
+                    .orderAt(purchase.getOrder().getCreatedAtToString())
+                    //todo: imageUrl
+                    .imageUrl(null)
+                    .purchaseCustomer(MemberResponseDto.Profile.of(purchase.getMember()))
+                    .build();
+        }
+    }
+
+    @Getter
+    @SuperBuilder
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    public static class Receipt {
+        Long orderId;
+        MemberResponseDto.Profile customerDto;
+        PurchaseResponseDto.Base purchaseDto;
+
+        public static Receipt of(Purchase purchase) {
+            return Receipt.builder()
+                    .orderId(purchase.getOrder().getId())
+                    .customerDto(MemberResponseDto.Profile.of(purchase.getMember()))
+                    .purchaseDto(Base.of(purchase))
                     .build();
         }
     }

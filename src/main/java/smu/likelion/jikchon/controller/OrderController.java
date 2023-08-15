@@ -1,11 +1,14 @@
 package smu.likelion.jikchon.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
 import smu.likelion.jikchon.base.BaseResponse;
+import smu.likelion.jikchon.base.PageResult;
+import smu.likelion.jikchon.dto.order.OrderRequestDto;
 import smu.likelion.jikchon.dto.order.OrderResponseDto;
+import smu.likelion.jikchon.dto.purchase.PurchaseRequestDto;
+import smu.likelion.jikchon.dto.purchase.PurchaseResponseDto;
 import smu.likelion.jikchon.service.OrderService;
 
 @RestController
@@ -13,8 +16,25 @@ import smu.likelion.jikchon.service.OrderService;
 public class OrderController {
     private final OrderService orderService;
 
+    @PostMapping
+    public BaseResponse<OrderResponseDto.Simple> purchaseProduct(@RequestBody PurchaseRequestDto purchaseRequestDto) {
+        return BaseResponse.ok(orderService.purchaseProduct(purchaseRequestDto));
+    }
+
+    @PostMapping("/cart")
+    public BaseResponse<OrderResponseDto.Simple> purchaseCartProduct(@RequestBody OrderRequestDto.CartOrder orderRequestDto) {
+        return BaseResponse.ok(orderService.purchaseCart(orderRequestDto));
+    }
+
     @GetMapping("/customer/receipt/{orderId}")
     public BaseResponse<OrderResponseDto.Receipt> getOrderReceipt(@PathVariable Long orderId) {
         return BaseResponse.ok(orderService.getOrderReceipt(orderId));
     }
+
+    @GetMapping("/purchases")
+    public BaseResponse<PageResult<OrderResponseDto.BriefForCustomer>> getMyOrderList(Pageable pageable) {
+        return BaseResponse.ok(orderService.getMyOrderList(pageable));
+    }
+
+
 }
