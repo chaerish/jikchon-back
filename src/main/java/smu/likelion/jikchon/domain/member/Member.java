@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
 import smu.likelion.jikchon.domain.enumurate.SubCategory;
 import smu.likelion.jikchon.domain.Cart;
 
@@ -33,6 +34,8 @@ public class Member {
     String phoneNumber; // 전화번호 = 로그인 아이디
     @Column(nullable = false)
     String password;
+    @Column(unique = true, nullable = false)
+    String email;
     String zipcode;
     String address;
     @Column(unique = true)
@@ -45,10 +48,11 @@ public class Member {
     List<Cart> cartList = new ArrayList<>();
 
     @ElementCollection
-    @CollectionTable(name="interest_category", joinColumns = @JoinColumn(name= "member_id", referencedColumnName = "id"))
+    @CollectionTable(name = "interest_category", joinColumns = @JoinColumn(name = "member_id", referencedColumnName = "id"))
     @Enumerated(EnumType.STRING)
     Set<SubCategory> interestCategoryList = new HashSet<>();
 
+    //todo : 코드에서 패스워드 인코드를 까먹지 않고 무조건 수행되도록 할 순 없을까
     public void encodePassword(PasswordEncoder passwordEncoder) {
         password = passwordEncoder.encode(password);
     }
@@ -63,5 +67,46 @@ public class Member {
 
     public String getFormattedPhoneNumber() {
         return phoneNumber.substring(0, 3) + "-" + phoneNumber.substring(3, 7) + "-" + phoneNumber.substring(7);
+    }
+
+    public void setUsername(String username) {
+        if (StringUtils.hasText(username)) {
+            this.username = username;
+        }
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        if (StringUtils.hasText(phoneNumber)) {
+            this.phoneNumber = phoneNumber;
+        }
+    }
+
+    public void setEncodePassword(String password, PasswordEncoder passwordEncoder) {
+        if (StringUtils.hasText(password)) {
+            this.password = password;
+            encodePassword(passwordEncoder);
+        }
+    }
+
+    public void setEmail(String email) {
+        if (StringUtils.hasText(email)) {
+            this.email = email;
+        }
+    }
+
+    public void setZipcode(String zipcode) {
+        if (StringUtils.hasText(zipcode)) {
+            this.zipcode = zipcode;
+        }
+    }
+
+    public void setAddress(String address) {
+        if (StringUtils.hasText(zipcode)) {
+            this.address = address;
+        }
+    }
+
+    public void setCompanyNumber(String companyNumber) {
+        this.companyNumber = companyNumber;
     }
 }
