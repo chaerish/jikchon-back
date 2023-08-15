@@ -16,6 +16,10 @@ spring:
       hibernate.format_sql: true
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
 
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
 
 jwt:
   secret-key:

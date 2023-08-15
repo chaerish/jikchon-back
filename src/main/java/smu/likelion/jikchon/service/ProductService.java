@@ -3,9 +3,12 @@ package smu.likelion.jikchon.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import smu.likelion.jikchon.base.PageResult;
 import smu.likelion.jikchon.domain.enumurate.SubCategory;
 import smu.likelion.jikchon.domain.Product;
+import smu.likelion.jikchon.domain.enumurate.Target;
 import smu.likelion.jikchon.dto.product.ProductRequestDto;
 import smu.likelion.jikchon.dto.product.ProductReturnDto;
 import smu.likelion.jikchon.exception.CustomException;
@@ -14,11 +17,14 @@ import smu.likelion.jikchon.exception.ErrorCode;
 import smu.likelion.jikchon.repository.ProductRepository;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
     private final LoginService loginService;
+    private final ImageService imageService;
 
     public ProductReturnDto.Multiple getRecommendProductList() {
         return ProductReturnDto.Multiple.of(productRepository.findAllRecommendProduct(loginService.getLoginMemberId()));
@@ -46,9 +52,11 @@ public class ProductService {
         return ProductReturnDto.Detail.of(product);
     }
 
-    //프로덕트 등록
-    public void save(ProductRequestDto productRequestDto) {
-        productRepository.save(productRequestDto.toEntity(loginService.getLoginMemberId()));
+    @Transactional
+    public void save(ProductRequestDto productRequestDto, List<MultipartFile> productImageList) {
+        Product product = productRepository.save(productRequestDto.toEntity(loginService.getLoginMemberId()));
+
+        imageService.saveImageList(product.getId(), Target.PRODUCT, productImageList);
     }
 
     //프로덕트 수정

@@ -1,6 +1,7 @@
 package smu.likelion.jikchon.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +21,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 @Service
+@Primary
 @RequiredArgsConstructor
 public class LocalImageService implements ImageService {
     private final ImageRepository imageRepository;

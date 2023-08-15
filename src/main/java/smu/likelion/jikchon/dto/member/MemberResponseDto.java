@@ -44,7 +44,6 @@ public class MemberResponseDto {
     public static class Detail {
         String phoneNumber;
         String username;
-        String email;
         String zipcode;
         String address;
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -54,7 +53,6 @@ public class MemberResponseDto {
             return Detail.builder()
                     .phoneNumber(member.getFormattedPhoneNumber())
                     .username(member.getUsername())
-                    .email(member.getEmail())
                     .zipcode(member.getZipcode())
                     .address(member.getAddress())
                     .companyNumber(member.getCompanyNumber())
