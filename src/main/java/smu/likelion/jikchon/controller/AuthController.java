@@ -4,6 +4,7 @@ package smu.likelion.jikchon.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import smu.likelion.jikchon.base.BaseResponse;
 import smu.likelion.jikchon.dto.member.MemberRequestDto;
@@ -35,7 +36,7 @@ public class AuthController {
 
     @PostMapping("/company-number")
     public BaseResponse<Void> verifyCompanyNumber(@RequestBody MemberRequestDto.VerifyCompanyNumber verifyCompanyNumberRequest) {
-        authService.verifyCompanyNumber(verifyCompanyNumberRequest);
+        authService.validationCompanyNumber(verifyCompanyNumberRequest);
         return BaseResponse.ok();
     }
 
@@ -50,11 +51,18 @@ public class AuthController {
         return BaseResponse.ok();
     }
 
-//    @PutMapping
-//    public BaseResponse<Void> update(@RequestBody MemberRequestDto.SignUp memberRequestDto) {
-//        authService.update(memberRequestDto);
-//        return BaseResponse.ok();
-//    }
+    @GetMapping
+    @PreAuthorize("isAuthenticated()")
+    public BaseResponse<MemberResponseDto.Detail> getMemberDetail() {
+        return BaseResponse.ok(authService.getMemberDetail());
+    }
+
+
+    @PutMapping
+    public BaseResponse<Void> update(@RequestBody MemberRequestDto.SignUp memberRequestDto) {
+        authService.updateMember(memberRequestDto);
+        return BaseResponse.ok();
+    }
 
     @PostMapping("/refresh")
     public BaseResponse<TokenResponseDto> refreshAccessToken(HttpServletRequest request) {

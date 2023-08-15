@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import smu.likelion.jikchon.domain.enumurate.SubCategory;
 import smu.likelion.jikchon.domain.member.JwtRefreshToken;
 import smu.likelion.jikchon.domain.member.Member;
+import smu.likelion.jikchon.domain.member.MemberRole;
 import smu.likelion.jikchon.domain.member.VerifiedMember;
 import smu.likelion.jikchon.dto.member.MemberRequestDto;
 import smu.likelion.jikchon.dto.member.MemberResponseDto;
@@ -65,7 +66,7 @@ public class AuthService implements UserDetailsService {
     @Transactional
     public MemberResponseDto.Simple signUpSeller(MemberRequestDto.SignUp memberRequestDto) {
         checkDuplicatePhoneNumber(memberRequestDto.getPhoneNumber());
-        isVerified(memberRequestDto);
+        isValidate(memberRequestDto);
 
         Member member = memberRequestDto.toSellerEntity();
         member.encodePassword(passwordEncoder);
@@ -74,7 +75,7 @@ public class AuthService implements UserDetailsService {
 
     }
 
-    public void isVerified(MemberRequestDto.SignUp memberRequestDto) {
+    public void isValidate(MemberRequestDto.SignUp memberRequestDto) {
         Optional<VerifiedMember> verifiedMemberOptional = verifiedCacheRepository.findByPhoneNumber(memberRequestDto.getPhoneNumber());
 
         if (verifiedMemberOptional.isPresent()) {
@@ -97,8 +98,8 @@ public class AuthService implements UserDetailsService {
     }
 
 
-    public void verifyCompanyNumber(MemberRequestDto.VerifyCompanyNumber verifyCompanyNumberRequest) {
-        final String VERIFIED_STATUS_CODE = "01";
+    public void validationCompanyNumber(MemberRequestDto.VerifyCompanyNumber verifyCompanyNumberRequest) {
+        final String VALID_STATUS_CODE = "01";
         final String requestUrl = "https://api.odcloud.kr/api/nts-businessman/v1/status?" +
                 "serviceKey=bFcIfbKjGI8rVFG9xZouBt%2B3s0kITpf0u6Loz8ekrvseXj%2Bye16tUmvGrBgLdK5zbVA3cAanmNPa%2F1o%2B2n2feQ%3D%3D";
 
@@ -112,7 +113,7 @@ public class AuthService implements UserDetailsService {
 
         JSONObject responseJson = callApiAndGetResponse(requestUrl, requestBody.toString());
 
-        if (!getBusinessStatus(responseJson).equals(VERIFIED_STATUS_CODE)) {
+        if (!getBusinessStatus(responseJson).equals(VALID_STATUS_CODE)) {
             throw new CustomBadRequestException(ErrorCode.BAD_REQUEST);
         }
 
@@ -266,4 +267,29 @@ public class AuthService implements UserDetailsService {
     }
 
 
+    public MemberResponseDto.Detail getMemberDetail() {
+        Member member = memberRepository.findById(loginService.getLoginMemberId()).orElseThrow(() ->
+                new CustomNotFoundException(ErrorCode.NOT_FOUND_MEMBER));
+
+        return MemberResponseDto.Detail.of(member);
+    }
+
+    public void updateMember(MemberRequestDto.SignUp memberRequestDto) {
+        Member member = memberRepository.findById(loginService.getLoginMemberId()).orElseThrow(() ->
+                new CustomNotFoundException(ErrorCode.NOT_FOUND_MEMBER));
+
+        member.setUsername(memberRequestDto.getUserName());
+        member.setEncodePassword(memberRequestDto.getPassword(), passwordEncoder);
+        member.setEmail(memberRequestDto.getEmail());
+        member.setPhoneNumber(memberRequestDto.getPhoneNumber());
+        member.setZipcode(member.getZipcode());
+        member.setAddress(memberRequestDto.getAddress());
+
+        if (member.getRole().equals(MemberRole.ROLE_SELLER)) {
+            if (!memberRequestDto.getCompanyNumber().equals(member.getCompanyNumber())) {
+                isValidate(memberRequestDto);
+                member.setCompanyNumber(memberRequestDto.getCompanyNumber());
+            }
+        }
+    }
 }

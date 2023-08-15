@@ -1,5 +1,6 @@
 package smu.likelion.jikchon.dto.member;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,6 +34,30 @@ public class MemberResponseDto {
                     .name(member.getUsername())
                     .phoneNumber(member.getFormattedPhoneNumber())
                     .address(member.getAddress())
+                    .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    public static class Detail {
+        String phoneNumber;
+        String username;
+        String email;
+        String zipcode;
+        String address;
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        String companyNumber;
+
+        public static Detail of(Member member) {
+            return Detail.builder()
+                    .phoneNumber(member.getFormattedPhoneNumber())
+                    .username(member.getUsername())
+                    .email(member.getEmail())
+                    .zipcode(member.getZipcode())
+                    .address(member.getAddress())
+                    .companyNumber(member.getCompanyNumber())
                     .build();
         }
     }

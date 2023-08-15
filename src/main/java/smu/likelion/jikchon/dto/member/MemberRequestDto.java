@@ -27,6 +27,7 @@ public class MemberRequestDto {
         String phoneNumber;
         String password;
         String userName;
+        String email;
         String zipcode;
         String address;
         String companyNumber;
@@ -36,6 +37,7 @@ public class MemberRequestDto {
                     .phoneNumber(phoneNumber)
                     .password(password)
                     .username(userName)
+                    .email(email)
                     .zipcode(zipcode)
                     .address(address)
                     .role(MemberRole.ROLE_CUSTOMER)
@@ -47,6 +49,7 @@ public class MemberRequestDto {
                     .phoneNumber(phoneNumber)
                     .password(password)
                     .username(userName)
+                    .email(email)
                     .zipcode(zipcode)
                     .address(address)
                     .companyNumber(companyNumber)
