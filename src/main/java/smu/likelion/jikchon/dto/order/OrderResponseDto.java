@@ -44,7 +44,7 @@ public class OrderResponseDto {
                     .id(order.getId())
                     .price(price)
                     .orderDate(order.getCreatedAtToString())
-                    //todo : imageUrlList
+                    .imageUrlList(order.getProductImage(order.getPurchaseList()))
                     .build();
         }
     }

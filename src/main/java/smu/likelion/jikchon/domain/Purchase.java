@@ -5,6 +5,9 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import smu.likelion.jikchon.domain.member.Member;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -21,10 +24,10 @@ public class Purchase {
     Integer price;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "member_id")
     Member member;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "product_id")
     Product product;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")

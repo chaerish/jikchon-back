@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import smu.likelion.jikchon.domain.member.Member;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,4 +25,11 @@ public class Order extends BaseTimeEntity {
     Member member;
     @OneToMany(mappedBy = "order")
     List<Purchase> purchaseList;
+    public List<String> getProductImage(List<Purchase> purchaseList){
+        List <String> images=new ArrayList<>();
+        for(Purchase purchase:purchaseList){
+            images.add(purchase.getProduct().getImage().get(0).getImageUrl());
+        }
+        return images;
+    }
 }
