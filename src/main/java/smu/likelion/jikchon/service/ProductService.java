@@ -56,7 +56,7 @@ public class ProductService {
     public void save(ProductRequestDto productRequestDto, List<MultipartFile> productImageList) {
         Product product = productRepository.save(productRequestDto.toEntity(loginService.getLoginMemberId()));
 
-        imageService.saveImageList(product.getId(), Target.PRODUCT, productImageList);
+        imageService.saveProductImageList(product, productImageList);
     }
 
     //프로덕트 수정

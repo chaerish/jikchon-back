@@ -14,6 +14,10 @@ spring:
         default_batch_fetch_size: 200
     hibernate:
       ddl-auto: update
+  mvc:
+    view:
+      prefix: html/
+      suffix: .html
 
 
 server:
@@ -21,6 +25,8 @@ server:
   error:
     whitelabel:
       enabled: false
+
+
 
 jwt:
   secret-key:

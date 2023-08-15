@@ -2,6 +2,7 @@ package smu.likelion.jikchon.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import smu.likelion.jikchon.base.BaseResponse;
 import smu.likelion.jikchon.base.PageResult;
@@ -17,21 +18,25 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
+    @PreAuthorize("isAuthenticated()")
     public BaseResponse<OrderResponseDto.Simple> purchaseProduct(@RequestBody PurchaseRequestDto purchaseRequestDto) {
         return BaseResponse.ok(orderService.purchaseProduct(purchaseRequestDto));
     }
 
     @PostMapping("/cart")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public BaseResponse<OrderResponseDto.Simple> purchaseCartProduct(@RequestBody OrderRequestDto.CartOrder orderRequestDto) {
         return BaseResponse.ok(orderService.purchaseCart(orderRequestDto));
     }
 
     @GetMapping("/customer/receipt/{orderId}")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public BaseResponse<OrderResponseDto.Receipt> getOrderReceipt(@PathVariable Long orderId) {
         return BaseResponse.ok(orderService.getOrderReceipt(orderId));
     }
 
     @GetMapping("/purchases")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public BaseResponse<PageResult<OrderResponseDto.BriefForCustomer>> getMyOrderList(Pageable pageable) {
         return BaseResponse.ok(orderService.getMyOrderList(pageable));
     }

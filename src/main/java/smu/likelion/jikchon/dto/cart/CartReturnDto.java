@@ -26,8 +26,7 @@ public class CartReturnDto {
                 .productName(cart.getProduct().getProductName())
                 .price(cart.getProduct().getPrice())
                 .address(cart.getMember().getAddress())
-                //todo : imageUrl
-//                .imageUrl(cart.getProduct().getImageUrl())
+                .imageUrl(cart.getProduct().getImageList().get(0).getImageUrl())
                 .build();
     }
 }

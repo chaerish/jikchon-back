@@ -274,6 +274,7 @@ public class AuthService implements UserDetailsService {
         return MemberResponseDto.Detail.of(member);
     }
 
+    @Transactional
     public void updateMember(MemberRequestDto.SignUp memberRequestDto) {
         Member member = memberRepository.findById(loginService.getLoginMemberId()).orElseThrow(() ->
                 new CustomNotFoundException(ErrorCode.NOT_FOUND_MEMBER));

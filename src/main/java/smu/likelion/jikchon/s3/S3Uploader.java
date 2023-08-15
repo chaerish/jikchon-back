@@ -30,32 +30,29 @@ public class S3Uploader {
 
 
     public List<String> s3MultipleUploadOfFileNullSafe(
-            Target target, List<MultipartFile> multipartFileList) {
+            String domainName, List<MultipartFile> multipartFileList) {
         List<String> fileUrlList = new ArrayList<>();
 
         if (multipartFileList != null) {
             for (MultipartFile multipartFile : multipartFileList) {
                 if (!multipartFile.isEmpty()) {
-                    fileUrlList.add(s3UploadOfFile(target, multipartFile));
+                    fileUrlList.add(s3UploadOfFile(domainName, multipartFile));
                 }
             }
         }
         return fileUrlList;
     }
 
-    public String s3UploadOfFile(Target target, MultipartFile multipartFile) {
-        String folderName = target.toString().toLowerCase();
-
+    public String s3UploadOfFile(String domainName, MultipartFile multipartFile) {
         if (multipartFile.isEmpty() ||
                 !StringUtils.startsWithIgnoreCase(multipartFile.getContentType(), "image")) {
             throw new CustomBadRequestException(ErrorCode.BAD_REQUEST);
         }
 
-        folderName = folderName;
 
         String fileName = createFileName(multipartFile.getOriginalFilename());
 
-        return s3Upload(folderName, fileName, multipartFile);
+        return s3Upload(domainName, fileName, multipartFile);
     }
 
     /**

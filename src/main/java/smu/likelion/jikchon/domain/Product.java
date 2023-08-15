@@ -10,6 +10,7 @@ import smu.likelion.jikchon.exception.CustomBadRequestException;
 import smu.likelion.jikchon.exception.ErrorCode;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -40,14 +41,15 @@ public class Product {
     @OneToMany(mappedBy = "product")
     List<Purchase> purchaseList;
     @OneToMany(mappedBy = "product")
-    List<Image> image;
-
-
+    List<ProductImage> imageList;
 
     public void reduceQuantity(int purchaseQuantity) {
         if (quantity - purchaseQuantity < 0) {
             throw new CustomBadRequestException(ErrorCode.OUT_OF_STOCK);
         }
         this.quantity -= purchaseQuantity;
+    }
+    public List<String> getProductImageUrlList(){
+        return imageList.stream().map(Image::getImageUrl).collect(Collectors.toList());
     }
 }

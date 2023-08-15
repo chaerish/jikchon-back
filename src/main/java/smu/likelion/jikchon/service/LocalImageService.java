@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import smu.likelion.jikchon.domain.Image;
+import smu.likelion.jikchon.domain.Product;
+import smu.likelion.jikchon.domain.ProductImage;
 import smu.likelion.jikchon.domain.enumurate.Target;
 import smu.likelion.jikchon.exception.CustomBadRequestException;
 import smu.likelion.jikchon.exception.ErrorCode;
@@ -21,15 +23,14 @@ import java.util.Locale;
 import java.util.UUID;
 
 @Service
-@Primary
 @RequiredArgsConstructor
 public class LocalImageService implements ImageService {
     private final ImageRepository imageRepository;
 
-    private String saveImage(Target target, MultipartFile image) {
+    private String saveImage(String domainName, MultipartFile image) {
 
         try {
-            String fullPath = getFullPath(target, image);
+            String fullPath = getFullPath(domainName, image);
             byte[] fileBytes = image.getBytes();
             Path imagePath = Paths.get(fullPath);
             Files.write(imagePath, fileBytes);
@@ -37,28 +38,6 @@ public class LocalImageService implements ImageService {
             return fullPath;
         } catch (IOException e) {
             throw new CustomBadRequestException(ErrorCode.BAD_REQUEST);
-        }
-    }
-
-    @Override
-    public void saveImageList(Long targetId, Target target, List<MultipartFile> imageList) {
-        if (imageList != null) {
-            for (MultipartFile multipartFile : imageList) {
-                if (multipartFile.isEmpty() ||
-                        !StringUtils.startsWithIgnoreCase(multipartFile.getContentType(), "image")) {
-                    throw new CustomBadRequestException(ErrorCode.BAD_REQUEST);
-                }
-            }
-            for (MultipartFile image : imageList) {
-                if (!image.isEmpty()) {
-                    String url = saveImage(target, image);
-                    imageRepository.save(Image.builder()
-                            .imageUrl(url)
-                            .target(target)
-                            .targetId(targetId)
-                            .build());
-                }
-            }
         }
     }
 
@@ -71,29 +50,47 @@ public class LocalImageService implements ImageService {
         return UUID.randomUUID() + "_" + image.getOriginalFilename();
     }
 
-    private String getFullPath(Target target, MultipartFile image) {
-        return getBaseFilePath() + target.toString().toLowerCase(Locale.ROOT) + "/" + createFileName(image);
+    private String getFullPath(String domainName, MultipartFile image) {
+        return getBaseFilePath() + createFileName(image);
+    }
+
+    @Override
+    public void saveProductImageList(Product product, List<MultipartFile> imageList) {
+        if (imageList != null) {
+            for (MultipartFile multipartFile : imageList) {
+                if (multipartFile.isEmpty() ||
+                        !StringUtils.startsWithIgnoreCase(multipartFile.getContentType(), "image")) {
+                    throw new CustomBadRequestException(ErrorCode.BAD_REQUEST);
+                }
+            }
+            for (MultipartFile image : imageList) {
+                if (!image.isEmpty()) {
+                    String url = saveImage("product", image);
+                    imageRepository.save(new ProductImage(product, url));
+                }
+            }
+        }
     }
 
     @Override //정말 미안합니다 지피티고 구글링이고 다뒤져봤는데 이게맞는지모르겟네요 다지워도됩니다
     public void deleteImages(Long targetId, Target target) {
-        List<Image> imageList=imageRepository.findByTargetIdAndTarget(targetId,target);
-        for(Image image:imageList){
-            String imageUrl=image.getImageUrl();
-            String fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
-            String filePath = getBaseFilePath() + target.toString().toLowerCase(Locale.ROOT) + "/" + fileName;
-
-            File imageFile = new File(filePath);
-            if (imageFile.exists()) {
-                if(imageFile.delete()){
-                    System.out.println("삭제되었습니다.");
-                }else {
-                    throw new CustomBadRequestException(ErrorCode.BAD_REQUEST);
-                }
-            }
-        }
-        // 이미지 정보 삭제
-        imageRepository.deleteAll(imageList);
+//        List<Image> imageList=imageRepository.findByTargetIdAndTarget(targetId,target);
+//        for(Image image:imageList){
+//            String imageUrl=image.getImageUrl();
+//            String fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+//            String filePath = getBaseFilePath() + target.toString().toLowerCase(Locale.ROOT) + "/" + fileName;
+//
+//            File imageFile = new File(filePath);
+//            if (imageFile.exists()) {
+//                if(imageFile.delete()){
+//                    System.out.println("삭제되었습니다.");
+//                }else {
+//                    throw new CustomBadRequestException(ErrorCode.BAD_REQUEST);
+//                }
+//            }
+//        }
+//        // 이미지 정보 삭제
+//        imageRepository.deleteAll(imageList);
     }
 }
 
