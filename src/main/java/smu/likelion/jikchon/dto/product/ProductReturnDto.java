@@ -1,7 +1,6 @@
 package smu.likelion.jikchon.dto.product;
 
 import lombok.*;
-import smu.likelion.jikchon.base.Category;
 import smu.likelion.jikchon.domain.Product;
 
 import java.util.List;

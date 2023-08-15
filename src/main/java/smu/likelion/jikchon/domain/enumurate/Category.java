@@ -1,4 +1,4 @@
-package smu.likelion.jikchon.base;
+package smu.likelion.jikchon.domain.enumurate;
 
 import lombok.AllArgsConstructor;
 

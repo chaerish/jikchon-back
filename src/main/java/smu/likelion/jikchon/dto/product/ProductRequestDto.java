@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import smu.likelion.jikchon.base.SubCategory;
+import smu.likelion.jikchon.domain.enumurate.SubCategory;
 import smu.likelion.jikchon.domain.member.Member;
 import smu.likelion.jikchon.domain.Product;
 
