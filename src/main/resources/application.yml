@@ -19,11 +19,14 @@ spring:
       prefix: html/
       suffix: .html
 
+
 server:
   port: 8080
   error:
     whitelabel:
       enabled: false
+
+
 
 jwt:
   secret-key:

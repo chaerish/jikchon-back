@@ -11,5 +11,4 @@ public class JikchonApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(JikchonApplication.class, args);
 	}
-
 }
