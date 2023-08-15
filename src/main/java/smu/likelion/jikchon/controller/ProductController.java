@@ -22,6 +22,7 @@ public class ProductController {
 
 
     @GetMapping("/home/products")
+    @PreAuthorize("isAuthenticated()")
     public BaseResponse<ProductReturnDto.Multiple> getRecommendProductList() {
         return BaseResponse.ok(productService.getRecommendProductList());
     }
@@ -33,8 +34,9 @@ public class ProductController {
         return BaseResponse.ok(productService.getProductListByCategory(categoryId, pageable));
     }
 
-    //프로덕트 목록 조회
+    //등록 프로덕트 목록 조회
     @GetMapping("/members/products")
+    @PreAuthorize("hasRole('SELLER')")
     public BaseResponse<PageResult<ProductReturnDto.Simple>> getSellerProduct(@PageableDefault(size = 12) Pageable pageable) {
         return BaseResponse.ok(productService.getAllProduct(pageable));
     }
@@ -56,6 +58,7 @@ public class ProductController {
 
     //프로덕트 수정
     @PutMapping("/products/{productId}")
+    @PreAuthorize("hasRole('SELLER')")
     public BaseResponse<Void> updateProduct(@PathVariable("productId") Long id, @RequestBody ProductRequestDto productRequestDto) {
         productService.update(id, productRequestDto);
         return BaseResponse.ok();
@@ -63,6 +66,7 @@ public class ProductController {
 
     //프로덕트 삭제
     @DeleteMapping("/products/{productId}")
+    @PreAuthorize("hasRole('SELLER')")
     public BaseResponse<Void> deleteProduct(@PathVariable("productId") Long id) {
         productService.delete(id);
         return BaseResponse.ok();

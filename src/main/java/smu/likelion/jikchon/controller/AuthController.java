@@ -34,7 +34,7 @@ public class AuthController {
         return BaseResponse.ok();
     }
 
-    @PostMapping("/company-number")
+    @PostMapping("/auth-company")
     public BaseResponse<Void> verifyCompanyNumber(@RequestBody MemberRequestDto.VerifyCompanyNumber verifyCompanyNumberRequest) {
         authService.validationCompanyNumber(verifyCompanyNumberRequest);
         return BaseResponse.ok();
@@ -46,6 +46,7 @@ public class AuthController {
     }
 
     @PostMapping("/interest")
+    @PreAuthorize("isAuthenticated()")
     public BaseResponse<Void> registerInterestCategory(@RequestBody MemberRequestDto.InterestCategory interestCategoryRequestDto) {
         authService.registerInterestCategory(interestCategoryRequestDto);
         return BaseResponse.ok();
@@ -59,17 +60,20 @@ public class AuthController {
 
 
     @PutMapping
+    @PreAuthorize("isAuthenticated()")
     public BaseResponse<Void> update(@RequestBody MemberRequestDto.SignUp memberRequestDto) {
         authService.updateMember(memberRequestDto);
         return BaseResponse.ok();
     }
 
     @PostMapping("/refresh")
+    @PreAuthorize("isAuthenticated()")
     public BaseResponse<TokenResponseDto> refreshAccessToken(HttpServletRequest request) {
         return BaseResponse.ok(authService.refreshAccessToken(request));
     }
 
     @PostMapping("/logout")
+    @PreAuthorize("isAuthenticated()")
     public BaseResponse<Void> logout(HttpServletRequest request) {
         authService.logout(request);
         return BaseResponse.ok();
