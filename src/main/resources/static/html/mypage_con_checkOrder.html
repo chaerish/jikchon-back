@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,10 +9,8 @@
   <link href="../css/reset.css" rel="stylesheet">
   <link href="../css/footer.css" rel="stylesheet">
   <link href="../css/mypage_con_checkOrder.css" rel="stylesheet">
-
   <script src="../js/mypage_con_checkOrder.js"></script>
-  <script type = "module" src="../js/navbar.js" defer></script>
-  <script type = "module" src="../js/common/jwt_token_check.js" defer></script>
+  
 
   <title>구매목록확인</title>
 </head>
@@ -24,16 +23,16 @@
   </header>
 
   <nav>
-    <a class="back-button" href="">
+    <a class="back-button" href="/mypage/customer">
       <img src="../images/back_icon.svg">
     </a>
-    <a class="cart-button" href="">
+    <a class="cart-button" href="/cart">
       <img src="../images/cart_icon.svg">
     </a>
-    <a class="home-button" href="">
+    <a class="home-button" href="/">
       <img src="../images/home_icon.svg">
     </a>
-    <a class="mypage-button" href="">
+    <a class="mypage-button" href=/mypage/customer">
       <img src="../images/mypage_icon.svg">
     </a>
   </nav>
@@ -50,6 +49,7 @@
   </footer>
   
   <script src="../js/header.js"></script>
-  <script src="../js/navbar.js"></script>
+  <script type = "module" src="../js/navbar.js"></script>
+  <script type = "module" src="../js/common/jwt_token_check.js"></script>
 </body>
 </html>
