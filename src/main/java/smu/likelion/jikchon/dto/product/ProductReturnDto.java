@@ -24,7 +24,7 @@ public class ProductReturnDto {
                     .productName(product.getProductName())
                     .subCategory(product.getSubCategory().getDescription())
                     .price(product.getPrice())
-                    .imageUrl(product.getImage().get(0).getImageUrl())
+                    .imageUrl(product.getImageList().get(0).getImageUrl())
                     .build();
         }
     }

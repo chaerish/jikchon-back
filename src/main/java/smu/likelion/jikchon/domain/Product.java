@@ -50,6 +50,6 @@ public class Product {
         this.quantity -= purchaseQuantity;
     }
     public List<String> getProductImageUrlList(){
-        return image.stream().map(Image::getImageUrl).collect(Collectors.toList());
+        return imageList.stream().map(Image::getImageUrl).collect(Collectors.toList());
     }
 }
