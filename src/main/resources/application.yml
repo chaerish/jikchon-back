@@ -22,6 +22,8 @@ server:
     whitelabel:
       enabled: false
 
+
+
 jwt:
   secret-key:
     access: ${JWT-ACCESS-TOKEN-SECRET-KEY}
