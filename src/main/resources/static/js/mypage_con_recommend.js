@@ -1,5 +1,6 @@
+import { checkTokenExistence, checkTokenValid,checkUserRole } from "./common/jwt_token_check.js";
 document.addEventListener("DOMContentLoaded", function() {
-    // con_recommend();
+    con_recommend();
     choiceItems();
 });
 

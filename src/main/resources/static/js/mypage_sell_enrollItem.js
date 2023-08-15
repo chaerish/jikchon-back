@@ -1,8 +1,8 @@
-import { checkTokenExistence, checkTokenValid,checkUserRole } from "./common/jwt_token_check";
+import { checkTokenExistence, checkTokenValid,checkUserRole } from "./common/jwt_token_check.js";
 var files = [];
 
 document.addEventListener("DOMContentLoaded", function() {
-  // enrollItem();
+  enrollItem();
   setCategory();
 });
 
