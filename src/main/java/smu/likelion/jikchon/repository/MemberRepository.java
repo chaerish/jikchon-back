@@ -15,4 +15,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("select m from Member as m where m.jwtRefreshToken.refreshToken = :refreshToken")
     Optional<Member> findByRefreshToken(@Param("refreshToken") String refreshToken);
 
+    Optional<Member> findByCompanyNumber(String companyNumber);
 }

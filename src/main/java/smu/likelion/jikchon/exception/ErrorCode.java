@@ -35,6 +35,7 @@ public enum ErrorCode {
      * 401
      */
     FORBIDDEN(403, "권한이 없습니다."),
+    DUPLICATE_COMPANY_NUMBER(40301, "이미 사용중인 사업자 번호입니다."),
 
     /**
      * 404 NOT FOUND

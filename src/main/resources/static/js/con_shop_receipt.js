@@ -1,9 +1,9 @@
-import { checkTokenExistence, checkTokenValid,checkUserRole } from "./common/jwt_token_check";
+import { checkTokenExistence, checkTokenValid,checkUserRole } from "./common/jwt_token_check.js";
 document.addEventListener("DOMContentLoaded", function() {
     var idValue = getQueryParamValue('id');
     console.log(currentUrl)
     getData(idValue);
-    // con_receipt(idValue);
+    con_receipt(idValue);
 });
 function getQueryParamValue(paramName){
     var urlParams = new URLSearchParams(window.location.search);

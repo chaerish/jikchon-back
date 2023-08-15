@@ -24,7 +24,7 @@ public class ProductReturnDto {
                     .productName(product.getProductName())
                     .subCategory(product.getSubCategory().getDescription())
                     .price(product.getPrice())
-                    //todo : imageUrl
+                    .imageUrl(product.getImageList().get(0).getImageUrl())
                     .build();
         }
     }
@@ -53,7 +53,7 @@ public class ProductReturnDto {
         private String address;
         private Integer price;
         private Long quantity;
-        private String imageUrl;
+        private List<String> imageUrl;
         private String intro;
 
         public static Detail of(Product product) {
@@ -63,7 +63,7 @@ public class ProductReturnDto {
                     .subCategory(product.getSubCategory().getDescription())
                     .address(product.getMember().getAddress())
                     .price(product.getPrice())
-                    //todo : imageUrl
+                    .imageUrl(product.getProductImageUrlList())
                     .intro(product.getIntro())
                     .build();
         }
