@@ -79,7 +79,7 @@ public class AuthService implements UserDetailsService {
         Optional<VerifiedMember> verifiedMemberOptional = verifiedCacheRepository.findByPhoneNumber(memberRequestDto.getPhoneNumber());
 
         memberRepository.findByCompanyNumber(memberRequestDto.getCompanyNumber()).ifPresent((member) -> {
-            throw new CustomBadRequestException(ErrorCode.DUPLICATE_COMPANY_NUMBER);
+            throw new CustomForbiddenException(ErrorCode.DUPLICATE_COMPANY_NUMBER);
         });
         if (verifiedMemberOptional.isPresent()) {
             VerifiedMember verifiedMember = verifiedMemberOptional.get();
