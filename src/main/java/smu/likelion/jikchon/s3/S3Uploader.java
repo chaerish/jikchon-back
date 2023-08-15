@@ -24,11 +24,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Component
 public class S3Uploader {
-    //    @Value("${BUCKET_NAME}")
-    @Value("bucket")
+    @Value("${BUCKET_NAME}")
     private String bucket;
     private final AmazonS3 amazonS3;
-
 
 
     public List<String> s3MultipleUploadOfFileNullSafe(

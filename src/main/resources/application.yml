@@ -1,27 +1,28 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/jikchon?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: root
-    password: root
-
+    url: ${AWS_RDS_JIKCHON}
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: ${RDS_USERNAME}
+    password: ${RDS_PASSWORD}
   jpa:
-    open-in-view: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        show_sql: true
+        format_sql: true
+        default_batch_fetch_size: 200
     hibernate:
       ddl-auto: update
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
-    show-sql: true
-    properties:
-      hibernate.format_sql: true
-      dialect: org.hibernate.dialect.MySQL8InnoDBDialect
 
-cloud:
-  aws:
-    region:
-      static: ap-northeast-2
+
+server:
+  port: 8080
+  error:
+    whitelabel:
+      enabled: false
 
 jwt:
   secret-key:
-    access: 6c2b43352d4b22a7029db45421399dbe8d0dbef7cda7c99c714f4534a8af8e7aa410f834dc6fb5dc1a1810258e93c1bdf07c747d4382beb166a19227b4f0e682
-    refresh: 958839e6b09d054057e16b4607124ec6208148ccc60d54500037fc671b2b5aacf5a6d1ca629156e9abf46f457192b563d406bab6fc7e56be1653a670f8ac0754
+    access: ${JWT-ACCESS-TOKEN-SECRET-KEY}
+    refresh: ${JWT-REFRESH-TOKEN-SECRET-KEY}
