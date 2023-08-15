@@ -2,22 +2,22 @@ package smu.likelion.jikchon.s3;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import smu.likelion.jikchon.domain.Image;
+import smu.likelion.jikchon.domain.enumurate.Target;
+import smu.likelion.jikchon.exception.CustomBadRequestException;
+import smu.likelion.jikchon.exception.ErrorCode;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -29,53 +29,63 @@ public class S3Uploader {
     private String bucket;
     private final AmazonS3 amazonS3;
 
-    public String s3Upload(String folderPath, Long domainId, MultipartFile multipartFile) {
-        String fileName = createFileName(domainId.toString(), multipartFile.getOriginalFilename());
 
-        System.out.println("S3Uploader.s3Upload");
 
-        File uploadFile = convert(multipartFile)  // 파일 변환할 수 없으면 에러
-                .orElseThrow(() -> new IllegalArgumentException("error: MultipartFile -> File convert fail"));
+    public List<String> s3MultipleUploadOfFileNullSafe(
+            Target target, List<MultipartFile> multipartFileList) {
+        List<String> fileUrlList = new ArrayList<>();
 
-        String storePath = folderPath + "/" + fileName;
+        if (multipartFileList != null) {
+            for (MultipartFile multipartFile : multipartFileList) {
+                if (!multipartFile.isEmpty()) {
+                    fileUrlList.add(s3UploadOfFile(target, multipartFile));
+                }
+            }
+        }
+        return fileUrlList;
+    }
+
+    public String s3UploadOfFile(Target target, MultipartFile multipartFile) {
+        String folderName = target.toString().toLowerCase();
+
+        if (multipartFile.isEmpty() ||
+                !StringUtils.startsWithIgnoreCase(multipartFile.getContentType(), "image")) {
+            throw new CustomBadRequestException(ErrorCode.BAD_REQUEST);
+        }
+
+        folderName = folderName;
+
+        String fileName = createFileName(multipartFile.getOriginalFilename());
+
+        return s3Upload(folderName, fileName, multipartFile);
+    }
+
+    /**
+     * S3 업로드
+     */
+    private String s3Upload(String folderPath, String fileNm, MultipartFile multipartFile) {
+
+        File uploadFile = convertThrow(multipartFile);
+
+        //S3에 저장될 위치 + 저장파일명
+        String storeKey = folderPath + "/" + fileNm;
+
         //s3로 업로드
-        String imageUrl = putS3(uploadFile, storePath);
+        String imageUrl = putS3(uploadFile, storeKey);
 
+        //File 로 전환되면서 로컬에 생성된 파일을 제거
+        //todo: 꼭 로컬에 저장해야 하는가?
         removeNewFile(uploadFile);
 
         return imageUrl;
     }
 
-    public void delete(List<Image> images) {
-        try {
-            for (Image image : images) {
-                String imageUrl = image.getImageUrl();
-                String storeKey = imageUrl.replace("https://" + bucket + ".s3.ap-northeast-2.amazonaws.com/", "");
-                System.out.println("imageUrl: " + imageUrl);
-                System.out.println("storeKey: " + storeKey);
-                amazonS3.deleteObject(new DeleteObjectRequest(bucket, URLDecoder.decode(storeKey, "UTF-8")));
-            }
-        } catch (Exception e) {
-            log.error("delete file error ::: " + e.getMessage());
-        }
-    }
 
-    public void deleteByUrl(String imageUrl) {
-        try {
-            String storeKey = imageUrl.replace("https://" + bucket + ".s3.ap-northeast-2.amazonaws.com/", "");
-            amazonS3.deleteObject(new DeleteObjectRequest(bucket, URLDecoder.decode(storeKey, "UTF-8")));
-        } catch (Exception e) {
-            log.error("delete file error ::: " + imageUrl + e.getMessage());
-        }
-    }
-
-    //S3 업로드
     private String putS3(File uploadFile, String storeKey) {
         amazonS3.putObject(new PutObjectRequest(bucket, storeKey, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
         return amazonS3.getUrl(bucket, storeKey).toString();
     }
 
-    // 로컬에 저장된 이미지 지우기
     private void removeNewFile(File targetFile) {
         if (targetFile.delete()) {
             log.info("파일이 삭제되었습니다.");
@@ -84,35 +94,27 @@ public class S3Uploader {
         }
     }
 
-    private Optional<File> convert(MultipartFile multipartFile) {
-        //파일 이름
-        String originalFilename = multipartFile.getOriginalFilename();
+    // 로컬에 파일 업로드 하기
+    private File convertThrow(MultipartFile multipartFile) {
 
         //파일 저장 이름
-        String storeFileName = UUID.randomUUID() + "_" + originalFilename;
+        String storeFileName = createFileName(multipartFile.getOriginalFilename());
 
         File convertFile = new File(System.getProperty("user.dir") + "/" + storeFileName);
 
-        System.out.println("S3Uploader.convert");
         try {
             if (convertFile.createNewFile()) { // 바로 위에서 지정한 경로에 File이 생성됨 (경로가 잘못되었다면 생성 불가능)
-                try (FileOutputStream fos = new FileOutputStream(convertFile)) { // FileOutputStream 데이터를 파일에 바이트 스트림으로 저장하기 위함
+                try (FileOutputStream fos = new FileOutputStream(convertFile)) {
                     fos.write(multipartFile.getBytes());
                 }
-                return Optional.of(convertFile);
             }
+            return convertFile;
         } catch (IOException e) {
-            log.error(e.getMessage() + ": 이미지 변환중 오류가 발생했습니다.");
+            throw new CustomBadRequestException(ErrorCode.INVALID_FILE_TYPE);
         }
-
-        return Optional.empty();
     }
 
-    private String createFileName(String frontName, String originalFileName) {
-
-        String uuid = UUID.randomUUID().toString();
-
-        return frontName + "_" + uuid + "_" + originalFileName;
+    private String createFileName(String originalFileName) {
+        return UUID.randomUUID() + "_" + originalFileName;
     }
-
 }
