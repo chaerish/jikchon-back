@@ -1,6 +1,6 @@
-import { checkTokenExistence, checkTokenValid } from "./common/jwt_token_check";
+import { checkTokenExistence, checkTokenValid,checkUserRole } from "./common/jwt_token_check";
 document.addEventListener("DOMContentLoaded", function() {
-    // sell_checkOrders();
+    sell_checkOrders();
     getData();
 });
 function sell_checkOrders(){
@@ -8,7 +8,7 @@ function sell_checkOrders(){
         window.alert('로그인이 필요한 서비스입니다. 로그인 화면으로 이동합니다.');
         window.location.href = './login.html';
     }else {
-        if (checkUserRole() !== 'customer') {
+        if (checkUserRole() !== 'seller') {
           window.alert('잘못된 접근입니다.');
           window.location.href = './main-home1.html';
           return;
