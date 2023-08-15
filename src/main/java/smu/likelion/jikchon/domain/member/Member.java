@@ -60,4 +60,8 @@ public class Member {
     public void updateInterestCategoryList(Set<SubCategory> interestCategoryList) {
         this.interestCategoryList = interestCategoryList;
     }
+
+    public String getFormattedPhoneNumber() {
+        return phoneNumber.substring(0, 3) + "-" + phoneNumber.substring(3, 7) + "-" + phoneNumber.substring(7);
+    }
 }

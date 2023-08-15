@@ -2,32 +2,29 @@ package smu.likelion.jikchon.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 import smu.likelion.jikchon.base.BaseResponse;
 import smu.likelion.jikchon.base.PageResult;
-import smu.likelion.jikchon.dto.order.OrderRequestDto;
-import smu.likelion.jikchon.dto.order.OrderResponseDto;
-import smu.likelion.jikchon.dto.purchase.PurchaseRequestDto;
-import smu.likelion.jikchon.service.OrderService;
+import smu.likelion.jikchon.dto.purchase.PurchaseResponseDto;
+import smu.likelion.jikchon.service.PurchaseService;
 
 @RestController
-@RequestMapping("/purchases")
 @RequiredArgsConstructor
 public class PurchaseController {
-    private final OrderService orderService;
+    private final PurchaseService purchaseService;
 
-    @PostMapping
-    public BaseResponse<OrderResponseDto.Simple> purchaseProduct(@RequestBody PurchaseRequestDto purchaseRequestDto) {
-        return BaseResponse.ok(orderService.purchaseProduct(purchaseRequestDto));
+    @GetMapping("/seller/purchases")
+    @PreAuthorize("hasRole('SELLER')")
+    public BaseResponse<PageResult<PurchaseResponseDto.BriefForSeller>> getSaleList(Pageable pageable) {
+        return BaseResponse.ok(purchaseService.getSaleList(pageable));
     }
 
-    @PostMapping("/cart")
-    public BaseResponse<OrderResponseDto.Simple> purchaseCartProduct(@RequestBody OrderRequestDto.CartOrder orderRequestDto) {
-        return BaseResponse.ok(orderService.purchaseCart(orderRequestDto));
-    }
-
-    @GetMapping
-    public BaseResponse<PageResult<OrderResponseDto.BriefForCustomer>> getMyOrderList(Pageable pageable) {
-        return BaseResponse.ok(orderService.getMyOrderList(pageable));
+    @GetMapping("/seller/receipt/{purchaseId}")
+    @PreAuthorize("hasRole('SELLER')")
+    public BaseResponse<PurchaseResponseDto.Receipt> getReceipt(@PathVariable Long purchaseId) {
+        return BaseResponse.ok(purchaseService.getReceipt(purchaseId));
     }
 }

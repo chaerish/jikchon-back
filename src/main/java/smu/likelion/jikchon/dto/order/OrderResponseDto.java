@@ -55,15 +55,15 @@ public class OrderResponseDto {
     public static class Receipt {
         Long orderId;
         Integer totalPrice;
-        List<PurchaseResponseDto.Brief> productList;
+        List<PurchaseResponseDto.Base> productList;
 
         public static Receipt of(Order order) {
             int totalPrice = 0;
-            List<PurchaseResponseDto.Brief> purchaseList = new ArrayList<>();
+            List<PurchaseResponseDto.Base> purchaseList = new ArrayList<>();
 
             for (Purchase purchase : order.getPurchaseList()) {
                 totalPrice += purchase.calculatePrice();
-                purchaseList.add(PurchaseResponseDto.Brief.of(purchase));
+                purchaseList.add(PurchaseResponseDto.Base.of(purchase));
             }
 
             return Receipt.builder()

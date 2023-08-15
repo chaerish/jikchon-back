@@ -12,15 +12,15 @@ public class PageResult<T> {
     int currentPage;
     int pageSize;
     int totalPage;
-    Long totalElements;
-    List<T> content;
+    Long totalCount;
+    List<T> itemList;
 
     public PageResult(Page<T> data) {
         currentPage = data.getPageable().getPageNumber();
         pageSize = data.getPageable().getPageSize();
         totalPage = data.getTotalPages();
-        totalElements = data.getTotalElements();
-        content = data.getContent();
+        totalCount = data.getTotalElements();
+        itemList = data.getContent();
     }
 
     public static <T> PageResult<T> ok(Page<T> data) {

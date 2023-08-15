@@ -24,12 +24,11 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String productName;
-    String imageUrl;
     Integer price;
     String intro;
     Long quantity;
     @ManyToOne
-    @JoinColumn(name = "memberId")
+    @JoinColumn(name = "member_id")
     Member member;
     @Enumerated(EnumType.STRING)
     Category category;

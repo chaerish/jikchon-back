@@ -2,13 +2,15 @@ package smu.likelion.jikchon.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import smu.likelion.jikchon.base.PageResult;
 import smu.likelion.jikchon.domain.Cart;
 import smu.likelion.jikchon.domain.Product;
 import smu.likelion.jikchon.domain.Purchase;
 import smu.likelion.jikchon.domain.member.Member;
-import smu.likelion.jikchon.dto.cart.CartRequestDto;
-import smu.likelion.jikchon.dto.purchase.PurchaseRequestDto;
+import smu.likelion.jikchon.dto.purchase.PurchaseResponseDto;
+import smu.likelion.jikchon.exception.CustomForbiddenException;
 import smu.likelion.jikchon.exception.CustomNotFoundException;
 import smu.likelion.jikchon.exception.ErrorCode;
 import smu.likelion.jikchon.repository.CartRepository;
@@ -16,7 +18,6 @@ import smu.likelion.jikchon.repository.MemberRepository;
 import smu.likelion.jikchon.repository.ProductRepository;
 import smu.likelion.jikchon.repository.PurchaseRepository;
 
-import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -30,10 +31,25 @@ public class PurchaseService {
     private final LoginService loginService;
 
 
-    public List<Purchase> purchaseList(Member member) {
-        return purchaseRepository.findByMemberId(member.getId());
+    public PageResult<PurchaseResponseDto.BriefForSeller> getSaleList(Pageable pageable) {
+        return PageResult.ok(
+                purchaseRepository.findByMemberId(loginService.getLoginMemberId(), pageable)
+                        .map(PurchaseResponseDto.BriefForSeller::of));
     }
 
+    public PurchaseResponseDto.Receipt getReceipt(Long purchaseId) {
+        Purchase purchase = purchaseRepository.findById(purchaseId).orElseThrow(() ->
+                new CustomNotFoundException(ErrorCode.NOT_FOUND_PURCHASE)
+        );
+
+        if (!Objects.equals(purchase.getProduct().getMember().getId(), loginService.getLoginMemberId())) {
+            throw new CustomForbiddenException(ErrorCode.FORBIDDEN);
+        }
+
+        return PurchaseResponseDto.Receipt.of(purchase);
+    }
+
+    @Deprecated
     public void deleteProduct(Long purchaseId) {
         Member member = memberRepository.findById(loginService.getLoginMemberId()).orElseThrow(() -> {
             throw new CustomNotFoundException(ErrorCode.NOT_FOUND_MEMBER);
@@ -59,5 +75,4 @@ public class PurchaseService {
         }
 
     }
-
 }
