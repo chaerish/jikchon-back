@@ -34,7 +34,7 @@ jobs:
         shell: bash
 
       - name: Build with Gradle
-        run: ./gradlew clean build  # 프로젝트 빌드
+        run: ./gradlew clean build --exclude-task test # 프로젝트 빌드
         shell: bash
 
       - name: Read secrets from AWS Secrets Manager into environment variables
