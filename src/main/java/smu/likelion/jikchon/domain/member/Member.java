@@ -34,8 +34,6 @@ public class Member {
     String phoneNumber; // 전화번호 = 로그인 아이디
     @Column(nullable = false)
     String password;
-    @Column(unique = true, nullable = false)
-    String email;
     String zipcode;
     String address;
     @Column(unique = true)
@@ -85,12 +83,6 @@ public class Member {
         if (StringUtils.hasText(password)) {
             this.password = password;
             encodePassword(passwordEncoder);
-        }
-    }
-
-    public void setEmail(String email) {
-        if (StringUtils.hasText(email)) {
-            this.email = email;
         }
     }
 

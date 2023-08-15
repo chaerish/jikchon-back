@@ -24,9 +24,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Component
 public class S3Uploader {
-    @Value("${BUCKET_NAME}")
+    //    @Value("${BUCKET_NAME}")
+    @Value("bucket")
     private String bucket;
     private final AmazonS3 amazonS3;
+
     public String s3Upload(String folderPath, Long domainId, MultipartFile multipartFile) {
         String fileName = createFileName(domainId.toString(), multipartFile.getOriginalFilename());
 
@@ -43,9 +45,10 @@ public class S3Uploader {
 
         return imageUrl;
     }
+
     public void delete(List<Image> images) {
         try {
-            for(Image image: images){
+            for (Image image : images) {
                 String imageUrl = image.getImageUrl();
                 String storeKey = imageUrl.replace("https://" + bucket + ".s3.ap-northeast-2.amazonaws.com/", "");
                 System.out.println("imageUrl: " + imageUrl);
@@ -56,6 +59,7 @@ public class S3Uploader {
             log.error("delete file error ::: " + e.getMessage());
         }
     }
+
     public void deleteByUrl(String imageUrl) {
         try {
             String storeKey = imageUrl.replace("https://" + bucket + ".s3.ap-northeast-2.amazonaws.com/", "");
@@ -64,11 +68,13 @@ public class S3Uploader {
             log.error("delete file error ::: " + imageUrl + e.getMessage());
         }
     }
+
     //S3 업로드
     private String putS3(File uploadFile, String storeKey) {
         amazonS3.putObject(new PutObjectRequest(bucket, storeKey, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
         return amazonS3.getUrl(bucket, storeKey).toString();
     }
+
     // 로컬에 저장된 이미지 지우기
     private void removeNewFile(File targetFile) {
         if (targetFile.delete()) {

@@ -280,7 +280,6 @@ public class AuthService implements UserDetailsService {
 
         member.setUsername(memberRequestDto.getUserName());
         member.setEncodePassword(memberRequestDto.getPassword(), passwordEncoder);
-        member.setEmail(memberRequestDto.getEmail());
         member.setPhoneNumber(memberRequestDto.getPhoneNumber());
         member.setZipcode(member.getZipcode());
         member.setAddress(memberRequestDto.getAddress());

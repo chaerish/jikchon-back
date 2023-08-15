@@ -6,11 +6,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import smu.likelion.jikchon.base.BaseResponse;
 import smu.likelion.jikchon.base.PageResult;
 import smu.likelion.jikchon.dto.product.ProductRequestDto;
 import smu.likelion.jikchon.dto.product.ProductReturnDto;
 import smu.likelion.jikchon.service.ProductService;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -45,8 +48,9 @@ public class ProductController {
     //프로덕트 등록
     @PostMapping("/products")
     @PreAuthorize("hasRole('SELLER')")
-    public BaseResponse<Void> registerProduct(@RequestBody ProductRequestDto productRequestDto) {
-        productService.save(productRequestDto);
+    public BaseResponse<Void> registerProduct(@RequestPart ProductRequestDto productRequestDto,
+                                              @RequestPart List<MultipartFile> productImageList) {
+        productService.save(productRequestDto, productImageList);
         return BaseResponse.ok();
     }
 
