@@ -118,7 +118,7 @@ btnRegister.addEventListener('click', () => {
     .then(response => {
       if (response.status === 200) {
         window.alert('회원가입에 성공하였습니다.');
-        window.location.href = '/login.html';
+        window.location.href = '/login';
       } else {
         console.log(response);
         throw new Error(error);
