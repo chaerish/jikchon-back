@@ -1,0 +1,132 @@
+input {
+  padding-left: 0.5em;
+}
+
+.registration-title {
+  width: 100%;
+  margin: 120px auto 0;
+  text-align: center;
+  font-size: 1.7em;
+  font-weight: 700;
+}
+
+.registration-form {
+  width: 90%;
+  margin: 40px auto 40px;
+}
+
+.component-container {
+  width: 100%;
+  margin: 30px auto;
+}
+
+.component-container h1 {
+  height: 30px;
+  font-size: 1em;
+  font-weight: 700;
+}
+
+.component-container h2 {
+  margin-top: 10px;
+  height: 20px;
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+.registration-container input {
+  height: 40px;
+  font-size: 1em;
+  border: 1px solid #000000;
+}
+
+.registration-container input:focus {
+  outline: none;
+}
+
+.input-name, .input-password {
+  width: 96%;
+  margin: 0 auto;
+}
+
+.input-email {
+  width: 43%;
+}
+
+.input-number {
+  width: 27%;
+}
+
+.zipcode-container, .company-registration-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.input-zipcode, .input-company-registration {
+  width: 68%;
+}
+
+.address-search-button, .company-registration-search-button {
+  width: 25%;
+  height: 43px;
+  border: none;
+  background-color: #01260E;
+  color: #FFFFFF;
+  font-size: 1em;
+  font-weight: 500;
+}
+
+.address-search-button:hover, .company-registration-search-button:hover {
+  cursor: pointer;
+}
+
+.input-detail-address {
+  width: 96%;
+}
+
+.save-button {
+  width: 100%;
+  height: 43px;
+  margin: 20px auto 60px;
+  border: none;
+  background-color: #D92B3A;
+  color: #FFFFFF;
+  font-size: 1em;
+  font-weight: 500;
+}
+
+.save-button:hover {
+  cursor: pointer;
+}
+
+.violation-info {
+  height: 1.5em;
+  display: none;
+  align-items: center;
+}
+
+.violation-info.show {
+  display: flex;
+}
+
+
+.violation-info img {
+  height: 80%;
+  aspect-ratio: 1 / 1;
+}
+
+.violation-info span {
+  margin-top: 0.2em;
+  margin-left: 0.5em;
+  font-size: 0.9em;
+  color: #D92B3A;
+}
+
+.address-searcher-container {
+  margin: 10px 0;
+}
+
+.input-address {
+  width: 96%;
+}

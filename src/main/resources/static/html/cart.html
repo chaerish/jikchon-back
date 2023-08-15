@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../css/header.css" rel="stylesheet">
+    <link href="../css/reset.css" rel="stylesheet">
+    <link href="../css/cart.css" rel="stylesheet">
+    <link href="../css/navbar.css" rel="stylesheet">
+    <link href="../css/footer.css" rel="stylesheet">
+
+    <script src="../js/header.js" defer></script>
+    <script type="module" src="../js/cart.js" defer></script>
+    <script type="module" src="../js/navbar.js" defer></script>
+    <title>장바구니</title>
+</head>
+
+<body>
+    <!-- 로그인 된 상태일 경우 -->
+    <header class="header">
+        <div class="main-logo-container">
+            <!-- 아래 a href 속성에 링크 추가-->
+            <a href=""><img src="../images/main_logo.png" /></a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>장바구니</h1>
+        <hr>
+        <form method="post">
+            <section class="cart-list">
+                <ul role="list" id="cart-li">
+                    <li>
+                        <img src="../images/lemon.png" alt="" class="prod-img">
+                        <div class="cart-component">
+                            <div class="row-dir-box">
+                                <p class="brands">상호명</p>
+                                <div class="amount-box">
+                                    <button class="quantity-down-btn" type="button">-</button>
+                                    <input type="text" class="quantity-input" value="1">
+                                    <button class="quantity-up-btn" type="button">+</button>
+                                </div>
+                            </div>
+                            <p class="prod-name">프로덕트 이름</p>
+                            <p class="address">강원시 00시 00동</p>
+                            <p class="price">00000원</p>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="../images/garlic.png" alt="" class="prod-img">
+                        <div class="cart-component">
+                            <div class="row-dir-box">
+                                <p class="brands">상호명</p>
+                                <div class="amount-box">
+                                    <button class="quantity-down-btn" type="button">-</button>
+                                    <input type="text" class="quantity-input" value="1">
+                                    <button class="quantity-up-btn" type="button">+</button>
+                                </div>
+                            </div>
+                            <p class="prod-name">프로덕트 이름</p>
+                            <p class="address">강원시 00시 00동</p>
+                            <p class="price">00000원</p>
+                        </div>
+                    </li>
+                </ul>
+                <div class="total-price-box">
+                    <p>결제 예정 금액: </p>
+                    <input type="text" value="00000원">
+                </div>
+                <div class="btn-box">
+                    <button class="cart-btn" type="button" onclick="payCart()">결제하기</button>
+                    <button class="buy-btn" type="button">기존 화면으로 돌아가기</button>
+                </div>
+            </section>
+        </form>
+    </div>
+    <nav>
+        <a id="back-button">
+          <img src="../images/back_icon.svg">
+        </a>
+        <a id="cart-button" href="">
+          <img src="../images/cart_icon.svg">
+        </a>
+        <a id="home-button" href="">
+          <img src="../images/home_icon.svg">
+        </a>
+        <a id="mypage-button" href="">
+          <img src="../images/mypage_icon.svg">
+        </a>
+      </nav>
+      <footer class="footer">
+        <p>&#169; 2023. Team JikChon All rights reserved.</p>
+      </footer>          
+</body>
+
+</html>

@@ -1,0 +1,111 @@
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+body{
+  font-family: Pretendard;
+}
+.buyer-info-container {
+  width: 80%;
+  margin: 120px auto 0;
+}
+.buyer-info-box{
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.buyer-info-container div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.buyer-info-container div:nth-child(2) {
+  padding: 1em 0 1em;
+}
+
+.buyer-info-cfontainer h1 {
+  font-size: 1.2em;
+  font-weight: 700;
+  text-align: center;
+}
+
+.buyer-info-container p {
+  font-size: 1.3em;
+  line-height: 1.2em;
+  font-weight: 400;
+}
+
+.buyer-info-container h1 {
+  font-size: 1.3em;
+  line-height: 1.2em;
+  font-weight: 700;
+}
+
+
+.receipt-container {
+  width: 90%;
+  margin: 70px auto calc(100vh - 590px);
+}
+
+.receipt-header {
+  width: 100%;
+  display: flex;
+  font-size: 1em;
+}
+
+.receipt-header p:nth-child(1) {
+  width: 60%;
+}
+
+.receipt-header p:nth-child(2) {
+  width: 10%;
+  text-align: center;
+}
+
+.receipt-header p:nth-child(3) {
+  width: 30%;
+  text-align: right;
+}
+
+.receipt-divider {
+  height: 1px;
+  margin: 1em 0;
+  border: 0;
+  background-color: #000000;
+}
+
+.product {
+  width: 100%;
+  padding: 0.8em 0;
+  display: flex;
+}
+
+.product-name {
+  width: 60%;
+}
+
+.product-quantity {
+  width: 10%;
+  text-align: center;
+}
+
+.product-price {
+  width: 30%;
+  text-align: right;
+}
+
+.total-price-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.total-price-container h1, .total-price-container p {
+  font-size: 1.2em;
+  font-weight: 700;
+}

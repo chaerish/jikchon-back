@@ -1,0 +1,140 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+.container {
+    font-family: 'Pretendard-Regular';
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    height: 100vh;
+    margin-top: 70px;
+    margin-bottom: 20vh;
+}
+
+h1 {
+    display: flex;
+    width: 11.71681rem;
+    height: 1.85419rem;
+    margin: 2.5rem auto;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+    text-align: center;
+    font-size: 1.75rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;        
+}
+
+.order-list {
+    flex-shrink: 0;
+    background: #F8F8F8;
+    text-align: center;
+    margin: 0 0 0.75rem 0;
+}
+
+.order-list ul {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin: 1rem 0;    
+}
+
+.order-list li {
+    display: flex;
+    padding: 1.25rem 0.75rem;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 1.25rem;
+    background: #FFF;
+    box-shadow: 0px 2px 2px 0px rgba(201, 201, 201, 0.10);        
+}
+
+.order-comp img {
+    width: 10rem;
+    height: 10rem;
+    border-radius: 0.625rem;
+    background: lightgray 50% / cover no-repeat, #D9D9D9;
+}
+
+.order-info-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;    
+}
+
+.order-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;    
+}
+
+.prod-name {
+    display: flex;
+    width: 8.98575rem;
+    height: 1.47938rem;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;        
+}
+
+.price {
+    display: flex;
+    width: 8.98575rem;
+    height: 1.47938rem;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;    
+}
+
+.inventory-quantity {
+    display: flex;
+    width: 8.98575rem;
+    height: 1.47938rem;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;    
+}
+
+.btn-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.btn-box button {
+    display: flex;
+    padding: 0.5rem 2.75rem;
+    justify-content: center;
+    align-items: center;
+    border: none;    
+}
+
+.change-btn {
+    background: #D92B3A;
+    color: white;
+}
+
+.delete-btn {
+    background: #FBFAE2;
+}
