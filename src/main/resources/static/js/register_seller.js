@@ -62,7 +62,7 @@ function checkPhoneNumberNotDuplicated() {
     } else if (response.status === 403) {
       warningPhoneNumber.classList.add('show');
       warningMSGPhoneNumber.innerText = '이미 가입된 전화번호예요.';
-    } else throw new Error(error);
+    } else throw new Error(response.status, '전화번호 중복 검사 실패');
   })
   .catch(error => {
     console.error(error);
@@ -106,10 +106,9 @@ function authenticateCompanyRegistration() {
       warningCompanyRegistration.classList.add('show');
       warningMSGCompanyRegistration.innerText = '사업자 등록번호가 올바르지 않거나 이미 가입된 번호예요.';
       isCompanyRegistrationAuthenticated = false;
-    } else throw new Error(error);
+    } else throw new Error(response.status, '사업자 등록번호 조회 실패');
   })
   .catch(error => {
-    console.error(error);
     warningCompanyRegistration.classList.add('show');
     warningMSGCompanyRegistration.innerText = '사업자 등록번호 조회에 실패했어요.';
     isCompanyRegistrationAuthenticated = false;
@@ -179,9 +178,37 @@ btnRegister.addEventListener('click', () => {
     })
     .then(response => {
       if (response.status === 200) {
-        window.alert('회원가입에 성공하였습니다.');
-        window.location.href = '/login.html';
-      } else throw new Error(error);
+        window.alert('회원가입에 성공하였습니다. 자동으로 로그인합니다.');
+        // 회원가입 후 자동 로그인
+        fetch('/members/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            phoneNumber: inputName.value,
+            password: inputPW.value,
+          }),
+        })
+        .then(response => {
+          if (response.status === 200) {
+            return response.json();
+          } else {
+            throw new Error(response.status, '로그인 실패');
+          }
+        })
+        .then(response => {
+            localStorage.setItem('access_token', response.data.token);
+            localStorage.setItem('expires_in', response.data.expiresIn);
+            localStorage.setItem('user_role', response.data.role);
+            window.alert('로그인에 성공하였습니다.');
+        })
+        .catch(error => {
+          console.error('Error:', error)
+          window.alert(`${response.status}: 로그인에 실패하였습니다.`);
+        });
+        window.location.href = '/customer/recommend';
+      } else throw new Error(response.status, '회원가입 실패');
     })
     .catch(error => {
       console.error(error);
