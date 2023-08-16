@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import smu.likelion.jikchon.base.PageResult;
+import smu.likelion.jikchon.domain.ProductImage;
 import smu.likelion.jikchon.domain.enumurate.SubCategory;
 import smu.likelion.jikchon.domain.Product;
 import smu.likelion.jikchon.domain.enumurate.Target;
@@ -59,19 +60,31 @@ public class ProductService {
         imageService.saveProductImageList(product, productImageList);
     }
 
-    //프로덕트 수정
-    public void update(Long id, ProductRequestDto productRequestDto) {
+    @Transactional
+    //프로덕트 수정 + 이미지 수정 추가
+    public void updateProduct(Long id, ProductRequestDto productRequestDto, List<MultipartFile> productImageList) {
         Product product = productRepository.findById(id).orElseThrow(() -> {
             throw new CustomNotFoundException(ErrorCode.NOT_FOUND);
         });
         if (!product.getMember().getId().equals(loginService.getLoginMemberId())) {
             throw new CustomException(ErrorCode.FORBIDDEN);
         }
+        //만약 이미지는 수정되지 않았으면
+        if(productImageList.isEmpty()){
+            product.setProductName(productRequestDto.getProductName());
+            product.setSubCategory(SubCategory.fromDescription(productRequestDto.getCategory()));
+            product.setPrice(productRequestDto.getPrice());
+            product.setQuantity(productRequestDto.getQuantity());
+            product.setIntro(productRequestDto.getIntro());
+            product.setImageList(product.getImageList());
+        }
+        //이미지도 수정이 되었으면
         product.setProductName(productRequestDto.getProductName());
         product.setSubCategory(SubCategory.fromDescription(productRequestDto.getCategory()));
         product.setPrice(productRequestDto.getPrice());
         product.setQuantity(productRequestDto.getQuantity());
         product.setIntro(productRequestDto.getIntro());
+        imageService.saveProductImageList(product,productImageList);
     }
 
     //프로덕트 삭제

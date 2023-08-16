@@ -57,16 +57,15 @@ public class ProductController {
     }
 
     //프로덕트 수정
-    @PutMapping("/products/{productId}")
+    @PutMapping ("/products/{productId}")
     @PreAuthorize("hasRole('SELLER')")
-    public BaseResponse<Void> updateProduct(@PathVariable("productId") Long id, @RequestBody ProductRequestDto productRequestDto) {
-        productService.update(id, productRequestDto);
+    public BaseResponse<Void> updateProduct(@PathVariable("productId") Long id, @RequestPart ProductRequestDto productRequestDto,@RequestPart List<MultipartFile> productImageList) {
+        productService.updateProduct(id, productRequestDto,productImageList);
         return BaseResponse.ok();
     }
 
     //프로덕트 삭제
     @DeleteMapping("/products/{productId}")
-    @PreAuthorize("hasRole('SELLER')")
     public BaseResponse<Void> deleteProduct(@PathVariable("productId") Long id) {
         productService.delete(id);
         return BaseResponse.ok();
