@@ -29,7 +29,7 @@ function loadRecommendList() {
     else {
         const recommendList = document.querySelector(".recommend-list");
         const intendLogin = document.createElement("p");
-        intendLogin.innerHTML = "회원가입 하고 맞춤 상품 보러가기!";
+        intendLogin.innerHTML = "로그인 하고 맞춤 상품 보러가기!";
         recommendList.appendChild(intendLogin);
     }
 }
