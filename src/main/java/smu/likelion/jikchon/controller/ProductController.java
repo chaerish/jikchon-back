@@ -66,6 +66,7 @@ public class ProductController {
 
     //프로덕트 삭제
     @DeleteMapping("/products/{productId}")
+    @PreAuthorize("hasRole('SELLER')")
     public BaseResponse<Void> deleteProduct(@PathVariable("productId") Long id) {
         productService.delete(id);
         return BaseResponse.ok();

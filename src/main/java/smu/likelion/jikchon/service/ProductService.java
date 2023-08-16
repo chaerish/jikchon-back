@@ -84,6 +84,7 @@ public class ProductService {
         product.setPrice(productRequestDto.getPrice());
         product.setQuantity(productRequestDto.getQuantity());
         product.setIntro(productRequestDto.getIntro());
+        imageService.deleteImages(product.getImageList());
         imageService.saveProductImageList(product,productImageList);
     }
 
@@ -95,6 +96,7 @@ public class ProductService {
         if (!productData.getMember().getId().equals(loginService.getLoginMemberId())) {
             throw new CustomException(ErrorCode.FORBIDDEN);
         }
+        imageService.deleteImages(productData.getImageList());
         productRepository.delete(productData);
     }
 }
