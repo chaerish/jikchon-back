@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import smu.likelion.jikchon.domain.ProductImage;
 import smu.likelion.jikchon.domain.enumurate.Target;
 import smu.likelion.jikchon.exception.CustomBadRequestException;
 import smu.likelion.jikchon.exception.ErrorCode;
@@ -111,5 +112,11 @@ public class S3Uploader {
 
     private String createFileName(String originalFileName) {
         return UUID.randomUUID() + "_" + originalFileName;
+    }
+    public void deleteS3Image(String imageUrl){
+        if(StringUtils.hasText(imageUrl)){
+            String key=imageUrl.replace(amazonS3.getUrl(bucket, "").toString(), "").substring(1);
+            amazonS3.deleteObject(bucket,key);
+        }
     }
 }

@@ -31,7 +31,12 @@ public class S3ImageService implements ImageService {
     }
 
     @Override
-    public void deleteImages(Long targetId, Target target) {
-
+    public void deleteImages(List<ProductImage> productImageList) {
+        if (productImageList != null) {
+            for(ProductImage productImage: productImageList){
+                s3Uploader.deleteS3Image(productImage.getImageUrl());
+            }
+            deleteImages(productImageList);
+        }
     }
 }
