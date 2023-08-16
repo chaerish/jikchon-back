@@ -105,7 +105,7 @@ function authenticateCompanyRegistration() {
       window.alert('사업자 등록번호 인증에 성공했어요.');
     } else if (response.status === 403) {
       warningCompanyRegistration.classList.add('show');
-      warningMSGCompanyRegistration.innerText = '사업자 등록번호가 올바르지 않거나 이미 가입된 번호예요.';
+      warningMSGCompanyRegistration.innerText = '이미 가입된 사업자 등록번호예요.';
       isCompanyRegistrationAuthenticated = false;
     } else throw new Error(response.status, '사업자 등록번호 조회 실패');
   })
