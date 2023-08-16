@@ -67,7 +67,6 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    @PreAuthorize("isAuthenticated()")
     public BaseResponse<TokenResponseDto> refreshAccessToken(HttpServletRequest request) {
         return BaseResponse.ok(authService.refreshAccessToken(request));
     }
