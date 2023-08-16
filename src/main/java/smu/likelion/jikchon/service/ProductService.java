@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import smu.likelion.jikchon.base.PageResult;
+import smu.likelion.jikchon.domain.enumurate.Category;
 import smu.likelion.jikchon.domain.enumurate.SubCategory;
 import smu.likelion.jikchon.domain.Product;
 import smu.likelion.jikchon.domain.enumurate.Target;
@@ -31,8 +32,13 @@ public class ProductService {
     }
 
     //todo : 사용자 선택 카테고리 우선 정렬
-    public PageResult<ProductReturnDto.Simple> getProductListByCategory(Integer subCategoryId, Pageable pageable) {
-        Page<Product> products = productRepository.findAllByCategoryAndInterest(SubCategory.fromId(subCategoryId), pageable);
+    public PageResult<ProductReturnDto.Simple> getProductListByCategory(Integer categoryId, Pageable pageable) {
+        Page<Product> products;
+        if(categoryId < 100) {
+            products = productRepository.findAllByCategory(Category.fromId(categoryId), pageable);
+        } else {
+            products = productRepository.findAllByCategoryAndInterest(SubCategory.fromId(categoryId), pageable);
+        }
         Page<ProductReturnDto.Simple> product = products.map(ProductReturnDto.Simple::of);
         return PageResult.ok(product);
     }
