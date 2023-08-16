@@ -60,6 +60,9 @@ function setCategory(){
       });
     }
 }
+document.getElementById("item-image").addEventListener("change", function (event){
+  loadFiles(event);
+})
 
 //이미지 여러장으로 받아내기!
 function loadFiles(event) {
@@ -82,6 +85,9 @@ function loadFiles(event) {
     reader.readAsDataURL(files[i]);
   }
 }
+document.getElementById('submit-button').addEventListener("click",()=>{
+  submit();
+})
 
   function submit(){
     var productName = document.getElementById('item-name').value;

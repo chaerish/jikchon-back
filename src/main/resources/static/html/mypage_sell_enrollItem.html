@@ -9,9 +9,7 @@
   <link href="../css/footer.css" rel="stylesheet">
   <link href="../css/mypage_sell_enrollItem.css" rel="stylesheet">
 
-  <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-  <script type = "module" src="../js/mypage_sell_enrollItem.js" defer></script>
-
+  
   <title>상품 판매 등록</title>
 </head>
 <body>
@@ -43,8 +41,8 @@
         <div class = "enroll-image-box">
             <div id = "image-container" class = "image-container"></div>
             <br/>
-            <label for = "item-image" class = "upload-image-button">이미지등록</label>
-            <input type = "file" id = "item-image" class = "item-image" accpet="image/*" onchange="loadFiles(event)" multiple/>
+            <label for = "item-image" id = "upload-image-button" class = "upload-image-button">이미지등록</label>
+            <input type = "file" id = "item-image" class = "item-image" accpet="image/*" multiple/>
         </div>
         <div class = "item-name-box" >
             <p class = "item-enroll-title">제품명</p>
@@ -81,7 +79,7 @@
               ></textarea
               >
         </div>
-        <button type = "submit" class = "submit-button" onclick="submit()">저장하기</button>
+        <button type = "submit" id = "submit-button" class = "submit-button">저장하기</button>
     </div>
     
   </main>
@@ -89,7 +87,8 @@
     <p>&#169; 2023. Team JikChon All rights reserved.</p>
   </footer>
   <script src="../js/header.js"></script>
-  <script type = "module" src="../js/navbar.js"></script>
-  <script type = "module" src="../js/common/jwt_token_check.js"></script>
+  <script type="module" src="../js/navbar.js"></script>
+  <script type="module" src="../js/common/jwt_token_check.js"></script>
+  <script type="module" src="../js/mypage_sell_enrollItem.js"></script>
 </body>
 </html>
