@@ -296,7 +296,7 @@ function renderProdData(productsData) {
 
 window.onload = function main() {
   loadProdData();
-  renderProdData(temporaryData1.data.itemList);
+  renderProdData(fetchData.itemList);
   renderSubCategoryBtn();
   ProdInfinityScroll();
 }
