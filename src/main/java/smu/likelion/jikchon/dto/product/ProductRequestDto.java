@@ -23,6 +23,7 @@ public class ProductRequestDto {
         SubCategory subCategory = SubCategory.fromDescription(this.category);
         return Product.builder()
                 .productName(this.productName)
+                .category(subCategory.getParentCategory())
                 .subCategory(subCategory)
                 .price(this.price)
                 .quantity(this.quantity)
