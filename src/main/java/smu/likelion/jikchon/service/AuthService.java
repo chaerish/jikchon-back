@@ -78,9 +78,6 @@ public class AuthService implements UserDetailsService {
     public void isValidate(MemberRequestDto.SignUp memberRequestDto) {
         Optional<VerifiedMember> verifiedMemberOptional = verifiedCacheRepository.findByPhoneNumber(memberRequestDto.getPhoneNumber());
 
-        memberRepository.findByCompanyNumber(memberRequestDto.getCompanyNumber()).ifPresent((member) -> {
-            throw new CustomForbiddenException(ErrorCode.DUPLICATE_COMPANY_NUMBER);
-        });
         if (verifiedMemberOptional.isPresent()) {
             VerifiedMember verifiedMember = verifiedMemberOptional.get();
             if (!Objects.equals(memberRequestDto.getCompanyNumber(), verifiedMember.getCompanyNumber())) {
@@ -107,6 +104,10 @@ public class AuthService implements UserDetailsService {
                 "serviceKey=bFcIfbKjGI8rVFG9xZouBt%2B3s0kITpf0u6Loz8ekrvseXj%2Bye16tUmvGrBgLdK5zbVA3cAanmNPa%2F1o%2B2n2feQ%3D%3D";
 
         checkDuplicatePhoneNumber(verifyCompanyNumberRequest.getPhoneNumber());
+
+        memberRepository.findByCompanyNumber(verifyCompanyNumberRequest.getCompanyNumber()).ifPresent((member) -> {
+            throw new CustomForbiddenException(ErrorCode.DUPLICATE_COMPANY_NUMBER);
+        });
 
         verifiedCacheRepository.findByPhoneNumber(verifyCompanyNumberRequest.getPhoneNumber())
                 .ifPresent(verifiedCacheRepository::delete);
