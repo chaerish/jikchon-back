@@ -10,5 +10,4 @@ import lombok.Setter;
 @Builder
 public class CartRequestDto {
     private Long cartId;
-    private Long quantity;
 }
