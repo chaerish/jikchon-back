@@ -19,7 +19,7 @@ function sell_checkOrders(){
         method: "GET",
         headers: {
           'Content-Type': "application/json",
-          'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
+          'Authorization': `Bearer ${localStorage.getItem("token")}`,
         },
       })
       .then(response => response.json())
@@ -63,7 +63,7 @@ function getData(){
     }  
     const url = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/seller/checkorder';
     var myHeaders = new Headers();
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem('token');
     myHeaders.append('Authorization','Bearer'+token);  
     fetch(url,{
         headers:myHeaders,

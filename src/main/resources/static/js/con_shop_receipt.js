@@ -25,7 +25,7 @@ function con_receipt(idValue){
         method: "GET",
         headers: {
           'Content-Type': "application/json",
-          'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
+          'Authorization': `Bearer ${localStorage.getItem("token")}`,
         },
       })
       .then(checkTokenValid(response))
@@ -57,7 +57,7 @@ function getData(id){
 
     const url = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/receipt/customer?id='+idValue;
     var myHeaders = new Headers();
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem('token');
     myHeaders.append('Authorization','Bearer'+token);  
     fetch(url,{
         headers:myHeaders,
