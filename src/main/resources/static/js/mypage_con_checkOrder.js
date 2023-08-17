@@ -43,7 +43,7 @@ function getOrders(){
     const url = '/customer/purchases?page=0';
     var myHeaders = new Headers();
     const token = localStorage.getItem('token');
-    myHeaders.append('Authorization',token); 
+    myHeaders.append('Authorization',`Bearer ${token}`); 
     myHeaders.append('Content-Type','application/json')
     fetch(url,{
         headers:myHeaders,
