@@ -272,7 +272,7 @@ function renderProdData(productsData) {
           <div class="prod-info">
             <div class="product">
               <div class="brands">
-                <p>${product.brandName}</p>
+                <p>${product.storeName}</p>
                 <img src="../images/cart_icon.svg" class="cart-img" />
               </div>
               <div class="prod-name">
@@ -322,6 +322,7 @@ function categoryFiltering() {
 
 window.onload = function main() {
   loadProdData();
+  console.log(fetchData.itemList);
   renderSubCategoryBtn();
   renderProdData(fetchData.itemList);
   categoryFiltering()

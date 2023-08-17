@@ -12,6 +12,7 @@ import smu.likelion.jikchon.domain.Product;
 import smu.likelion.jikchon.dto.product.ProductRequestDto;
 import smu.likelion.jikchon.dto.product.ProductReturnDto;
 import smu.likelion.jikchon.exception.CustomException;
+import smu.likelion.jikchon.exception.CustomForbiddenException;
 import smu.likelion.jikchon.exception.CustomNotFoundException;
 import smu.likelion.jikchon.exception.ErrorCode;
 import smu.likelion.jikchon.repository.ProductRepository;
@@ -94,7 +95,7 @@ public class ProductService {
             throw new CustomNotFoundException(ErrorCode.NOT_FOUND);
         });
         if (!productData.getMember().getId().equals(loginService.getLoginMemberId())) {
-            throw new CustomException(ErrorCode.FORBIDDEN);
+            throw new CustomForbiddenException(ErrorCode.FORBIDDEN);
         }
         imageService.deleteImageList(productData.getImageList());
         productRepository.delete(productData);
