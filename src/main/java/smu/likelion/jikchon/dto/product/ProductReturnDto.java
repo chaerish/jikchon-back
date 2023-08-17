@@ -49,6 +49,7 @@ public class ProductReturnDto {
     @Builder
     public static class Detail { //상세정보
         private Long productId;
+        private String storeName;
         private String productName;
         private String category;
         private String subCategory;
@@ -60,6 +61,7 @@ public class ProductReturnDto {
 
         public static Detail of(Product product) {
             return Detail.builder()
+                    .storeName(product.getMember().getUsername())
                     .productId(product.getId())
                     .productName(product.getProductName())
                     .subCategory(product.getSubCategory().getDescription())
