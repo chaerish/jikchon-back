@@ -57,8 +57,8 @@ export function checkTokenValid() {
       else throw new Error(response.json());
     })
     .then(response => {
-        localStorage.setItem("access_token", response.data.access_token);
-        localStorage.setItem("expires_in", response.data.expires_in);
+        localStorage.setItem("access_token", response.data.token);
+        localStorage.setItem("expires_in", response.data.expiresIn);
     })
     .catch(error => {
       console.log(error);
