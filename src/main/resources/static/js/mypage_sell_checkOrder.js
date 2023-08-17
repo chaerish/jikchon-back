@@ -74,7 +74,7 @@ function getData(){
     })
     .then(date => {
         if(data.httpStatus==='OK'){
-            var orders = data.data.itemList;
+            data=data;
         } else {
             console.error("데이터 가져오기 실패");
         }
