@@ -91,12 +91,12 @@ function attachMenuClickEvent() {
             else if (index === 2) {
                 console.log(2);
                 // 해산물 페이지인거 main-home2.js에 넘겨주기 -> 3
-                window.location.href = `../product.html?id=${index + 1}`;
+                window.location.href = `../product?id=${index + 1}`;
             }
             else if (index === 3) {
                 console.log(3);
                 // 가공식품 페이지인거 main-home2.js에 넘겨주기 -> 4
-                window.location.href = `../product.html?id=${index + 1}`;
+                window.location.href = `../product?id=${index + 1}`;
             }
         });
         pageNum++;
