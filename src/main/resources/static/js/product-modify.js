@@ -38,7 +38,7 @@ function getData(){
     };
 
     const token = localStorage.getItem('token');
-    myHeaders.append('Authorization','Bearer'+token); 
+    myHeaders.append('Authorization',`Bearer ${token}`); 
     fetch(url,{
         headers:myHeaders,
         method:"GET",
