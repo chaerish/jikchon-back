@@ -17,7 +17,6 @@ function loadRecommendList() {
             headers: myHeaders,
             method: 'GET'
         })
-            .then(checkTokenValid(response))
             .then((response) => response.json())
             .then((data) => {
                 let data1 = data.data;
@@ -26,6 +25,8 @@ function loadRecommendList() {
             .catch((error) => {
                 console.error('An error occurred while loading store data:', error);
             });
+
+        renderRecommendList(fetchdata);
     }
     else {
         const recommendList = document.querySelector(".recommend-list");
@@ -41,7 +42,7 @@ function loadRecommendList() {
 // 추천 상품 render
 function renderRecommendList(products) {
     const productList = document.getElementById("product-list");
-    
+
     // 데이터를 기반으로 제품 목록을 생성
     products.forEach(product => {
         const li = document.createElement("li");
@@ -102,9 +103,10 @@ function attachMenuClickEvent() {
 
 
 window.onload = function main() {
-    attachMenuClickEvent();
+    checkTokenValid();
     loadRecommendList();
     renderRecommendList(fetchdata);
+    attachMenuClickEvent();
 }
 
 
