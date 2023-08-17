@@ -19,7 +19,7 @@ function con_checkOrders(){
     checkTokenValid();
 }
 function getOrders(){
-    var data = {
+    var dataObject = {
         // currentPage:0,
         // pageSize : 20,
         // totalElements:1,
@@ -50,20 +50,21 @@ function getOrders(){
         method:"GET",
     })
     .then((response)=>{
-        return response.json();
-    })
-    .then(date => {
-        if(data.httpStatus==='OK'){
-            data = data;
-        } else {
-            console.error("데이터 가져오기 실패");
+        if(response.status==200){
+            return response.json();
         }
+        else{
+            throw new Error(response.status);
+        }
+    })
+    .then(data => {
+        dataObject=data
     })
     .catch((error)=>{
         console.error("오류발생",error);
     });
     
-    setOrderList(data);
+    setOrderList(dataObject);
 }
 
 function formatOrderNumber(orderNumber) {

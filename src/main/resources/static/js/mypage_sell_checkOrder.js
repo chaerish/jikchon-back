@@ -17,7 +17,7 @@ function sell_checkOrders(){
     checkTokenValid();
 }
 function getData(){
-    var data = {
+    var dataObject = {
         // totalCount: 12,
         // itemList:[
         //     {
@@ -60,20 +60,21 @@ function getData(){
         method:"GET",
     })
     .then((response)=>{
-        return response.json();
-    })
-    .then(date => {
-        if(data.httpStatus==='OK'){
-            data=data;
-        } else {
-            console.error("데이터 가져오기 실패");
+        if(response.status==200){
+            return response.json();
         }
+        else{
+            throw new Error(response.status);
+        }
+    })
+    .then(data => {
+        dataObject=data
     })
     .catch((error)=>{
         console.error("오류발생",error);
     });
     
-    setOrderList(data);
+    setOrderList(dataObject);
 }
 
 function setOrderList(data){
