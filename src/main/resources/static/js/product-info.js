@@ -97,7 +97,7 @@ function buy_postFormData() {
     const buyBtn = document.querySelector(".buy-btn");
     buyBtn.addEventListener("click", () => {
         if (checkTokenExistence()) {
-            var teadbear = 'Bearer' + token;
+            var teadbear = `Bearer ${token}`
             const quantityInput = document.querySelector(".quantity-input");
             var postUrl = "/purchases";
 
@@ -142,7 +142,7 @@ function cart_postFormData() {
     const cartBtn = document.querySelector(".cart-btn");
     cartBtn.addEventListener("click", () => {
         if (checkTokenExistence()) {
-            var teadbear = 'Bearer' + token;
+            var teadbear = `Bearer ${token}`
             var postUrl = `/products/${productId}/cart`
 
             var formData = {
