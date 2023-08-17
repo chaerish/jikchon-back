@@ -46,7 +46,7 @@ export function checkTokenValid() {
   const tokenExpiresIn = Number(localStorage.getItem("expires_in"));
 
   if (tokenExpiresIn < now) {
-    fetch('http://jikchon.ap-northeast-2.elasticbeanstalk.com/members/refresh', {
+    fetch('/members/refresh', {
       method: 'POST',
       headers: {
         'Content-Type': "application/json",
@@ -54,7 +54,7 @@ export function checkTokenValid() {
     })
     .then(response => {
       if (response.status === 200) return response.json();
-      else throw new Error(response.message);
+      else throw new Error(response.json());
     })
     .then(response => {
         localStorage.setItem("access_token", response.data.access_token);
@@ -76,7 +76,7 @@ export function logOut() {
   localStorage.removeItem("expires_in");
   localStorage.removeItem("user_role");
   window.alert("로그아웃 되었습니다.");
-  window.location.href = "./main-home1.html";
+  window.location.href = "/";
 }
 
 
