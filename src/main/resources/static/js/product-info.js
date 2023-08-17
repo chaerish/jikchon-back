@@ -97,7 +97,7 @@ function buy_postFormData() {
     const buyBtn = document.querySelector(".buy-btn");
     buyBtn.addEventListener("click", () => {
         if (checkTokenExistence()) {
-            var teadbear = 'Bearer ' + token;
+            var teadbear = 'Bearer' + token;
             const quantityInput = document.querySelector(".quantity-input");
             var postUrl = "/purchases";
 
@@ -142,14 +142,11 @@ function cart_postFormData() {
     const cartBtn = document.querySelector(".cart-btn");
     cartBtn.addEventListener("click", () => {
         if (checkTokenExistence()) {
-            const cartButton = document.querySelector(".cart-btn");
-            const quantityInput = document.querySelector(".quantity-input");
-            var teadbear = 'Bearer ' + token;
+            var teadbear = 'Bearer' + token;
             var postUrl = `/products/${productId}/cart`
 
             var formData = {
-                id: productId,
-                quantity: quantityInput.value
+                id: productId
             };
 
             console.log(formData);
@@ -164,7 +161,7 @@ function cart_postFormData() {
             })
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error("구매 요청이 실패하였습니다.");
+                        throw new Error("장바구니 추가 요청이 실패하였습니다.");
                     }
                     return response.json();
                 })
