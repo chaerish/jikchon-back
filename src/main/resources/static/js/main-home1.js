@@ -12,6 +12,7 @@ myHeaders.append('Content-Type', 'application/json');
 // 추천 상품 load
 function loadRecommendList() {
     if (checkTokenExistence()) {
+        checkTokenValid();
         const head = document.querySelector(".today-recommend");
         fetch(url, {
             headers: myHeaders,
@@ -21,6 +22,7 @@ function loadRecommendList() {
             .then((data) => {
                 let data1 = data.data;
                 fetchdata = data1;
+                console.log(fetchdata);
             })
             .catch((error) => {
                 console.error('An error occurred while loading store data:', error);
@@ -103,9 +105,8 @@ function attachMenuClickEvent() {
 
 
 window.onload = function main() {
-    checkTokenValid();
     loadRecommendList();
-    renderRecommendList(fetchdata);
+    // renderRecommendList(fetchdata);
     attachMenuClickEvent();
 }
 

@@ -268,7 +268,7 @@ function renderProdData(productsData) {
     const li = document.createElement("li");
 
     li.innerHTML = `
-          <img src="${product.imageSrc}" alt="${product.productName}" class="prod-img">
+          <img src="${product.imageUrl}" alt="${product.productName}" class="prod-img">
           <div class="prod-info">
             <div class="product">
               <div class="brands">
@@ -322,8 +322,8 @@ function categoryFiltering() {
 
 window.onload = function main() {
   loadProdData();
-  renderProdData(fetchData.itemList);
   renderSubCategoryBtn();
+  renderProdData(fetchData.itemList);
   categoryFiltering()
   ProdInfinityScroll();
 }
