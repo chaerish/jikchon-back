@@ -1,6 +1,7 @@
 import { checkTokenValid, checkTokenExistence } from './common/jwt_token_check.js';
 
 let fetchData = [];
+let price;
 
 /* Header 설정 */
 const token = localStorage.getItem('access_token');
@@ -23,6 +24,7 @@ function loadProdData() {
         .then((data) => {
             let data1 = data.data;
             renderProdData(data1);
+            price = data1.price;
         })
         .catch((error) => {
             console.error('An error occurred while loading store data:', error);
@@ -49,8 +51,13 @@ function renderProdData(data) {
     const priceElement = prodInfoSection.querySelector(".price");
     priceElement.textContent = data.price;
 
-    const productName2Element = prodInfoSection.querySelector(".prod-name2");
+    const addCartSection = document.querySelector(".add-cart");
+
+    const productName2Element = addCartSection.querySelector(".prod-name2");
     productName2Element.textContent = data.productName;
+
+    const initSumPrice = addCartSection.querySelector(".sum-price");
+    initSumPrice.textContent = data.price;
 
 }
 
@@ -66,7 +73,7 @@ function decreaseQuantity() {
             quantityInput.value = currentValue - 1;
         }
     
-        let sum = fetchData.price * quantityInput.value;
+        let sum = price * quantityInput.value;
         sumPrice.textContent = sum;
     })
 
@@ -81,9 +88,8 @@ function increaseQuantity() {
         let sumPrice = document.querySelector(".sum-price");
         
         quantityInput.value = currentValue + 1;
-        let sum = fetchData.price * quantityInput.value;
+        let sum = price * quantityInput.value;
         sumPrice.textContent = sum;
-
     })
 }
 
@@ -91,12 +97,12 @@ function buy_postFormData() {
     const buyBtn = document.querySelector(".buy-btn");
     buyBtn.addEventListener("click", () => {
         if (checkTokenExistence()) {
-            var teadbear = 'Bearer ' + token;
+            var teadbear = 'Bearer' + token;
             const quantityInput = document.querySelector(".quantity-input");
             var postUrl = "/purchases";
 
             var formData = {
-                id: fetchData.id,
+                id: productId,
                 quantity: quantityInput.value
             };
 
@@ -136,14 +142,11 @@ function cart_postFormData() {
     const cartBtn = document.querySelector(".cart-btn");
     cartBtn.addEventListener("click", () => {
         if (checkTokenExistence()) {
-            const cartButton = document.querySelector(".cart-btn");
-            const quantityInput = document.querySelector(".quantity-input");
-            var teadbear = 'Bearer ' + token;
+            var teadbear = 'Bearer' + token;
             var postUrl = `/products/${productId}/cart`
 
             var formData = {
-                id: fetchData.id,
-                quantity: quantityInput.value
+                id: productId
             };
 
             console.log(formData);
@@ -158,7 +161,7 @@ function cart_postFormData() {
             })
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error("구매 요청이 실패하였습니다.");
+                        throw new Error("장바구니 추가 요청이 실패하였습니다.");
                     }
                     return response.json();
                 })

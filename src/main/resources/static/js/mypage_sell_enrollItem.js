@@ -110,6 +110,7 @@ document.getElementById('submit-button').addEventListener("click",()=>{
     const url = "/products";
     const token = localStorage.getItem('token');
     myHeaders.append('Authorization',token);
+    myHeaders.append('Content-Type','application/json')
 
     fetch(url,{
         headers: myHeaders,
