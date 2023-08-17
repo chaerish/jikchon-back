@@ -1,6 +1,6 @@
 import { checkTokenValid, checkTokenExistence } from './common/jwt_token_check.js';
 
-let fetchData = [];
+let fetchData;
 let pageNum = 0;
 /* 임시데이터
 let temporaryData1 = {
@@ -325,6 +325,6 @@ window.onload = function main() {
   console.log(fetchData.itemList);
   renderSubCategoryBtn();
   renderProdData(fetchData.itemList);
-  categoryFiltering()
+  categoryFiltering();
   ProdInfinityScroll();
 }
