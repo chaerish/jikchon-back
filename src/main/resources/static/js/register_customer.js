@@ -40,7 +40,7 @@ function checkPhoneNumberValid() {
 function checkPhoneNumberNotDuplicated() {
   const phoneNumber = inputPhoneNumber1.value + inputPhoneNumber2.value + inputPhoneNumber3.value;
   // 전화번호 중복 검사
-  fetch('http://jikchon.ap-northeast-2.elasticbeanstalk.com//members/phone-number', {
+  fetch('/members/phone-number', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -52,10 +52,12 @@ function checkPhoneNumberNotDuplicated() {
   .then(response => {
     if (response.status === 200) {
       warningPhoneNumber.classList.remove('show');
-    } else if (response.status === 403) {
+    } else if (response.status === 40002) {
       warningMSGPhoneNumber.innerText = '이미 가입된 전화번호예요.';
       warningPhoneNumber.classList.add('show');
-    } else throw new Error(response.status, '전화번호 조회 실패');
+    } else {
+      throw new Error(response.status, '전화번호 조회 실패');
+    }
   })
   .catch(error => {
     console.error(error);
@@ -88,7 +90,7 @@ function autoLogin() {
     localStorage.setItem('expires_in', response.data.expiresIn);
     localStorage.setItem('user_role', response.data.role);
     window.alert('로그인에 성공하였습니다.');
-    window.location.href = '/';
+    window.location.href = '/interest-product';
   })
   .catch(error => {
     console.error('Error:', error)
@@ -131,7 +133,7 @@ btnRegister.addEventListener('click', () => {
     window.alert('전화번호를 올바르게 입력해 주세요.');
   } else {
     const phoneNumber = inputPhoneNumber1.value + inputPhoneNumber2.value + inputPhoneNumber3.value;
-    fetch('http://jikchon.ap-northeast-2.elasticbeanstalk.com//members/signup/customer', {
+    fetch('/members/signup/customer', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -149,11 +151,11 @@ btnRegister.addEventListener('click', () => {
         window.alert('회원가입에 성공하였습니다. 자동으로 로그인합니다.');
         // 회원가입 후 자동 로그인
         autoLogin();
-      } else throw new Error(response.status, '회원가입 실패');
+      } else throw new Error(response.json());
     })
     .catch(error => {
       console.error(error);
-      window.alert(error, '회원가입에 실패하였습니다.');
+      window.alert(`${error}: 회원가입에 실패하였습니다.`);
     });
   }
 });
