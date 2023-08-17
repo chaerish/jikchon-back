@@ -38,7 +38,7 @@ function renderProdData(data) {
     imgElement.src = data.imageUrl;
 
     const brandElement = prodInfoSection.querySelector(".brands");
-    brandElement.textContent = data.brandName;
+    brandElement.textContent = data.storeName;
 
     const productName1Element = prodInfoSection.querySelector(".prod-name1");
     productName1Element.textContent = data.productName;
@@ -55,25 +55,36 @@ function renderProdData(data) {
 }
 
 function decreaseQuantity() {
-    const quantityInput = document.querySelector(".quantity-input");
-    const currentValue = parseInt(quantityInput.value);
-    let sumPrice = document.querySelector(".sum-price");
+    const downBtn = document.getElementById("decrease");
 
-    if (currentValue > 1) {
-        quantityInput.value = currentValue - 1;
-    }
+    downBtn.addEventListener("click", () => {
+        const quantityInput = document.querySelector(".quantity-input");
+        const currentValue = parseInt(quantityInput.value);
+        let sumPrice = document.querySelector(".sum-price");
+    
+        if (currentValue > 1) {
+            quantityInput.value = currentValue - 1;
+        }
+    
+        let sum = fetchData.price * quantityInput.value;
+        sumPrice.textContent = sum;
+    })
 
-    let sum = fetchData.price * quantityInput.value;
-    sumPrice.textContent = sum;
 }
 
 function increaseQuantity() {
-    const quantityInput = document.querySelector(".quantity-input");
-    const currentValue = parseInt(quantityInput.value);
-    let sumPrice = document.querySelector(".sum-price");
-    quantityInput.value = currentValue + 1;
-    let sum = fetchData.price * quantityInput.value;
-    sumPrice.textContent = sum;
+    const upBtn = document.getElementById("increase");
+    
+    upBtn.addEventListener("click", () => {
+        const quantityInput = document.querySelector(".quantity-input");
+        const currentValue = parseInt(quantityInput.value);
+        let sumPrice = document.querySelector(".sum-price");
+        
+        quantityInput.value = currentValue + 1;
+        let sum = fetchData.price * quantityInput.value;
+        sumPrice.textContent = sum;
+
+    })
 }
 
 function buy_postFormData() {
@@ -172,4 +183,6 @@ window.onload = function main() {
     // renderProdData(fetchData);
     buy_postFormData();
     cart_postFormData();
+    increaseQuantity();
+    decreaseQuantity();
 }
