@@ -109,7 +109,7 @@ document.getElementById('submit-button').addEventListener("click",()=>{
     var myHeaders = new Headers();
     const url = "/products";
     const token = localStorage.getItem('token');
-    myHeaders.append('Authorization','Bearer'+token);
+    myHeaders.append('Authorization',+token);
 
     fetch(url,{
         headers: myHeaders,
