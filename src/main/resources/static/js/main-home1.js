@@ -21,14 +21,13 @@ function loadRecommendList() {
             .then((response) => response.json())
             .then((data) => {
                 let data1 = data.data;
-                fetchdata = data1;
-                console.log(fetchdata);
+                renderRecommendList(data1);
             })
             .catch((error) => {
                 console.error('An error occurred while loading store data:', error);
             });
 
-        renderRecommendList(fetchdata);
+        
     }
     else {
         const recommendList = document.querySelector(".recommend-list");

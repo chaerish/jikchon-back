@@ -35,7 +35,7 @@ function renderProdData(data) {
 
     // 데이터를 사용하여 섹션 내부의 내용을 변경
     const imgElement = prodInfoSection.querySelector(".prod-img");
-    imgElement.src = data.imageSrc;
+    imgElement.src = data.imageUrl;
 
     const brandElement = prodInfoSection.querySelector(".brands");
     brandElement.textContent = data.brandName;
