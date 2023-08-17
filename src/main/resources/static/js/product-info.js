@@ -97,6 +97,7 @@ function buy_postFormData() {
     const buyBtn = document.querySelector(".buy-btn");
     buyBtn.addEventListener("click", () => {
         if (checkTokenExistence()) {
+            checkTokenValid();
             var teadbear = `Bearer ${token}`
             const quantityInput = document.querySelector(".quantity-input");
             var postUrl = "/purchases";
@@ -142,6 +143,7 @@ function cart_postFormData() {
     const cartBtn = document.querySelector(".cart-btn");
     cartBtn.addEventListener("click", () => {
         if (checkTokenExistence()) {
+            checkTokenValid();
             var teadbear = `Bearer ${token}`
             var postUrl = `/products/${productId}/cart`
 
@@ -181,7 +183,6 @@ function cart_postFormData() {
 }
 
 window.onload = function main() {
-    checkTokenValid();
     loadProdData();
     // renderProdData(fetchData);
     buy_postFormData();
