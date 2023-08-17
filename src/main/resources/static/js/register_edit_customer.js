@@ -1,5 +1,3 @@
-import { checkTokenExistence, checkTokenValid } from "./common/jwt_token_check";
-
 const inputName = document.getElementById('input-name');
 const inputPW = document.getElementById('input-password');
 const inputPWCheck = document.getElementById('input-password-check');
@@ -16,17 +14,16 @@ const warningPhoneNumber = document.getElementById('warn-phone');
 
 const warningMSGPhoneNumber = document.getElementById('warn-msg-phone');
 
-const btnSaveInfo = document.getElementById('register-button');
+const btnRegister = document.getElementById('register-button');
 
-const REGEX_PHONENUMBER = /^01([0|1|6|7|8|9])-?([0-9]{4})-?([0-9]{4})$/; // 앞자리가 01이며 (0,1,6,7,8,9) 이며 중간 4자리, 세번째는 4자리인 전화번호
+const REGEX_PHONENUMBER = /^01([0|1|6|7|8|9])-?([0-9]{4})-?([0-9]{4})$/; // 앞자리가 01이며 (0,1,6,7,8,9) 이며 중간에 4자리, 세번째는 4자리인 전화번호
 const REGEX_PASSWORD = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; // 영어와 숫자를 포함한 8자리 이상의 비밀번호
 
 const originalPhoneNumber = '';
-const originalCompanyRegistration = '';
 
 // 빈칸 검사 함수
 function checkAnyInputEmpty() {
-  return inputName.value === '' || inputPW.value === '' || inputPWCheck.value === '' || inputPhoneNumber1.value === '' || inputPhoneNumber2.value === '' || inputPhoneNumber3.value === '' || inputZipcode.value === '' || inputAddress.value === '' || inputDetailAddress.value === '';
+  return inputName.value === '' || inputPhoneNumber1.value === '' || inputPhoneNumber2.value === '' || inputPhoneNumber3.value === '' || inputZipcode.value === '' || inputAddress.value === '' || inputDetailAddress.value === '';
 }
 
 // 전화번호 유효성 검사 함수
@@ -54,16 +51,14 @@ function checkPhoneNumberNotDuplicated() {
       phoneNumber: phoneNumber,
     }),
   })
-  .then(response => response.json())
   .then(response => {
     if (response.status === 200) {
       warningPhoneNumber.classList.remove('show');
-    } else if (response.status === 403) {
-      warningPhoneNumber.classList.add('show');
+    } else if (response.status === 40002) {
       warningMSGPhoneNumber.innerText = '이미 가입된 전화번호예요.';
-    } else {
       warningPhoneNumber.classList.add('show');
-      warningMSGPhoneNumber.innerText = '전화번호 조회에 실패했어요.';
+    } else {
+      throw new Error(response);
     }
   })
   .catch(error => {
@@ -73,59 +68,84 @@ function checkPhoneNumberNotDuplicated() {
   });
 }
 
+function autoLogin(phoneNumber) {
+  // 회원가입 후 자동 로그인
+  fetch('/members/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      phoneNumber: phoneNumber,
+      password: inputPW.value,
+    }),
+  })
+  .then(response => {
+    if (response.status === 200) {
+      return response.json();
+    } else {
+      throw new Error(response.json());
+    }
+  })
+  .then(response => {
+    localStorage.setItem('access_token', response.data.token);
+    localStorage.setItem('expires_in', response.data.expiresIn);
+    localStorage.setItem('user_role', response.data.role);
+    window.alert('로그인에 성공하였습니다.');
+    window.location.href = '/';
+  })
+  .catch(error => {
+    console.error(error)
+    window.alert('로그인에 실패하였습니다.');
+  });
+}
+
 function getUserInfo() {
-  checkTokenValid();
   fetch('/members', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+      'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
     },
   })
-  .then(response => response.json())
   .then(response => {
-    if (response.status === 200) {
-      originalPhoneNumber = response.data.phoneNumber;
-      originalCompanyRegistration = response.data.companyRegistration;
-
-      inputName.value = response.data.username;
-      inputPhoneNumber1.value = response.data.phoneNumber.substring(0, 3);
-      inputPhoneNumber2.value = response.data.phoneNumber.substring(3, 7);
-      inputPhoneNumber3.value = response.data.phoneNumber.substring(7, 11);
-      inputZipcode.value = response.data.zipcode;
-      inputAddress.value = response.data.address.split(', ')[0];
-      inputDetailAddress.value = response.data.address.split(', ')[1];
-    } else throw new Error(response.status);
+    if (response.status === 200) return response.json();
+    else throw new Error(response.json());
   })
-  .catch(error => {
-    console.error(error);
-    window.alert('회원 정보 조회에 실패하였습니다. 마이페이지로 이동합니다.');
-    window.location.href = '/mypage_customer.html';
+  .then(response => {
+    originalPhoneNumber = response.data.phoneNumber;
+
+    inputName.value = response.data.userName;
+    inputPhoneNumber1.value = response.data.phoneNumber.slice(0, 3);
+    inputPhoneNumber2.value = response.data.phoneNumber.slice(3, 7);
+    inputPhoneNumber3.value = response.data.phoneNumber.slice(7, 11);
+    inputZipcode.value = response.data.zipcode;
+    inputAddress.value = response.data.address.split(', ')[0];
+    inputDetailAddress.value = response.data.address.split(', ')[1];
   });
 }
 
-if (!checkTokenExistence()) {
-  window.alert('로그인이 필요한 서비스입니다.');
-  window.location.href = '/login.html';
-} else {
-  getUserInfo();
-}
+getUserInfo();
 
 inputPW.onblur = () => {
-  // 비밀번호 유효성 검사
-  if (!REGEX_PASSWORD.test(inputPW.value)) {
-    warningPW.classList.add('show');
-  } else {
-    warningPW.classList.remove('show');
+  if (inputPW.value !== '') {
+    // 비밀번호 유효성 검사
+    if (!REGEX_PASSWORD.test(inputPW.value)) {
+      warningPW.classList.add('show');
+    } else {
+      warningPW.classList.remove('show');
+    }
   }
-};
+}
 
 inputPWCheck.onblur = () => {
-  // 비밀번호-비밀번호 확인란 일치 검사
-  if (inputPW.value !== inputPWCheck.value) {
-    warningPWCheck.classList.add('show');
-  } else {
-    warningPWCheck.classList.remove('show');
+    if (inputPW.value !== '') {
+    // 비밀번호-비밀번호 확인란 일치 검사
+    if (inputPW.value !== inputPWCheck.value) {
+      warningPWCheck.classList.add('show');
+    } else {
+      warningPWCheck.classList.remove('show');
+    }
   }
 }
 
@@ -133,21 +153,9 @@ inputPhoneNumber1.onblur = checkPhoneNumberValid;
 inputPhoneNumber2.onblur = checkPhoneNumberValid;
 inputPhoneNumber3.onblur = checkPhoneNumberValid;
 
-btnSaveInfo.addEventListener('click', () => {
-  checkPhoneNumberValid();
-  checkPhoneNumberNotDuplicated();
-  // 비밀번호 유효성 검사
-  if (!REGEX_PASSWORD.test(inputPW.value)) {
-    warningPW.classList.add('show');
-  } else {
-    warningPW.classList.remove('show');
-  }
-  // 비밀번호-비밀번호 확인란 일치 검사
-  if (inputPW.value !== inputPWCheck.value) {
-    warningPWCheck.classList.add('show');
-  } else {
-    warningPWCheck.classList.remove('show');
-  }
+btnRegister.addEventListener('click', () => {
+  const phoneNumber = inputPhoneNumber1.value + inputPhoneNumber2.value + inputPhoneNumber3.value;
+  if (phoneNumber !== originalPhoneNumber) checkPhoneNumberNotDuplicated();
 
   if (checkAnyInputEmpty()) {
     window.alert('빈칸을 모두 입력해 주세요.');
@@ -158,34 +166,61 @@ btnSaveInfo.addEventListener('click', () => {
   } else if (warningPhoneNumber.classList.contains('show')) {
     window.alert('전화번호를 올바르게 입력해 주세요.');
   } else {
-    checkTokenValid();
-    const phoneNumber = inputPhoneNumber1.value + inputPhoneNumber2.value + inputPhoneNumber3.value;
-    fetch('/members', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
-      },
-      body: JSON.stringify({
-        phoneNumber: phoneNumber,
-        password: inputPW.value,
-        userName: inputName.value,
-        zipcode: inputZipcode.value,
-        address: inputAddress.value + ', ' + inputDetailAddress.value,
-      }),
-    })
-    .then(response => response.json())
-    .then(response => {
-      if (response.status === 200) {
-        window.alert('회원가입에 성공하였습니다.');
-        window.location.href = '/login.html';
-      } else {
-        window.alert(`${response.status}: 회원가입에 실패하였습니다.`);
+    if (inputPW.value === '') {
+      fetch('/members', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
+        },
+        body: JSON.stringify({
+          phoneNumber: phoneNumber,
+          userName: inputName.value,
+          zipcode: inputZipcode.value,
+          address: inputAddress.value + ', ' + inputDetailAddress.value,
+        }),
+      })
+      .then(response => {
+        if (response.status === 200) {
+          window.alert('정보 수정 완료! 자동으로 로그인합니다.');
+          // 회원가입 후 자동 로그인
+          autoLogin(phoneNumber);
+        } else throw new Error(response.json());
+      })
+      .catch(error => {
+        console.error(error);
+        window.alert('정보 수정에 실패하였습니다.');
+      });
+    } else {
+      if (inputPWCheck.value === '') {
+        window.alert('비밀번호 확인란을 입력해 주세요.');
+        return;
       }
-    })
-    .catch(error => {
-      console.error(error);
-      window.alert('회원가입에 실패하였습니다.');
-    });
+      fetch('/members', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
+        },
+        body: JSON.stringify({
+          phoneNumber: phoneNumber,
+          password: inputPW.value,
+          userName: inputName.value,
+          zipcode: inputZipcode.value,
+          address: inputAddress.value + ', ' + inputDetailAddress.value,
+        }),
+      })
+      .then(response => {
+        if (response.status === 200) {
+          window.alert('정보 수정 완료! 자동으로 로그인합니다.');
+          // 회원가입 후 자동 로그인
+          autoLogin(phoneNumber);
+        } else throw new Error(response.json());
+      })
+      .catch(error => {
+        console.error(error);
+        window.alert('정보 수정에 실패하였습니다.');
+      });
+    }
   }
 });
