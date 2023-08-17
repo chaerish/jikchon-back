@@ -99,6 +99,7 @@ function buy_postFormData() {
         if (checkTokenExistence()) {
             checkTokenValid();
             var teadbear = `Bearer ${token}`
+            console.log(teadbear);
             const quantityInput = document.querySelector(".quantity-input");
             var postUrl = "/purchases";
 
@@ -147,6 +148,7 @@ function cart_postFormData() {
         if (checkTokenExistence()) {
             checkTokenValid();
             var teadbear = `Bearer ${token}`
+            console.log(teadbear);
             var postUrl = `/products/${productId}/cart`
 
             var formData = {
