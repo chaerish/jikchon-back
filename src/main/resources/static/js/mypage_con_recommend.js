@@ -80,5 +80,5 @@ function sendList(selectedItem){
 }
 function moveChangePage(){
     alert("저장이 완료되었습니다.");
-    window.location.href = "http://jikchon.ap-northeast-2.elasticbeanstalk.com/mypage/customer";
+    // window.location.href = "http://jikchon.ap-northeast-2.elasticbeanstalk.com/mypage/customer";
 }
