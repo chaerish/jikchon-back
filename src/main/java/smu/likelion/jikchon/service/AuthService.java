@@ -242,7 +242,7 @@ public class AuthService implements UserDetailsService {
     @Transactional(readOnly = true)
     public TokenResponseDto refreshAccessToken(HttpServletRequest request) {
         String refreshToken = tokenProvider.getRefreshToken(request);
-        tokenProvider.validateAccessToken(refreshToken);
+        tokenProvider.validateToken(JwtType.REFRESH_TOKEN, refreshToken);
 
         Member member = memberRepository.findByRefreshToken(refreshToken).orElseThrow(() ->
                 new CustomUnauthorizedException(ErrorCode.INVALID_TOKEN)
