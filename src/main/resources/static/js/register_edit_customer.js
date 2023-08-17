@@ -1,3 +1,5 @@
+import { checkTokenExistence, checkTokenValid } from "./common/jwt_token_check";
+
 const inputName = document.getElementById('input-name');
 const inputPW = document.getElementById('input-password');
 const inputPWCheck = document.getElementById('input-password-check');
@@ -115,16 +117,17 @@ function getUserInfo() {
   .then(response => {
     originalPhoneNumber = response.data.phoneNumber;
 
-    inputName.value = response.data.userName;
+    inputName.value = response.data.username;
     inputPhoneNumber1.value = response.data.phoneNumber.slice(0, 3);
-    inputPhoneNumber2.value = response.data.phoneNumber.slice(3, 7);
-    inputPhoneNumber3.value = response.data.phoneNumber.slice(7, 11);
+    inputPhoneNumber2.value = response.data.phoneNumber.slice(4, 8);
+    inputPhoneNumber3.value = response.data.phoneNumber.slice(9, 13);
     inputZipcode.value = response.data.zipcode;
     inputAddress.value = response.data.address.split(', ')[0];
     inputDetailAddress.value = response.data.address.split(', ')[1];
   });
 }
 
+checkTokenExistence();
 getUserInfo();
 
 inputPW.onblur = () => {
@@ -154,6 +157,7 @@ inputPhoneNumber2.onblur = checkPhoneNumberValid;
 inputPhoneNumber3.onblur = checkPhoneNumberValid;
 
 btnRegister.addEventListener('click', () => {
+  checkTokenValid();
   const phoneNumber = inputPhoneNumber1.value + inputPhoneNumber2.value + inputPhoneNumber3.value;
   if (phoneNumber !== originalPhoneNumber) checkPhoneNumberNotDuplicated();
 
