@@ -107,9 +107,10 @@ function authenticateCompanyRegistration() {
       warningCompanyRegistration.classList.add('show');
       warningMSGCompanyRegistration.innerText = '이미 가입된 사업자 등록번호예요.';
       isCompanyRegistrationAuthenticated = false;
-    } else throw new Error(response.status, '사업자 등록번호 조회 실패');
+    } else throw new Error(response.json());
   })
   .catch(error => {
+    console.log(error);
     warningCompanyRegistration.classList.add('show');
     warningMSGCompanyRegistration.innerText = '사업자 등록번호 조회에 실패했어요.';
     isCompanyRegistrationAuthenticated = false;
@@ -140,7 +141,7 @@ function autoLogin() {
     localStorage.setItem('expires_in', response.data.expiresIn);
     localStorage.setItem('user_role', response.data.role);
     window.alert('로그인에 성공하였습니다.');
-    window.location.href = '/';
+    window.location.href = '/interest-product';
   })
   .catch(error => {
     console.error('Error:', error)
