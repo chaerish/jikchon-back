@@ -56,7 +56,7 @@ function checkPhoneNumberNotDuplicated() {
       warningMSGPhoneNumber.innerText = '이미 가입된 전화번호예요.';
       warningPhoneNumber.classList.add('show');
     } else {
-      throw new Error(response.status, '전화번호 조회 실패');
+      throw new Error(response);
     }
   })
   .catch(error => {
@@ -66,7 +66,7 @@ function checkPhoneNumberNotDuplicated() {
   });
 }
 
-function autoLogin() {
+function autoLogin(phoneNumber) {
   // 회원가입 후 자동 로그인
   fetch('/members/login', {
     method: 'POST',
@@ -74,7 +74,7 @@ function autoLogin() {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      phoneNumber: inputName.value,
+      phoneNumber: phoneNumber,
       password: inputPW.value,
     }),
   })
@@ -82,7 +82,7 @@ function autoLogin() {
     if (response.status === 200) {
       return response.json();
     } else {
-      throw new Error(response.status, '로그인 실패');
+      throw new Error(response);
     }
   })
   .then(response => {
@@ -93,8 +93,8 @@ function autoLogin() {
     window.location.href = '/interest-product';
   })
   .catch(error => {
-    console.error('Error:', error)
-    window.alert(`${response.status}: 로그인에 실패하였습니다.`);
+    console.error(error)
+    window.alert('로그인에 실패하였습니다.');
   });
 }
 
@@ -150,12 +150,12 @@ btnRegister.addEventListener('click', () => {
       if (response.status === 200) {
         window.alert('회원가입에 성공하였습니다. 자동으로 로그인합니다.');
         // 회원가입 후 자동 로그인
-        autoLogin();
-      } else throw new Error(response.json());
+        autoLogin(phoneNumber);
+      } else throw new Error(response);
     })
     .catch(error => {
       console.error(error);
-      window.alert(`${error}: 회원가입에 실패하였습니다.`);
+      window.alert('회원가입에 실패하였습니다.');
     });
   }
 });
