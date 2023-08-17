@@ -219,6 +219,6 @@ window.onload = function () {
         postInterestCategory();
     }
     else {
-        window.location.href = "../html/login.html";
+        window.location.href = "../login";
     }
 };

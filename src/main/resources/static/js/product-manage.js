@@ -20,7 +20,7 @@ function loadProdManageData() {
                 .then((response) => response.json())
                 .then((data) => {
                     let data1 = data.data;
-                    fetchData = data1;
+                    renderProdManageData(data1.itemList);
                 })
                 .catch((error) => {
                     console.error('An error occurred while loading store data:', error);
@@ -45,12 +45,11 @@ function loadMoreItems() {
         .then((response) => response.json())
         .then((data) => {
             let data1 = data.data;
-            nextPageData = data1;
+            renderProdManageData(data1.itemList);
         })
         .catch((error) => {
             console.error('An error occurred while loading store data:', error);
         });
-    renderProdManageData(nextPageData);
 }
 
 function ProdInfinityScroll() {
@@ -110,7 +109,7 @@ function renderProdManageData(data) {
         changeBtn.textContent = '수정하기';
         changeBtn.addEventListener('click', () => {
             const clickedItemId = item.id; // 클릭된 버튼의 항목 ID 가져오기
-            window.location.href = `../html/mypage_sell_enrollItem.html?id=${clickedItemId}`
+            window.location.href = `..//product/modify?id=${clickedItemId}`
         });
 
         const deleteBtn = document.createElement('button');
@@ -157,6 +156,6 @@ function deleteProduct(itemId) {
 
 window.onload = function main() {
     loadProdManageData();
-    renderProdManageData(fetchData.itemList);
+    // renderProdManageData(fetchData.itemList);
     ProdInfinityScroll();
 }
