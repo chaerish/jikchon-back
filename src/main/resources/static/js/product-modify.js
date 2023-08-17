@@ -1,11 +1,16 @@
 import { checkTokenExistence, checkTokenValid,checkUserRole } from "./common/jwt_token_check.js";
 var files = [];
+var idValue = '';
 
 document.addEventListener("DOMContentLoaded", function() {
+  idValue = getQueryParamValue('id');
   enrollItem();
   getData();
 });
-
+function getQueryParamValue(paramName){
+  var urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(paramName);
+}
 function enrollItem(){
   if(!checkTokenExistence()){
     window.alert('로그인이 필요한 서비스입니다. 로그인 화면으로 이동합니다.');
@@ -18,7 +23,7 @@ function enrollItem(){
     }
 }
 checkTokenValid();
-  fetch("http://jikchon.ap-northeast-2.elasticbeanstalk.com/product/modify", {
+  fetch("/products", {
     method: "GET",
     headers: {
       'Content-Type': "application/json",
@@ -31,7 +36,7 @@ checkTokenValid();
   });
 }
 function getData(){
-  const url = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/product/modify';
+  const url = '/products/'+idValue;
     var myHeaders = new Headers();
     var data = {
       productName : "해바라기씨",
@@ -181,7 +186,7 @@ document.getElementById('submit-button').addEventListener("click",()=>{
 
     console.log(formData);
     var myHeaders = new Headers();
-    const url = "http://jikchon.ap-northeast-2.elasticbeanstalk.com/product/modify";
+    const url = "/products/"+idValue;
     const token = localStorage.getItem('token');
     myHeaders.append('Authorization','Bearer'+token);
 
