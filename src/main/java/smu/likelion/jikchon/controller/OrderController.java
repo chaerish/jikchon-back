@@ -17,7 +17,7 @@ import smu.likelion.jikchon.service.OrderService;
 public class OrderController {
     private final OrderService orderService;
 
-    @PostMapping
+    @PostMapping("/purchases")
     @PreAuthorize("isAuthenticated()")
     public BaseResponse<OrderResponseDto.Simple> purchaseProduct(@RequestBody PurchaseRequestDto purchaseRequestDto) {
         return BaseResponse.ok(orderService.purchaseProduct(purchaseRequestDto));
