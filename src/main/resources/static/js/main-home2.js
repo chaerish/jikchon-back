@@ -294,6 +294,9 @@ function renderProdData(productsData) {
 
 function categoryFiltering() {
   const categorybtn = document.querySelectorAll(".category-details button");
+  const prodList = document.getElementById("product-list");
+  prodList.innerHTML = "";
+
   categorybtn.forEach(btn => {
     btn.addEventListener("click", () => {
       const categoryID = btn.id;
