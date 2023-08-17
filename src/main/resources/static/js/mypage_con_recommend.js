@@ -15,7 +15,7 @@ function con_recommend(){
           return;
         }
     }
-    fetch("/members/interest", {
+    fetch("http://jikchon.ap-northeast-2.elasticbeanstalk.com/members/interest", {
         method: "GET",
         headers: {
           'Content-Type': "application/json",
@@ -29,39 +29,38 @@ function con_recommend(){
 }
 function choiceItems(){
     var itemImages = document.querySelectorAll(".item-image");
-    var selectedItem = [];
+    var interestCategory = [];
 
     itemImages.forEach(function(itemImage) {
         itemImage.addEventListener("click", function() {
             var parentBox = itemImage.closest(".recommend-item-box");
             var itemName = itemImage.getAttribute("data-item-name");
 
-            if (selectedItem.includes(itemName)) {
-                selectedItem = selectedItem.filter(name => name !== itemName);
+            if (interestCategory.includes(itemName)) {
+                interestCategory = interestCategory.filter(name => name !== itemName);
                 parentBox.style.border = "none"; 
             } else {
-                selectedItem.push(itemName);
+                interestCategory.push(itemName);
                 parentBox.style.border = "2px solid gray";
             }
 
-            console.log("선택한 아이템들:", selectedItem);
+            console.log("선택한 아이템들:", interestCategory);
         });
     });
     var submitButton = document.getElementById("submit");
     submitButton.addEventListener("click", function() {
-        sendList(selectedItem);
+        sendList(interestCategory);
     });
 }
 
-function sendList(selectedItem){
+function sendList(interestCategory){
     const formData = new FormData();
     formData.append(
-        "interestCategory",
-        new Blob([JSON.stringify(selectedItem)],{
+        new Blob([JSON.stringify(interestCategory)],{
             type:'application/json'
         })
     );
-    const url = "/members/interest";
+    const url = "http://jikchon.ap-northeast-2.elasticbeanstalk.com/members/interest";
     var myHeaders = new Headers();
     const token = localStorage.getItem('token');
     myHeaders.append('Authorization','Bearer'+token);
@@ -80,5 +79,5 @@ function sendList(selectedItem){
 }
 function moveChangePage(){
     alert("저장이 완료되었습니다.");
-    window.location.href = "http://jikchon.ap-northeast-2.elasticbeanstalk.com/mypage/customer";
+    // window.location.href = "http://jikchon.ap-northeast-2.elasticbeanstalk.com/mypage/customer";
 }

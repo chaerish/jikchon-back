@@ -9,24 +9,24 @@ var myHeaders = new Headers();
 myHeaders.append('Authorization', 'Bearer ' + token);
 myHeaders.append('Content-Type', 'application/json');
 
-// function loadCartData() {
-//     let url = `/members/cart?page=${pageNum}`;
-//     /* 통신용 코드 */
-//     fetch(url, {
-//         headers: myHeaders,
-//         method: "GET"
-//     })
-//         .then(checkTokenValid(response))
-//         .then((response) => response.json())
-//         .then((data) => {
-//             let data1 = data.data;
-//             console.log(data1);
-//             fetchData = data1;
-//         })
-//         .catch((error) => {
-//             console.error('An error occurred while loading store data:', error);
-//         });
-// }
+function loadCartData() {
+    let url = `/members/cart?page=${pageNum}`;
+    /* 통신용 코드 */
+    fetch(url, {
+        headers: myHeaders,
+        method: "GET"
+    })
+        .then(checkTokenValid(response))
+        .then((response) => response.json())
+        .then((data) => {
+            let data1 = data.data;
+            console.log(data1);
+            renderCartData(data1);
+        })
+        .catch((error) => {
+            console.error('An error occurred while loading store data:', error);
+        });
+}
 
 
 /* 통신 data로 cart rendering */
@@ -36,10 +36,10 @@ function renderCartData(data) {
         const li = document.createElement("li");
 
         li.innerHTML = `
-            <img src="${product.imageSrc}" alt="" class="prod-img">
+            <img src="${product.imageUrl}" alt="" class="prod-img">
             <div class="cart-component">
                 <div class="row-dir-box">
-                    <p class="brands">${product.brandName}</p>
+                    <p class="brands">${product.storeName}</p>
                     <div class="amount-box">
                         <button class="quantity-down-btn"">-</button>
                         <input type="text" class="quantity-input" value="1">
@@ -152,7 +152,7 @@ function returnMainHome() {
 
 window.onload = function main() {
     loadCartData();
-    renderCartData();
+    // renderCartData();
     payCart();
     getCartListIndex()
     returnMainHome();
