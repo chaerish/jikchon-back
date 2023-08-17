@@ -291,12 +291,13 @@ public class AuthService implements UserDetailsService {
         member.setPhoneNumber(memberRequestDto.getPhoneNumber());
         member.setZipcode(member.getZipcode());
         member.setAddress(memberRequestDto.getAddress());
-
-        if (member.getRole().equals(MemberRole.ROLE_SELLER)) {
-            if (!memberRequestDto.getCompanyNumber().equals(member.getCompanyNumber())) {
-                isValidate(memberRequestDto);
-                member.setCompanyNumber(memberRequestDto.getCompanyNumber());
-            }
-        }
+        member.setCompanyNumber(member.getCompanyNumber());
+//
+//        if (member.getRole().equals(MemberRole.ROLE_SELLER)) {
+//            if (!memberRequestDto.getCompanyNumber().equals(member.getCompanyNumber())) {
+//                isValidate(memberRequestDto);
+//                member.setCompanyNumber(memberRequestDto.getCompanyNumber());
+//            }
+//        }
     }
 }
