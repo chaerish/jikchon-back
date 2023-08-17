@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function enrollItem(){
+  checkTokenValid();
   if(!checkTokenExistence()){
     window.alert('로그인이 필요한 서비스입니다. 로그인 화면으로 이동합니다.');
     window.location.href = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/login';
@@ -17,18 +18,6 @@ function enrollItem(){
         return;
       }
   }
-checkTokenValid();
-  fetch("/products", {
-    method: "GET",
-    headers: {
-      'Content-Type': "application/json",
-      'Authorization': `Bearer ${localStorage.getItem("token")}`,
-    },
-  })
-  .then(response => response.json())
-  .then(response => {
-    console.log(response.data); // 가져온 데이터 처리
-  });
 }
 
 function setCategory(){
@@ -96,7 +85,6 @@ document.getElementById('submit-button').addEventListener("click",()=>{
     var quantity = document.getElementById('item-amount').value;
     var intro = document.getElementById('item-detailed').value;
 
-    const fileInput = document.getElementById("item-image")
 
     const itemRequest = {
         'productName': productName,
