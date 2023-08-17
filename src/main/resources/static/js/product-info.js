@@ -10,7 +10,7 @@ myHeaders.append('Content-Type', 'application/json');
 // prod id 받아오기
 const urlParams = new URLSearchParams(window.location.search);
 const productId = urlParams.get('id');
-console.log(categoryId);
+console.log(productId);
 
 function loadProdData() {
     var url = `/products/${productId}`
@@ -22,7 +22,7 @@ function loadProdData() {
         .then((response) => response.json())
         .then((data) => {
             let data1 = data.data;
-            fetchData = data1;
+            renderProdData(data1);
         })
         .catch((error) => {
             console.error('An error occurred while loading store data:', error);
@@ -169,7 +169,7 @@ function cart_postFormData() {
 window.onload = function main() {
     checkTokenValid();
     loadProdData();
-    renderProdData(fetchData);
+    // renderProdData(fetchData);
     buy_postFormData();
     cart_postFormData();
 }
