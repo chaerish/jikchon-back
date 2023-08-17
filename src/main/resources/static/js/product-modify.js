@@ -2,7 +2,7 @@ import { checkTokenExistence, checkTokenValid,checkUserRole } from "./common/jwt
 var files = [];
 
 document.addEventListener("DOMContentLoaded", function() {
-  enrollItem();
+  // enrollItem();
   getData();
 });
 
@@ -18,7 +18,7 @@ function enrollItem(){
     }
 }
 checkTokenValid();
-  fetch("http://jikchon.ap-northeast-2.elasticbeanstalk.com/seller/enrollItem", {
+  fetch("http://jikchon.ap-northeast-2.elasticbeanstalk.com/product/modify", {
     method: "GET",
     headers: {
       'Content-Type': "application/json",
@@ -31,7 +31,7 @@ checkTokenValid();
   });
 }
 function getData(){
-  const url = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/seller/enrollItem';
+  const url = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/product/modify';
     var myHeaders = new Headers();
     var data = {
       productName : "해바라기씨",
@@ -181,7 +181,7 @@ document.getElementById('submit-button').addEventListener("click",()=>{
 
     console.log(formData);
     var myHeaders = new Headers();
-    const url = "http://jikchon.ap-northeast-2.elasticbeanstalk.com/seller/enrollItem";
+    const url = "http://jikchon.ap-northeast-2.elasticbeanstalk.com/product/modify";
     const token = localStorage.getItem('token');
     myHeaders.append('Authorization','Bearer'+token);
 
@@ -201,5 +201,5 @@ document.getElementById('submit-button').addEventListener("click",()=>{
 
   function moveChangePage(){
     alert("수정이 완료되었습니다.");
-    window.location.href = "http://jikchon.ap-northeast-2.elasticbeanstalk.com/seller/product/manage";
+    window.location.href = "http://jikchon.ap-northeast-2.elasticbeanstalk.com/product/manage";
 }
