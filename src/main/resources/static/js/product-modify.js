@@ -2,7 +2,7 @@ import { checkTokenExistence, checkTokenValid,checkUserRole } from "./common/jwt
 var files = [];
 
 document.addEventListener("DOMContentLoaded", function() {
-  // enrollItem();
+  enrollItem();
   getData();
 });
 
