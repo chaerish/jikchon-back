@@ -120,7 +120,7 @@ public class AuthService implements UserDetailsService {
         JSONObject responseJson = callApiAndGetResponse(requestUrl, requestBody.toString());
 
         if (!getBusinessStatus(responseJson).equals(VALID_STATUS_CODE)) {
-            throw new CustomBadRequestException(ErrorCode.BAD_REQUEST);
+            throw new CustomBadRequestException(ErrorCode.NONEXISTENT_BUSINESS_REGISTRATION_CODE);
         }
 
         verifiedCacheRepository.save(VerifiedMember.builder()
