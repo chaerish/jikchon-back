@@ -73,7 +73,7 @@ public class LocalImageService implements ImageService {
     }
 
     @Override
-    public void deleteImages(List<ProductImage> productImageLis) {
+    public void deleteImageList(List<ProductImage> productImageLis) {
 
     }
 }
