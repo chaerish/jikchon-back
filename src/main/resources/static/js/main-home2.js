@@ -295,10 +295,10 @@ function renderProdData(productsData) {
 function categoryFiltering() {
   const categorybtn = document.querySelectorAll(".category-details button");
   const prodList = document.getElementById("product-list");
-  prodList.innerHTML = "";
 
   categorybtn.forEach(btn => {
     btn.addEventListener("click", () => {
+      prodList.innerHTML = "";
       const categoryID = btn.id;
       url = `/products?category=${categoryID}&page=0`;
       pageNum = 0;
@@ -322,9 +322,7 @@ function categoryFiltering() {
 
 window.onload = function main() {
   loadProdData();
-  // console.log(fetchData[0].itemList);
   renderSubCategoryBtn();
-  // renderProdData(fetchData[0].itemList);
   categoryFiltering();
   ProdInfinityScroll();
 }
