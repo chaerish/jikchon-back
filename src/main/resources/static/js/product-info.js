@@ -115,8 +115,6 @@ function buy_postFormData() {
                 quantity: quantityInput.value
             };
 
-            console.log(formData);
-
             /* 통신용 코드 */
             fetch(postUrl, {
                 method: "POST",
@@ -154,8 +152,6 @@ function cart_postFormData() {
             // var teadbear = `Bearer ${token}`
             console.log(teadbear);
             var postUrl = `/products/${productId}/cart`
-
-            console.log(formData);
             /* 통신용 코드 */
             fetch(postUrl, {
                 method: "POST",
