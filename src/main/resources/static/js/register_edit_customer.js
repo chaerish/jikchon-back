@@ -115,7 +115,7 @@ function getUserInfo() {
     else throw new Error(response.json());
   })
   .then(response => {
-    originalPhoneNumber = response.data.phoneNumber;
+    originalPhoneNumber = response.data.phoneNumber.replaceAll('-', '');
 
     inputName.value = response.data.username;
     inputPhoneNumber1.value = response.data.phoneNumber.slice(0, 3);
