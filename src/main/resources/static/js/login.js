@@ -37,8 +37,10 @@ function login() {
     .then(response => {
       if (response.status === 200) {
         return response.json();
+      } else if (response.status === 404) {
+        window.alert('아이디와 비밀번호를 확인해 주세요.');
       } else {
-        throw new Error(response.status, '로그인 실패');
+        throw new Error(response.status);
       }
     })
     .then(response => {
@@ -50,7 +52,7 @@ function login() {
     })
     .catch(error => {
       console.error('Error:', error)
-      window.alert(`${response.status}: 로그인에 실패하였습니다.`);
+      window.alert(error + '로그인에 실패하였습니다.');
     });
   }
 }

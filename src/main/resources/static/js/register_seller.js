@@ -103,9 +103,13 @@ function authenticateCompanyRegistration() {
       warningCompanyRegistration.classList.remove('show');
       isCompanyRegistrationAuthenticated = true;
       window.alert('사업자 등록번호 인증에 성공했어요.');
-    } else if (response.status === 40002) {
+    } else if (response.status === 40301) {
       warningCompanyRegistration.classList.add('show');
       warningMSGCompanyRegistration.innerText = '이미 가입된 사업자 등록번호예요.';
+      isCompanyRegistrationAuthenticated = false;
+    } else if (response.status === 40302) {
+      warningCompanyRegistration.classList.add('show');
+      warningMSGCompanyRegistration.innerText = '사업자 등록번호가 올바르지 않아요. 다시 확인해 주세요.';
       isCompanyRegistrationAuthenticated = false;
     } else throw new Error(response.json());
   })
