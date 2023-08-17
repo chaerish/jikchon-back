@@ -35,8 +35,8 @@ public class S3ImageService implements ImageService {
         if (productImageList != null) {
             for(ProductImage productImage: productImageList){
                 s3Uploader.deleteS3Image(productImage.getImageUrl());
+                imageRepository.delete(productImage);
             }
-            deleteImages(productImageList);
         }
     }
 }
