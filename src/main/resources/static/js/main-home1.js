@@ -26,8 +26,6 @@ function loadRecommendList() {
             .catch((error) => {
                 console.error('An error occurred while loading store data:', error);
             });
-
-        
     }
     else {
         const recommendList = document.querySelector(".recommend-list");

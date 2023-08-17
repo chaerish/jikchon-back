@@ -122,7 +122,9 @@ function buy_postFormData() {
                     if (!response.ok) {
                         throw new Error("구매 요청이 실패하였습니다.");
                     }
-                    return response.json();
+                    else {
+                        return response.json();
+                    }
                 })
                 .then(data => {
                     console.log("구매 요청이 성공적으로 전송되었습니다.", data);
@@ -165,7 +167,9 @@ function cart_postFormData() {
                     if (!response.ok) {
                         throw new Error("장바구니 추가 요청이 실패하였습니다.");
                     }
-                    return response.json();
+                    else {
+                        return response.json();
+                    }
                 })
                 .then(data => {
                     console.log("요청이 성공적으로 전송되었습니다.");
