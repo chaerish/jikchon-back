@@ -108,7 +108,7 @@ function buy_postFormData() {
                 })
                 .then(data => {
                     console.log("구매 요청이 성공적으로 전송되었습니다.", data);
-                    window.location.href = `../html/mypage_sell_checkOrder.html?id=${quantityInput.value}`;
+                    window.location.href = `../seller/checkorder?id=${quantityInput.value}`;
                 })
                 .catch(error => {
                     console.error(error);
@@ -116,7 +116,7 @@ function buy_postFormData() {
         }
         else {
             alert("로그인 후 구매해 주세요!");
-            window.location.href = "../html/login.html";
+            window.location.href = "../login";
         }
     })
 }
@@ -161,7 +161,7 @@ function cart_postFormData() {
         }
         else {
             alert("로그인 후 구매해 주세요!");
-            window.location.href = "../html/login.html";
+            window.location.href = "../login";
         }
     })
 }
