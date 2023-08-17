@@ -49,8 +49,13 @@ function renderProdData(data) {
     const priceElement = prodInfoSection.querySelector(".price");
     priceElement.textContent = data.price;
 
-    const productName2Element = prodInfoSection.querySelector(".prod-name2");
+    const addCartSection = document.querySelector(".add-cart");
+
+    const productName2Element = addCartSection.querySelector(".prod-name2");
     productName2Element.textContent = data.productName;
+
+    const initSumPrice = addCartSection.querySelector(".sum-price");
+    initSumPrice.textContent = data.price;
 
 }
 
@@ -66,7 +71,7 @@ function decreaseQuantity() {
             quantityInput.value = currentValue - 1;
         }
     
-        let sum = fetchData.price * quantityInput.value;
+        let sum = sumPrice * quantityInput.value;
         sumPrice.textContent = sum;
     })
 
@@ -81,7 +86,7 @@ function increaseQuantity() {
         let sumPrice = document.querySelector(".sum-price");
         
         quantityInput.value = currentValue + 1;
-        let sum = fetchData.price * quantityInput.value;
+        let sum = sumPrice * quantityInput.value;
         sumPrice.textContent = sum;
 
     })
