@@ -322,6 +322,7 @@ function categoryFiltering() {
 
 window.onload = function main() {
   loadProdData();
+  console.log(fetchData.itemList);
   renderSubCategoryBtn();
   renderProdData(fetchData.itemList);
   categoryFiltering()
