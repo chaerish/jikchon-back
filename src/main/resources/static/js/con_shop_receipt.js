@@ -21,7 +21,7 @@ function con_receipt(idValue){
         }
     }
     checkTokenValid();
-    fetch("http://jikchon.ap-northeast-2.elasticbeanstalk.com/receipt/customer?id="+idValue, {
+    fetch("/customer/receipt/"+idValue, {
         method: "GET",
         headers: {
           'Content-Type': "application/json",
@@ -55,7 +55,7 @@ function getData(id){
     }
        
 
-    const url = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/receipt/customer?id='+idValue;
+    const url = "/customer/receipt/"+idValue;
     var myHeaders = new Headers();
     const token = localStorage.getItem('token');
     myHeaders.append('Authorization','Bearer'+token);  

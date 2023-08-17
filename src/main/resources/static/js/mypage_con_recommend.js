@@ -15,7 +15,7 @@ function con_recommend(){
           return;
         }
     }
-    fetch("http://jikchon.ap-northeast-2.elasticbeanstalk.com/customer/recommend", {
+    fetch("/members/interest", {
         method: "GET",
         headers: {
           'Content-Type': "application/json",
@@ -61,7 +61,7 @@ function sendList(selectedItem){
             type:'application/json'
         })
     );
-    const url = "http://jikchon.ap-northeast-2.elasticbeanstalk.com//customer/recommend";
+    const url = "/members/interest";
     var myHeaders = new Headers();
     const token = localStorage.getItem('token');
     myHeaders.append('Authorization','Bearer'+token);
