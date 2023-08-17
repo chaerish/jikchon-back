@@ -22,7 +22,7 @@
     width: 100%;
     align-items: flex-end;   
     gap: 0.7rem;
-    margin: 1rem 0;
+    padding: 1rem 0.5rem;
 }
 
 .category-details::-webkit-scrollbar {
@@ -75,7 +75,7 @@ hr {
 .prod-list {
     justify-content: center;
     align-items: center;
-    margin-top: 1.2rem;
+    margin-top: 4.25rem;
 }
 
 .prod-list img {
