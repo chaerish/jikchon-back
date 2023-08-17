@@ -22,10 +22,10 @@ public class CartReturnDto {
     public static CartReturnDto toCartReturnDto(Cart cart){
         return CartReturnDto.builder()
                 .id(cart.getId())
-                .storeName(cart.getMember().getUsername())
+                .storeName(cart.getProduct().getMember().getUsername())
                 .productName(cart.getProduct().getProductName())
                 .price(cart.getProduct().getPrice())
-                .address(cart.getMember().getAddress())
+                .address(cart.getProduct().getMember().getAddress())
                 .imageUrl(cart.getProduct().getImageList().get(0).getImageUrl())
                 .build();
     }
