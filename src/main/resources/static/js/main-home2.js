@@ -172,7 +172,7 @@ function loadProdData() {
     .then((data) => {
       let data1 = data.data;
       console.log(data1);
-      fetchData = data1;
+      renderProdData(data1.itemList);
     })
     .catch((error) => {
       console.error('An error occurred while loading store data:', error);
@@ -187,7 +187,6 @@ function loadMoreItems() {
     console.log("pageNum: ", pageNum);
   }
   isLoading = true;
-  let nextPageData = [];
 
   fetch(url, {
     headers: myHeaders,
@@ -195,12 +194,11 @@ function loadMoreItems() {
     .then((response) => response.json())
     .then((data) => {
       let data1 = data.data;
-      nextPageData = data1;
+      renderProdData(data1.itemList);
     })
     .catch((error) => {
       console.error('An error occurred while loading store data:', error);
     });
-  renderProdData(nextPageData[0].itemList);
 }
 
 function ProdInfinityScroll() {
@@ -299,7 +297,6 @@ function categoryFiltering() {
   categorybtn.forEach(btn => {
     btn.addEventListener("click", () => {
       const categoryID = btn.id;
-      let detailCategoryProd = [];
       url = `/products?category=${categoryID}&page=0`;
       pageNum = 0;
 
@@ -309,22 +306,22 @@ function categoryFiltering() {
       })
         .then((response) => response.json())
         .then((data) => {
-          detailCategoryProd = data.data;
+          let data1 = data.data;
+          renderProdData(data1.itemList);
         })
         .catch((error) => {
           console.error("loading fail")
         });
       
-      renderProdData(detailCategoryProd[0].itemList);
     })
   })
 }
 
 window.onload = function main() {
   loadProdData();
-  console.log(fetchData[0].itemList);
+  // console.log(fetchData[0].itemList);
   renderSubCategoryBtn();
-  renderProdData(fetchData[0].itemList);
+  // renderProdData(fetchData[0].itemList);
   categoryFiltering();
   ProdInfinityScroll();
 }
