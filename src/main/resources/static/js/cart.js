@@ -108,34 +108,38 @@ increaseButton.forEach(product => {
 var formData = [];
 
 function payCart() {
-    const cartItems = document.querySelectorAll("#cart-li li");
-    const postUrl = "/purchases/cart";
+    const cartBtn = document.querySelector(".cart-btn");
+    cartBtn.addEventListener("click", () => {
+        const cartItems = document.querySelectorAll("#cart-li li");
+        const postUrl = "/purchases/cart";
 
-    cartItems.forEach((item, index) => {
-        const quantityInput = item.querySelector(".quantity-input");
-        const quantityValue = quantityInput.value;
+        cartItems.forEach((item, index) => {
+            const quantityInput = item.querySelector(".quantity-input");
+            const quantityValue = quantityInput.value;
 
-        // formData.append(`item[${index}][quantity]`, quantityValue);
-        formData.append(`item[${index}][quantity]`, quantityValue);
-    });
-
-    fetch(postUrl, {
-        method: "POST",
-        headers: myHeaders,
-        body: JSON.stringify(formData)
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("관심카테고리 선택 실패");
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log("관심카테고리 선택 성공.", data);
-        })
-        .catch(error => {
-            console.error(error);
+            // formData.append(`item[${index}][quantity]`, quantityValue);
+            formData.append(`item[${index}][quantity]`, quantityValue);
         });
+
+        fetch(postUrl, {
+            method: "POST",
+            headers: myHeaders,
+            body: JSON.stringify(formData)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("관심카테고리 선택 실패");
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("관심카테고리 선택 성공.", data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    })
+
 }
 
 function returnMainHome() {
@@ -147,9 +151,9 @@ function returnMainHome() {
 }
 
 window.onload = function main() {
-    // loadCartData();
-    // renderCartData();
-    // payCart();
+    loadCartData();
+    renderCartData();
+    payCart();
     getCartListIndex()
     returnMainHome();
 }
