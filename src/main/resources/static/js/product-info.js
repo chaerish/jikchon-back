@@ -156,7 +156,7 @@ function cart_postFormData() {
             var postUrl = `/products/${productId}/cart`
 
             var formData = {
-                id: productId
+                productId: productId
             };
 
             console.log(formData);
