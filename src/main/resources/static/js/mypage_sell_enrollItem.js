@@ -139,5 +139,5 @@ document.getElementById('submit-button').addEventListener("click",()=>{
 
   function moveChangePage(){
     alert("등록이 완료되었습니다.");
-    window.location.href = "http://jikchon.ap-northeast-2.elasticbeanstalk.com/seller/product/manage";
+    window.location.href = "http://jikchon.ap-northeast-2.elasticbeanstalk.com/product/manage";
 }
