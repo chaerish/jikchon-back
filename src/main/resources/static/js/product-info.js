@@ -155,16 +155,11 @@ function cart_postFormData() {
             console.log(teadbear);
             var postUrl = `/products/${productId}/cart`
 
-            var formData = {
-                productId: productId
-            };
-
             console.log(formData);
             /* 통신용 코드 */
             fetch(postUrl, {
                 method: "POST",
                 headers: postHeaders,
-                body: JSON.stringify(formData)
             })
                 .then(response => {
                     if (!response.ok) {
