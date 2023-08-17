@@ -93,12 +93,19 @@ function increaseQuantity() {
     })
 }
 
+
+var postHeaders = new Headers();
+var teadbear = `Bearer ${token}`
+postHeaders.append('Content-Type', 'application/json');
+postHeaders.append('Authorization', teadbear);
+
+
 function buy_postFormData() {
     const buyBtn = document.querySelector(".buy-btn");
     buyBtn.addEventListener("click", () => {
         if (checkTokenExistence()) {
             checkTokenValid();
-            var teadbear = `Bearer ${token}`
+            // var teadbear = `Bearer ${token}`
             console.log(teadbear);
             const quantityInput = document.querySelector(".quantity-input");
             var postUrl = "/purchases";
@@ -113,10 +120,7 @@ function buy_postFormData() {
             /* 통신용 코드 */
             fetch(postUrl, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": teadbear
-                },
+                headers: postHeaders,
                 body: JSON.stringify(formData)
             })
                 .then(response => {
@@ -129,7 +133,7 @@ function buy_postFormData() {
                 })
                 .then(data => {
                     console.log("구매 요청이 성공적으로 전송되었습니다.", data);
-                    window.location.href = `../seller/checkorder?id=${quantityInput.value}`;
+                    window.location.href = `../customer/checkorder?id=${quantityInput.value}`;
                 })
                 .catch(error => {
                     console.error(error);
