@@ -1,6 +1,7 @@
 import { checkTokenValid, checkTokenExistence } from './common/jwt_token_check.js';
 
 let fetchData = [];
+let price;
 
 /* Header 설정 */
 const token = localStorage.getItem('access_token');
@@ -23,6 +24,7 @@ function loadProdData() {
         .then((data) => {
             let data1 = data.data;
             renderProdData(data1);
+            price = data1.price;
         })
         .catch((error) => {
             console.error('An error occurred while loading store data:', error);
@@ -71,7 +73,7 @@ function decreaseQuantity() {
             quantityInput.value = currentValue - 1;
         }
     
-        let sum = sumPrice * quantityInput.value;
+        let sum = price * quantityInput.value;
         sumPrice.textContent = sum;
     })
 
@@ -86,9 +88,8 @@ function increaseQuantity() {
         let sumPrice = document.querySelector(".sum-price");
         
         quantityInput.value = currentValue + 1;
-        let sum = sumPrice * quantityInput.value;
+        let sum = price * quantityInput.value;
         sumPrice.textContent = sum;
-
     })
 }
 
@@ -101,7 +102,7 @@ function buy_postFormData() {
             var postUrl = "/purchases";
 
             var formData = {
-                id: fetchData.id,
+                id: productId,
                 quantity: quantityInput.value
             };
 
@@ -147,7 +148,7 @@ function cart_postFormData() {
             var postUrl = `/products/${productId}/cart`
 
             var formData = {
-                id: fetchData.id,
+                id: productId,
                 quantity: quantityInput.value
             };
 
