@@ -64,7 +64,7 @@ public class TokenProvider {
         long nowMillisecond = new Date().getTime();
         return TokenResponseDto.builder()
                 .token(generateToken(jwtType, memberId, authority, nowMillisecond))
-                .expiresIn((nowMillisecond + jwtType.getValidMillisecond()) / 1000L)
+                .expiresIn((nowMillisecond + jwtType.getValidMillisecond()))
                 .role(MemberRole.valueOf(authority).getRoleName())
                 .build();
     }
