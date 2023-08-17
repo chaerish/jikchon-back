@@ -12,38 +12,29 @@ function getQueryParamValue(paramName){
   return urlParams.get(paramName);
 }
 function enrollItem(){
+  checkTokenValid();
   if(!checkTokenExistence()){
     window.alert('로그인이 필요한 서비스입니다. 로그인 화면으로 이동합니다.');
     window.location.href = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/login';
-}else {
-    if (checkUserRole() !== 'seller') {
-      window.alert('잘못된 접근입니다.');
-      window.location.href = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/';
-      return;
-    }
-}
-checkTokenValid();
-  fetch("/products", {
-    method: "GET",
-    headers: {
-      'Content-Type': "application/json",
-      'Authorization': `Bearer ${localStorage.getItem("token")}`,
-    },
-  })
-  .then(response => response.json())
-  .then(response => {
-    console.log(response.data); // 가져온 데이터 처리
-  });
+  }else {
+      if (checkUserRole() !== 'seller') {
+        window.alert('잘못된 접근입니다.');
+        window.location.href = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/';
+        return;
+      }
+  }
 }
 function getData(){
   const url = '/products/'+idValue;
     var myHeaders = new Headers();
     var data = {
-      productName : "해바라기씨",
-      category : "곡물",
-      price : 2000,
-      quantity : 50,
-      intro : "우리집 햄스터 애착품"
+    //   productId:4,
+    //   productName : "해바라기씨",
+    //   subcategory : "곡물",
+    //   price : 2000,
+    //   quantity : 50,
+    //   intro : "우리집 햄스터 애착품",
+    //   imageUrl:["https://elasticbeanstalk-ap-northeast-2-502124422422.s3.ap-northeast-2.amazonaws.com/product/d6fb88d4-cad9-4925-9caf-30f6e4d4222f_KakaoTalk_Photo_2023-06-11-16-24-21.jpeg"],
     };
 
     const token = localStorage.getItem('token');
@@ -70,6 +61,17 @@ function getData(){
 }
 
 function setData(data){
+  var imageContainer = document.getElementById("image-container");
+  imageContainer.innerHTML = '';
+  imageContainer.style.background = "none";
+
+  var img = document.createElement("img");
+  img.classList.add('item-img');
+  img.setAttribute("src", data.imageUrl[0]);
+  img.style.width = "10rem";
+  img.style.height ="10rem";
+  imageContainer.appendChild(img);
+
   setCategory(data);
   document.getElementById("item-name").value = data.productName;
   document.getElementById("item-price").value = data.price;
@@ -87,19 +89,19 @@ function setCategory(data){
 
     if(checkInclude(data.category,["과일", "채소", "버섯","곡물","건농산물"])){
       bigCategorySelect.value = "농산물";
-      smallCategorySelect.Value = data.category
+      smallCategorySelect.Value = data.subcategory
     }
     else if(checkInclude(data.category,["소", "돼지", "닭/오리/알류","육가공륙"])){
       bigCategorySelect.value = "축산물";
-      smallCategorySelect.Value = data.category
+      smallCategorySelect.Value = data.subcategory
     }
     else if(checkInclude(data.category,["생선류", "건어물", "김/해조류","해산물/어패류","수산가공물"])){
       bigCategorySelect.value = "수산물";
-      smallCategorySelect.Value = data.category
+      smallCategorySelect.Value = data.subcategory
     }
     else if(checkInclude(data.category,["앙념류", "반찬류", "유제품"])){
       bigCategorySelect.value = "가공식품";
-      smallCategorySelect.Value = data.category
+      smallCategorySelect.Value = data.subcategory
     }
     
     
@@ -163,14 +165,12 @@ document.getElementById('submit-button').addEventListener("click",()=>{
     var quantity = document.getElementById('item-amount').value;
     var intro = document.getElementById('item-detailed').value;
 
-    const fileInput = document.getElementById("item-image")
-
     const itemRequest = {
         'productName': productName,
         'price' : price,
         'quantity' : quantity,
         'smallCategory':smallCategory,
-        'intro' : intro
+        'intro' : intro,
     }
 
     const formData = new FormData();
