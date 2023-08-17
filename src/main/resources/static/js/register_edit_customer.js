@@ -1,4 +1,4 @@
-import { checkTokenExistence, checkTokenValid } from "./common/jwt_token_check.js";
+import { checkTokenExistence, checkTokenValid, checkUserRole } from "./common/jwt_token_check.js";
 
 const inputName = document.getElementById('input-name');
 const inputPW = document.getElementById('input-password');
@@ -67,38 +67,6 @@ function checkPhoneNumberNotDuplicated() {
     console.error(error);
     warningPhoneNumber.classList.add('show');
     warningMSGPhoneNumber.innerText = '전화번호 조회에 실패했어요.';
-  });
-}
-
-function autoLogin(phoneNumber) {
-  // 회원가입 후 자동 로그인
-  fetch('/members/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      phoneNumber: phoneNumber,
-      password: inputPW.value,
-    }),
-  })
-  .then(response => {
-    if (response.status === 200) {
-      return response.json();
-    } else {
-      throw new Error(response.json());
-    }
-  })
-  .then(response => {
-    localStorage.setItem('access_token', response.data.token);
-    localStorage.setItem('expires_in', response.data.expiresIn);
-    localStorage.setItem('user_role', response.data.role);
-    window.alert('로그인에 성공하였습니다.');
-    window.location.href = '/';
-  })
-  .catch(error => {
-    console.error(error)
-    window.alert('로그인에 실패하였습니다.');
   });
 }
 
@@ -186,9 +154,12 @@ btnRegister.addEventListener('click', () => {
       })
       .then(response => {
         if (response.status === 200) {
-          window.alert('정보 수정 완료! 자동으로 로그인합니다.');
-          // 회원가입 후 자동 로그인
-          autoLogin(phoneNumber);
+          window.alert('정보 수정에 성공했어요.');
+          if (checkUserRole() === 'seller') {
+            window.location.href = '/mypage/seller';
+          } else {
+            window.location.href = '/mypage/customer';
+          }
         } else throw new Error(response.json());
       })
       .catch(error => {
@@ -216,9 +187,12 @@ btnRegister.addEventListener('click', () => {
       })
       .then(response => {
         if (response.status === 200) {
-          window.alert('정보 수정 완료! 자동으로 로그인합니다.');
-          // 회원가입 후 자동 로그인
-          autoLogin(phoneNumber);
+          window.alert('정보 수정에 성공했어요.');
+          if (checkUserRole() === 'seller') {
+            window.location.href = '/mypage/seller';
+          } else {
+            window.location.href = '/mypage/customer';
+          }
         } else throw new Error(response.json());
       })
       .catch(error => {
