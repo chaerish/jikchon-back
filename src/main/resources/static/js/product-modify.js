@@ -188,7 +188,8 @@ document.getElementById('submit-button').addEventListener("click",()=>{
     var myHeaders = new Headers();
     const url = "/products/"+idValue;
     const token = localStorage.getItem('token');
-    myHeaders.append('Authorization','Bearer'+token);
+    myHeaders.append('Authorization',token);
+    myHeaders.append('Content-Type','application/json');
 
     fetch(url,{
         headers: myHeaders,

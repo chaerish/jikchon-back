@@ -44,19 +44,17 @@ function choiceItems(){
 }
 
 function sendList(interestCategory){
-    const formData = new FormData();
-    formData.append(
-        new Blob([JSON.stringify(interestCategory)],{
-            type:'application/json'
-        })
-    );
-    const url = "http://jikchon.ap-northeast-2.elasticbeanstalk.com/members/interest";
+    const url = "/members/interest";
     var myHeaders = new Headers();
     const token = localStorage.getItem('token');
-    myHeaders.append('Authorization','Bearer'+token);
+    myHeaders.append('Authorization',token);
+    myHeaders.append('Content-Type','application/json')
     fetch(url,{
         headers: myHeaders,
-        body:formData,
+        body:JSON.stringify({
+            "interestCategory":interestCategory
+        }),
+        
         method: "POST"
     })
     .then((response)=>response.json())
