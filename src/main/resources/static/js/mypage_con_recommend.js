@@ -46,7 +46,7 @@ function choiceItems(){
 function sendList(interestCategory){
     const url = "/members/interest";
     var myHeaders = new Headers();
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('access_token');
     myHeaders.append('Authorization',`Bearer ${token}`);
     myHeaders.append('Content-Type','application/json')
     fetch(url,{
@@ -62,7 +62,7 @@ function sendList(interestCategory){
     .catch((error)=>{
         console.error(error);
     })
-    console.log("전송완료 : ",selectedItem)
+    console.log("전송완료 : ",interestCategory)
     moveChangePage();
 }
 function moveChangePage(){

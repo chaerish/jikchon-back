@@ -108,7 +108,7 @@ document.getElementById('submit-button').addEventListener("click",()=>{
     console.log(formData);
     var myHeaders = new Headers();
     const url = "/products";
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('access_token');
     myHeaders.append('Authorization',`Bearer ${token}`);
     myHeaders.append('Content-Type','application/json')
 
