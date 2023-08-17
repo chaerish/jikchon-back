@@ -14,9 +14,8 @@ function receiptDataLoad() {
     })
         .then((response) => response.json())
         .then((data) => {
-            let data1 = data.data;
-            console.log(data1);
-            fetchData = data1;
+            console.log(data.data);
+            fetchData = data.data;
         })
         .catch((error) => {
             console.error('An error occurred while loading store data:', error);
