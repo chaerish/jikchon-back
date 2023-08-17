@@ -283,8 +283,7 @@ function renderProdData(productsData) {
 
     // li click 시 상세페이지로 이동
     li.addEventListener("click", () => {
-      const productId = product.id;
-      window.location.href = `../product-info?id=${productId}`;
+      window.location.href = `../product/${product.id}?id=${product.id}`;
     })
 
     productList.appendChild(li);
