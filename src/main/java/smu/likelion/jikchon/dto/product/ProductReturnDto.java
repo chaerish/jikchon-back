@@ -13,6 +13,7 @@ public class ProductReturnDto {
     @Builder
     public static class Simple { //목록에서 봤을 때 간단하게 보이는것
         private Long productId;
+        private String storeName;
         private String productName;
         private String subCategory;
         private Integer price;
@@ -21,6 +22,7 @@ public class ProductReturnDto {
         public static ProductReturnDto.Simple of(Product product) {
             return Simple.builder()
                     .productId(product.getId())
+                    .storeName(product.getMember().getUsername())
                     .productName(product.getProductName())
                     .subCategory(product.getSubCategory().getDescription())
                     .price(product.getPrice())

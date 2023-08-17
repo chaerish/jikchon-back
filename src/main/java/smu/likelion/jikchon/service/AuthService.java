@@ -75,6 +75,7 @@ public class AuthService implements UserDetailsService {
 
     }
 
+    @Transactional
     public void isValidate(MemberRequestDto.SignUp memberRequestDto) {
         Optional<VerifiedMember> verifiedMemberOptional = verifiedCacheRepository.findByPhoneNumber(memberRequestDto.getPhoneNumber());
 
@@ -98,6 +99,7 @@ public class AuthService implements UserDetailsService {
     }
 
 
+    @Transactional
     public void validationCompanyNumber(MemberRequestDto.VerifyCompanyNumber verifyCompanyNumberRequest) {
         final String VALID_STATUS_CODE = "01";
         final String requestUrl = "https://api.odcloud.kr/api/nts-businessman/v1/status?" +
@@ -178,6 +180,7 @@ public class AuthService implements UserDetailsService {
             }
         }
     }
+
 
     private String getBusinessStatus(JSONObject apiResponseJson) {
         return apiResponseJson.getJSONArray("data").getJSONObject(0).getString("b_stt_cd");

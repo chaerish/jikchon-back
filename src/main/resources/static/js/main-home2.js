@@ -172,7 +172,7 @@ function loadProdData() {
     .then((data) => {
       let data1 = data.data;
       console.log(data1);
-      fetchData = data1;
+      renderProdData(data1.itemList);
     })
     .catch((error) => {
       console.error('An error occurred while loading store data:', error);
@@ -187,7 +187,6 @@ function loadMoreItems() {
     console.log("pageNum: ", pageNum);
   }
   isLoading = true;
-  let nextPageData = [];
 
   fetch(url, {
     headers: myHeaders,
@@ -195,12 +194,11 @@ function loadMoreItems() {
     .then((response) => response.json())
     .then((data) => {
       let data1 = data.data;
-      nextPageData = data1;
+      renderProdData(data1.itemList);
     })
     .catch((error) => {
       console.error('An error occurred while loading store data:', error);
     });
-  renderProdData(nextPageData.itemList);
 }
 
 function ProdInfinityScroll() {
@@ -268,11 +266,11 @@ function renderProdData(productsData) {
     const li = document.createElement("li");
 
     li.innerHTML = `
-          <img src="${product.imageSrc}" alt="${product.productName}" class="prod-img">
+          <img src="${product.imageUrl}" alt="${product.productName}" class="prod-img">
           <div class="prod-info">
             <div class="product">
               <div class="brands">
-                <p>${product.brandName}</p>
+                <p>${product.storeName}</p>
                 <img src="../images/cart_icon.svg" class="cart-img" />
               </div>
               <div class="prod-name">
@@ -296,10 +294,12 @@ function renderProdData(productsData) {
 
 function categoryFiltering() {
   const categorybtn = document.querySelectorAll(".category-details button");
+  const prodList = document.getElementById("product-list");
+  prodList.innerHTML = "";
+
   categorybtn.forEach(btn => {
     btn.addEventListener("click", () => {
       const categoryID = btn.id;
-      let detailCategoryProd = [];
       url = `/products?category=${categoryID}&page=0`;
       pageNum = 0;
 
@@ -309,21 +309,22 @@ function categoryFiltering() {
       })
         .then((response) => response.json())
         .then((data) => {
-          detailCategoryProd = data.data;
+          let data1 = data.data;
+          renderProdData(data1.itemList);
         })
         .catch((error) => {
           console.error("loading fail")
         });
       
-      renderProdData(detailCategoryProd.itemList);
     })
   })
 }
 
 window.onload = function main() {
   loadProdData();
-  renderProdData(fetchData.itemList);
+  // console.log(fetchData[0].itemList);
   renderSubCategoryBtn();
-  categoryFiltering()
+  // renderProdData(fetchData[0].itemList);
+  categoryFiltering();
   ProdInfinityScroll();
 }
