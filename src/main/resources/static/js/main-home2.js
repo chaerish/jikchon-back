@@ -1,6 +1,6 @@
 import { checkTokenValid, checkTokenExistence } from './common/jwt_token_check.js';
 
-let fetchData;
+let fetchData = [];
 let pageNum = 0;
 /* 임시데이터
 let temporaryData1 = {
@@ -200,7 +200,7 @@ function loadMoreItems() {
     .catch((error) => {
       console.error('An error occurred while loading store data:', error);
     });
-  renderProdData(nextPageData.itemList);
+  renderProdData(nextPageData[0].itemList);
 }
 
 function ProdInfinityScroll() {
@@ -315,16 +315,16 @@ function categoryFiltering() {
           console.error("loading fail")
         });
       
-      renderProdData(detailCategoryProd.itemList);
+      renderProdData(detailCategoryProd[0].itemList);
     })
   })
 }
 
 window.onload = function main() {
   loadProdData();
-  console.log(fetchData.itemList);
+  console.log(fetchData[0].itemList);
   renderSubCategoryBtn();
-  renderProdData(fetchData.itemList);
+  renderProdData(fetchData[0].itemList);
   categoryFiltering();
   ProdInfinityScroll();
 }
