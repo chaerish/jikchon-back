@@ -9,16 +9,16 @@ document.addEventListener("DOMContentLoaded", function() {
 function enrollItem(){
   if(!checkTokenExistence()){
     window.alert('로그인이 필요한 서비스입니다. 로그인 화면으로 이동합니다.');
-    window.location.href = './login.html';
+    window.location.href = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/login';
 }else {
     if (checkUserRole() !== 'seller') {
       window.alert('잘못된 접근입니다.');
-      window.location.href = './main-home1.html';
+      window.location.href = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/';
       return;
     }
 }
 checkTokenValid();
-  fetch("/products", {
+  fetch("http://jikchon.ap-northeast-2.elasticbeanstalk.com/seller/enrollItem", {
     method: "GET",
     headers: {
       'Content-Type': "application/json",
@@ -119,7 +119,7 @@ document.getElementById('submit-button').addEventListener("click",()=>{
 
     console.log(formData);
     var myHeaders = new Headers();
-    const url = "http://jikchon.ap-northeast-2.elasticbeanstalk.com/products";
+    const url = "http://jikchon.ap-northeast-2.elasticbeanstalk.com/seller/enrollItem";
     const token = localStorage.getItem('access_token');
     myHeaders.append('Authorization','Bearer'+token);
 
@@ -139,5 +139,5 @@ document.getElementById('submit-button').addEventListener("click",()=>{
 
   function moveChangePage(){
     alert("등록이 완료되었습니다.");
-    window.location.href = "../html/product-manage.html";
+    window.location.href = "http://jikchon.ap-northeast-2.elasticbeanstalk.com/seller/product/manage";
 }

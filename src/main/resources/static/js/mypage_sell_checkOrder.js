@@ -6,16 +6,16 @@ document.addEventListener("DOMContentLoaded", function() {
 function sell_checkOrders(){
     if(!checkTokenExistence()){
         window.alert('로그인이 필요한 서비스입니다. 로그인 화면으로 이동합니다.');
-        window.location.href = './login.html';
+        window.location.href = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/login';
     }else {
         if (checkUserRole() !== 'seller') {
           window.alert('잘못된 접근입니다.');
-          window.location.href = './main-home1.html';
+          window.location.href = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/';
           return;
         }
     }
     checkTokenValid();
-    fetch("/members/purchases?page=0", {
+    fetch("http://jikchon.ap-northeast-2.elasticbeanstalk.com/seller/checkorder", {
         method: "GET",
         headers: {
           'Content-Type': "application/json",
@@ -61,7 +61,7 @@ function getData(){
         //     }
         // ]
     }  
-    const url = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/members/products?page=0';
+    const url = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/seller/checkorder';
     var myHeaders = new Headers();
     const token = localStorage.getItem('access_token');
     myHeaders.append('Authorization','Bearer'+token);  
@@ -141,7 +141,7 @@ function setOrderList(data){
         var orderDetail = document.createElement("a");
         orderDetail.classList.add("order-detail");
         orderDetail.textContent = "자세히보기";
-        orderDetail.href = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/seller/receipt/?id='+itemList.purchasedId;
+        orderDetail.href = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/receipt/seller/?id='+itemList.purchasedId;
 
         rightBox.appendChild(conName);
         rightBox.appendChild(orderPrice);

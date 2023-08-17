@@ -8,16 +8,16 @@ document.addEventListener("DOMContentLoaded", function() {
 function con_checkOrders(){
     if(!checkTokenExistence()){
         window.alert('로그인이 필요한 서비스입니다. 로그인 화면으로 이동합니다.');
-        window.location.href = './login.html';
+        window.location.href = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/login';
     }else {
         if (checkUserRole() !== 'customer') {
           window.alert('잘못된 접근입니다.');
-          window.location.href = './main-home1.html';
+          window.location.href = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/';
           return;
         }
     }
     checkTokenValid();
-    fetch("/customer/purchases?page=0", {
+    fetch("http://jikchon.ap-northeast-2.elasticbeanstalk.com/customer/checkorder", {
         method: "GET",
         headers: {
           'Content-Type': "application/json",
@@ -51,7 +51,7 @@ function getOrders(){
     }
     
 
-    const url = '/customer/purchases?page=0';
+    const url = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/customer/checkorder';
     var myHeaders = new Headers();
     const token = localStorage.getItem('access_token');
     myHeaders.append('Authorization','Bearer'+token); 
@@ -124,7 +124,7 @@ function setOrderList(data){
         orderPrice.textContent = order.price;
 
         var orderDetailLink = document.createElement("a");
-        orderDetailLink.href = '/customer/receipt/?id='+order.id // 자세히 보기에 연결된 링크
+        orderDetailLink.href = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/receipt/customer/?id='+order.id // 자세히 보기에 연결된 링크
 
         var orderDetail = document.createElement("p");
         orderDetail.classList.add('order-detail');
