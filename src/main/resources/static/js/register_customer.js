@@ -82,7 +82,7 @@ function autoLogin(phoneNumber) {
     if (response.status === 200) {
       return response.json();
     } else {
-      throw new Error(response);
+      throw new Error(response.json());
     }
   })
   .then(response => {
@@ -151,7 +151,7 @@ btnRegister.addEventListener('click', () => {
         window.alert('회원가입에 성공하였습니다. 자동으로 로그인합니다.');
         // 회원가입 후 자동 로그인
         autoLogin(phoneNumber);
-      } else throw new Error(response);
+      } else throw new Error(response.json());
     })
     .catch(error => {
       console.error(error);
