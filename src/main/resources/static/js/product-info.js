@@ -94,7 +94,7 @@ function buy_postFormData() {
             })
             .then(data => {
                 console.log("구매 요청이 성공적으로 전송되었습니다.", data);
-                window.location.href = `../html/payment-completed.html?id=${quantityInput.value}`;
+                window.location.href = `../html/mypage_sell_checkOrder.html?id=${quantityInput.value}`;
             })
             .catch(error => {
                 console.error(error);
