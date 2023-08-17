@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface ImageService {
     void saveProductImageList(Product product, List<MultipartFile> imageList);
-    void deleteImages(List<ProductImage> productImageLis);
+    void deleteImages(List<ProductImage> productImageList);
 }
