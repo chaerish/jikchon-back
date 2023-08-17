@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import smu.likelion.jikchon.domain.Product;
 import smu.likelion.jikchon.domain.ProductImage;
-import smu.likelion.jikchon.domain.enumurate.Target;
 import smu.likelion.jikchon.repository.ImageRepository;
 import smu.likelion.jikchon.s3.S3Uploader;
 
@@ -31,12 +30,12 @@ public class S3ImageService implements ImageService {
     }
 
     @Override
-    public void deleteImages(List<ProductImage> productImageList) {
+    public void deleteImageList(List<ProductImage> productImageList) {
         if (productImageList != null) {
-            for(ProductImage productImage: productImageList){
+            for (ProductImage productImage : productImageList) {
                 s3Uploader.deleteS3Image(productImage.getImageUrl());
+                imageRepository.delete(productImage);
             }
-            deleteImages(productImageList);
         }
     }
 }

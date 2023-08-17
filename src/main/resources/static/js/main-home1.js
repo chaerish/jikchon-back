@@ -12,6 +12,7 @@ myHeaders.append('Content-Type', 'application/json');
 // 추천 상품 load
 function loadRecommendList() {
     if (checkTokenExistence()) {
+        checkTokenValid();
         const head = document.querySelector(".today-recommend");
         fetch(url, {
             headers: myHeaders,
@@ -21,6 +22,7 @@ function loadRecommendList() {
             .then((data) => {
                 let data1 = data.data;
                 fetchdata = data1;
+                console.log(fetchdata);
             })
             .catch((error) => {
                 console.error('An error occurred while loading store data:', error);
@@ -89,12 +91,12 @@ function attachMenuClickEvent() {
             else if (index === 2) {
                 console.log(2);
                 // 해산물 페이지인거 main-home2.js에 넘겨주기 -> 3
-                window.location.href = `../product.html?id=${index + 1}`;
+                window.location.href = `../product?id=${index + 1}`;
             }
             else if (index === 3) {
                 console.log(3);
                 // 가공식품 페이지인거 main-home2.js에 넘겨주기 -> 4
-                window.location.href = `../product.html?id=${index + 1}`;
+                window.location.href = `../product?id=${index + 1}`;
             }
         });
         pageNum++;
@@ -103,9 +105,8 @@ function attachMenuClickEvent() {
 
 
 window.onload = function main() {
-    checkTokenValid();
     loadRecommendList();
-    renderRecommendList(fetchdata);
+    // renderRecommendList(fetchdata);
     attachMenuClickEvent();
 }
 
