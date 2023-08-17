@@ -12,6 +12,7 @@ myHeaders.append('Content-Type', 'application/json');
 // 추천 상품 load
 function loadRecommendList() {
     if (checkTokenExistence()) {
+        const head = document.querySelector(".today-recommend");
         fetch(url, {
             headers: myHeaders,
             method: 'GET'
@@ -28,15 +29,19 @@ function loadRecommendList() {
     }
     else {
         const recommendList = document.querySelector(".recommend-list");
-        const intendLogin = document.createElement("p");
-        intendLogin.innerHTML = "회원가입 하고 맞춤 상품 보러가기!";
-        recommendList.appendChild(intendLogin);
+        recommendList.innerHTML = `
+            <div class="login-text">
+                <p id="login-intend">로그인 하고 맞춤 상품 추천 받기!</p>
+                <a href="../html/login.html"><button>로그인</button></a>
+            </div>
+        `
     }
 }
 
 // 추천 상품 render
 function renderRecommendList(products) {
     const productList = document.getElementById("product-list");
+    
     // 데이터를 기반으로 제품 목록을 생성
     products.forEach(product => {
         const li = document.createElement("li");
@@ -94,6 +99,7 @@ function attachMenuClickEvent() {
         pageNum++;
     });
 }
+
 
 window.onload = function main() {
     attachMenuClickEvent();

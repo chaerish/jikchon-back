@@ -3,7 +3,7 @@ var files = [];
 
 document.addEventListener("DOMContentLoaded", function() {
   enrollItem();
-  setCategory();
+  getData();
 });
 
 function enrollItem(){
@@ -30,35 +30,97 @@ checkTokenValid();
     console.log(response.data); // 가져온 데이터 처리
   });
 }
+function getData(){
+  const url = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/seller/enrollItem';
+    var myHeaders = new Headers();
+    var data = {
+      productName : "해바라기씨",
+      category : "곡물",
+      price : 2000,
+      quantity : 50,
+      intro : "우리집 햄스터 애착품"
+    };
 
-function setCategory(){
-  var bigCategorySelect = document.getElementById("item-big-category");
-    var smallCategorySelect = document.getElementById("item-small-category");
-    
-    // bigCategorySelect의 변경에 따라 smallCategorySelect 옵션을 설정하는 함수
-    bigCategorySelect.addEventListener("change", function() {
-      var selectedValue = bigCategorySelect.value;
-      smallCategorySelect.innerHTML = "";
-      
-      if (selectedValue === "농산물") {
-        populateSmallCategory(["과일", "채소", "버섯","곡물","건농산물"]);
-      } else if (selectedValue === "축산물") {
-        populateSmallCategory(["소", "돼지", "닭/오리/알류","육가공륙"]);
-      }else if (selectedValue === "수산물") {
-        populateSmallCategory(["생선류", "건어물", "김/해조류","해산물/어패류","수산가공물"]);
-      }else if (selectedValue === "가공식품") {
-        populateSmallCategory(["앙념류", "반찬류", "유제품"]);
-      }
+    const token = localStorage.getItem('token');
+    myHeaders.append('Authorization','Bearer'+token); 
+    fetch(url,{
+        headers:myHeaders,
+        method:"GET",
+    })
+    .then((response)=>{
+        return response.json();
+    })
+    .then(date => {
+        if(data.httpStatus==='OK'){
+            data = data;
+        } else {
+            console.error("데이터 가져오기 실패");
+        }
+    })
+    .catch((error)=>{
+        console.error("오류발생",error);
     });
     
-    function populateSmallCategory(categories) {
-      categories.forEach(function(category) {
-        var option = document.createElement("option");
-        option.value = category;
-        option.text = category;
-        smallCategorySelect.appendChild(option);
-      });
+    setData(data);
+}
+
+function setData(data){
+  setCategory(data);
+  document.getElementById("item-name").value = data.productName;
+  document.getElementById("item-price").value = data.price;
+  document.getElementById("item-amount").value = data.quantity;
+  document.getElementById("item-detailed").value = data.intro;
+}
+function setCategory(data){
+  var bigCategorySelect = document.getElementById("item-big-category");
+  var smallCategorySelect = document.getElementById("item-small-category");
+    
+    // bigCategorySelect의 변경에 따라 smallCategorySelect 옵션을 설정하는 함수
+  bigCategorySelect.addEventListener("change", function() {
+    var selectedValue = bigCategorySelect.value;
+    smallCategorySelect.innerHTML = "";
+
+    if(checkInclude(data.category,["과일", "채소", "버섯","곡물","건농산물"])){
+      bigCategorySelect.value = "농산물";
+      smallCategorySelect.Value = data.category
     }
+    else if(checkInclude(data.category,["소", "돼지", "닭/오리/알류","육가공륙"])){
+      bigCategorySelect.value = "축산물";
+      smallCategorySelect.Value = data.category
+    }
+    else if(checkInclude(data.category,["생선류", "건어물", "김/해조류","해산물/어패류","수산가공물"])){
+      bigCategorySelect.value = "수산물";
+      smallCategorySelect.Value = data.category
+    }
+    else if(checkInclude(data.category,["앙념류", "반찬류", "유제품"])){
+      bigCategorySelect.value = "가공식품";
+      smallCategorySelect.Value = data.category
+    }
+    
+    
+    if (selectedValue === "농산물") {
+      populateSmallCategory(["과일", "채소", "버섯","곡물","건농산물"]);
+    } else if (selectedValue === "축산물") {
+      populateSmallCategory(["소", "돼지", "닭/오리/알류","육가공륙"]);
+    }else if (selectedValue === "수산물") {
+      populateSmallCategory(["생선류", "건어물", "김/해조류","해산물/어패류","수산가공물"]);
+    }else if (selectedValue === "가공식품") {
+      populateSmallCategory(["앙념류", "반찬류", "유제품"]);
+    }
+
+  });
+  
+  function populateSmallCategory(categories) {
+    categories.forEach(function(category) {
+      var option = document.createElement("option");
+      option.value = category;
+      option.text = category;
+      smallCategorySelect.appendChild(option);
+    });
+  }
+  function checkInclude(inputValue,categoryList){
+    return(categoryList.includes(inputValue))
+  }
 }
 document.getElementById("item-image").addEventListener("change", function (event){
   loadFiles(event);
@@ -126,7 +188,7 @@ document.getElementById('submit-button').addEventListener("click",()=>{
     fetch(url,{
         headers: myHeaders,
         body:formData,
-        method: "POST"
+        method: "PUT"
     })
     .then((Response)=>Response.json())
     .then((result)=>console.log(result))
@@ -138,6 +200,6 @@ document.getElementById('submit-button').addEventListener("click",()=>{
   }
 
   function moveChangePage(){
-    alert("등록이 완료되었습니다.");
+    alert("수정이 완료되었습니다.");
     window.location.href = "http://jikchon.ap-northeast-2.elasticbeanstalk.com/seller/product/manage";
 }

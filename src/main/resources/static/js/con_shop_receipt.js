@@ -12,20 +12,20 @@ function getQueryParamValue(paramName){
 function con_receipt(idValue){
     if(!checkTokenExistence()){
         window.alert('로그인이 필요한 서비스입니다. 로그인 화면으로 이동합니다.');
-        window.location.href = './login.html';
+        window.location.href = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/login';
     }else {
         if (checkUserRole() !== 'customer') {
           window.alert('잘못된 접근입니다.');
-          window.location.href = './main-home1.html';
+          window.location.href = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/';
           return;
         }
     }
     checkTokenValid();
-    fetch("/customer/receipt/"+idValue, {
+    fetch("http://jikchon.ap-northeast-2.elasticbeanstalk.com/receipt/customer?id="+idValue, {
         method: "GET",
         headers: {
           'Content-Type': "application/json",
-          'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
+          'Authorization': `Bearer ${localStorage.getItem("token")}`,
         },
       })
       .then(checkTokenValid(response))
@@ -55,9 +55,9 @@ function getData(id){
     }
        
 
-    const url = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/customer/receipt/'+id;
+    const url = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/receipt/customer?id='+idValue;
     var myHeaders = new Headers();
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem('token');
     myHeaders.append('Authorization','Bearer'+token);  
     fetch(url,{
         headers:myHeaders,

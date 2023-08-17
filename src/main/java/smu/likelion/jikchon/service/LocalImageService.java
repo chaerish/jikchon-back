@@ -72,25 +72,9 @@ public class LocalImageService implements ImageService {
         }
     }
 
-    @Override //정말 미안합니다 지피티고 구글링이고 다뒤져봤는데 이게맞는지모르겟네요 다지워도됩니다
-    public void deleteImages(Long targetId, Target target) {
-//        List<Image> imageList=imageRepository.findByTargetIdAndTarget(targetId,target);
-//        for(Image image:imageList){
-//            String imageUrl=image.getImageUrl();
-//            String fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
-//            String filePath = getBaseFilePath() + target.toString().toLowerCase(Locale.ROOT) + "/" + fileName;
-//
-//            File imageFile = new File(filePath);
-//            if (imageFile.exists()) {
-//                if(imageFile.delete()){
-//                    System.out.println("삭제되었습니다.");
-//                }else {
-//                    throw new CustomBadRequestException(ErrorCode.BAD_REQUEST);
-//                }
-//            }
-//        }
-//        // 이미지 정보 삭제
-//        imageRepository.deleteAll(imageList);
+    @Override
+    public void deleteImages(List<ProductImage> productImageLis) {
+
     }
 }
 
