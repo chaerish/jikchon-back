@@ -194,7 +194,7 @@ function postInterestCategory() {
         fetch(url, {
             method: "POST",
             headers: myHeaders,
-            body: JSON.stringify(interestProd.interestCategory)
+            body: JSON.stringify(interestProd)
         })
         .then(response => {
             if (!response.ok) {
@@ -219,9 +219,6 @@ window.onload = function () {
         postInterestCategory();
     }
     else {
-        // window.location.href = "../html/login.html";
-        loadInterestedList();
-        reloadInterestedList();
-        postInterestCategory();
+        window.location.href = "../html/login.html";
     }
 };
