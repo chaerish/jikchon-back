@@ -22,32 +22,32 @@ function enrollItem(){
 
 function setCategory(){
   var bigCategorySelect = document.getElementById("item-big-category");
-    var smallCategorySelect = document.getElementById("item-small-category");
+  var smallCategorySelect = document.getElementById("item-small-category");
+  
+  // bigCategorySelect의 변경에 따라 smallCategorySelect 옵션을 설정하는 함수
+  bigCategorySelect.addEventListener("change", function() {
+    var selectedValue = bigCategorySelect.value;
+    smallCategorySelect.innerHTML = "";
     
-    // bigCategorySelect의 변경에 따라 smallCategorySelect 옵션을 설정하는 함수
-    bigCategorySelect.addEventListener("change", function() {
-      var selectedValue = bigCategorySelect.value;
-      smallCategorySelect.innerHTML = "";
-      
-      if (selectedValue === "농산물") {
-        populateSmallCategory(["과일", "채소", "버섯","곡물","건농산물"]);
-      } else if (selectedValue === "축산물") {
-        populateSmallCategory(["소", "돼지", "닭/오리/알류","육가공륙"]);
-      }else if (selectedValue === "수산물") {
-        populateSmallCategory(["생선류", "건어물", "김/해조류","해산물/어패류","수산가공물"]);
-      }else if (selectedValue === "가공식품") {
-        populateSmallCategory(["앙념류", "반찬류", "유제품"]);
-      }
-    });
-    
-    function populateSmallCategory(categories) {
-      categories.forEach(function(category) {
-        var option = document.createElement("option");
-        option.value = category;
-        option.text = category;
-        smallCategorySelect.appendChild(option);
-      });
+    if (selectedValue === "농산물") {
+      populateSmallCategory(["과일", "채소", "버섯","곡물","건농산물"]);
+    } else if (selectedValue === "축산물") {
+      populateSmallCategory(["소", "돼지", "닭/오리/알류","육가공륙"]);
+    }else if (selectedValue === "수산물") {
+      populateSmallCategory(["생선류", "건어물", "김/해조류","해산물/어패류","수산가공물"]);
+    }else if (selectedValue === "가공식품") {
+      populateSmallCategory(["앙념류", "반찬류", "유제품"]);
     }
+  });
+    
+  function populateSmallCategory(categories) {
+    categories.forEach(function(category) {
+      var option = document.createElement("option");
+      option.value = category;
+      option.text = category;
+      smallCategorySelect.appendChild(option);
+    });
+  }
 }
 document.getElementById("item-image").addEventListener("change", function (event){
   loadFiles(event);
@@ -90,7 +90,7 @@ document.getElementById('submit-button').addEventListener("click",()=>{
         'productName': productName,
         'price' : price,
         'quantity' : quantity,
-        'smallCategory':smallCategory,
+        'category':smallCategory,
         'intro' : intro
     }
 
