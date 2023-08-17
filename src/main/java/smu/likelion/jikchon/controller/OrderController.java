@@ -23,7 +23,7 @@ public class OrderController {
         return BaseResponse.ok(orderService.purchaseProduct(purchaseRequestDto));
     }
 
-    @PostMapping("/cart")
+    @PostMapping("/purchases/cart")
     @PreAuthorize("hasRole('CUSTOMER')")
     public BaseResponse<OrderResponseDto.Simple> purchaseCartProduct(@RequestBody OrderRequestDto.CartOrder orderRequestDto) {
         return BaseResponse.ok(orderService.purchaseCart(orderRequestDto));

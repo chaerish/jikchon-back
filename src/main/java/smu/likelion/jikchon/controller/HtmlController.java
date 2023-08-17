@@ -82,15 +82,15 @@ public class HtmlController {
         return "/html/register_customer.html";
     }
 
-    @GetMapping("/edit/customer")
+    @GetMapping("/edit")
     public String getRegisterEditCustomer() {
         return "/html/register_edit_customer.html";
     }
 
-    @GetMapping("/edit/seller")
-    public String getRegisterEditSeller() {
-        return "/html/register_edit_seller.html";
-    }
+//    @GetMapping("/edit/seller")
+//    public String getRegisterEditSeller() {
+//        return "/html/register_edit_seller.html";
+//    }
 
     @GetMapping("/signup/seller")
     public String getRegisterSeller() {
