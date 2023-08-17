@@ -1,4 +1,4 @@
-import { checkTokenExistence, checkTokenValid } from "./common/jwt_token_check";
+import { checkTokenExistence, checkTokenValid } from "./common/jwt_token_check.js";
 
 const inputName = document.getElementById('input-name');
 const inputPW = document.getElementById('input-password');
