@@ -18,7 +18,7 @@ function enrollItem(){
       }
   }
 checkTokenValid();
-  fetch("http://jikchon.ap-northeast-2.elasticbeanstalk.com/seller/enrollItem", {
+  fetch("/products", {
     method: "GET",
     headers: {
       'Content-Type': "application/json",
@@ -119,7 +119,7 @@ document.getElementById('submit-button').addEventListener("click",()=>{
 
     console.log(formData);
     var myHeaders = new Headers();
-    const url = "http://jikchon.ap-northeast-2.elasticbeanstalk.com/seller/enrollItem";
+    const url = "/products";
     const token = localStorage.getItem('token');
     myHeaders.append('Authorization','Bearer'+token);
 
