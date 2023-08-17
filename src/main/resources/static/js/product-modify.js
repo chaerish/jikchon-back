@@ -37,7 +37,7 @@ function getData(){
     //   imageUrl:["https://elasticbeanstalk-ap-northeast-2-502124422422.s3.ap-northeast-2.amazonaws.com/product/d6fb88d4-cad9-4925-9caf-30f6e4d4222f_KakaoTalk_Photo_2023-06-11-16-24-21.jpeg"],
     };
 
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('access_token');
     myHeaders.append('Authorization',`Bearer ${token}`); 
     fetch(url,{
         headers:myHeaders,
@@ -187,7 +187,7 @@ document.getElementById('submit-button').addEventListener("click",()=>{
     console.log(formData);
     var myHeaders = new Headers();
     const url = "/products/"+idValue;
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('access_token');
     myHeaders.append('Authorization',token);
     myHeaders.append('Content-Type','application/json');
 

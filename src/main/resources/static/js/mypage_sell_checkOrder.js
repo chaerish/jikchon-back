@@ -52,7 +52,7 @@ function getData(){
     }  
     const url = '/seller/orders?product=null&page=0';
     var myHeaders = new Headers();
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('access_token');
     myHeaders.append('Authorization',`Bearer ${token}`);  
     myHeaders.append('Content-Type','application/json')
     fetch(url,{
