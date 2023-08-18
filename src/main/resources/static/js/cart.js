@@ -10,7 +10,7 @@ myHeaders.append('Authorization', 'Bearer ' + token);
 myHeaders.append('Content-Type', 'application/json');
 
 function loadCartData() {
-    if (checkTokenExistence()){
+    if (checkTokenExistence()) {
         checkTokenValid();
         let url = `/members/cart?page=${pageNum}`;
         /* 통신용 코드 */
@@ -31,7 +31,7 @@ function loadCartData() {
     else {
         window.alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다!");
         window.location.href = '/login';
-    }    
+    }
 }
 
 
@@ -63,59 +63,57 @@ function renderCartData(data) {
 
 let liIndex;
 
-function getCartListIndex() {
-    const cartList = document.getElementById("cart-li");
-    const amountBox = document.querySelectorAll(".amount-box");
+// function getCartListIndex() {
+//     const cartList = document.getElementById("cart-li");
+//     const amountBox = document.querySelectorAll(".amount-box");
 
-    amountBox.forEach(btn => {
-        btn.addEventListener("click", function (event) {
-            const clickedLi = event.target.closest("li");
-            if (clickedLi) {
-                // 클릭한 li 요소의 인덱스를 찾아서 사용
-                liIndex = Array.from(cartList.children).indexOf(clickedLi);
-                console.log(liIndex);
+//     amountBox.forEach(btn => {
+//         btn.addEventListener("click", function (event) {
+//             const clickedLi = event.target.closest("li");
+//             if (clickedLi) {
+//                 // 클릭한 li 요소의 인덱스를 찾아서 사용
+//                 liIndex = Array.from(cartList.children).indexOf(clickedLi);
+//                 console.log(liIndex);
+//             }
+//         });
+//     })
+// }
+
+function decreaseQuantity() {
+    // console.log("down");
+    const decreaseButton = document.querySelectorAll(".quantity-down-btn");
+    decreaseButton.forEach((product, index) => {
+        product.addEventListener("click", () => {
+            var selectComp = `#cart-li li:nth-child(${index+1}) .quantity-input`
+            const quantityInput = document.querySelector(selectComp);
+            const currentValue = parseInt(quantityInput.value);
+            if (currentValue > 1) {
+                quantityInput.value = currentValue - 1;
+                sumPrice();
             }
         });
     })
 }
 
-function decreaseQuantity() {
-    console.log("down");
-    var selectComp = `#cart-li li:nth-child(${liIndex + 1}) .quantity-input`
-
-    const quantityInput = document.querySelector(selectComp);
-    const currentValue = parseInt(quantityInput.value);
-
-    if (currentValue > 1) {
-        quantityInput.value = currentValue - 1;
-        sumPrice();
-    }
-}
-
-const decreaseButton = document.querySelectorAll(".quantity-down-btn");
-decreaseButton.forEach(product => {
-    product.addEventListener("click", decreaseQuantity);
-})
 
 
 
 function increaseQuantity() {
-    console.log("up");
-    var selectComp = `#cart-li li:nth-child(${liIndex + 1}) .quantity-input`
-
-    const quantityInput = document.querySelector(selectComp);
-    const currentValue = parseInt(quantityInput.value);
-
-    quantityInput.value = currentValue + 1;
-    sumPrice();
+    // console.log("up");
+    const increaseButton = document.querySelectorAll(".quantity-up-btn");
+    increaseButton.forEach((product, index) => {
+        product.addEventListener("click", () => {
+            var selectComp = `#cart-li li:nth-child(${index + 1}) .quantity-input`
+            const quantityInput = document.querySelector(selectComp);
+            const currentValue = parseInt(quantityInput.value);
+            quantityInput.value = currentValue + 1;
+            sumPrice();
+        });
+    })
 }
 
-const increaseButton = document.querySelectorAll(".quantity-up-btn");
-increaseButton.forEach(product => {
-    product.addEventListener("click", increaseQuantity);
-})
 
-let formData = { 
+let formData = {
     cartList: []
 }
 
@@ -124,8 +122,8 @@ function sumPrice() {
     let sum = 0;
 
     cartComp.forEach(cart, () => {
-        const quantity = cart.querySelector(".quantity-input");
-        const price = cart.querySelector(".price");
+        const quantity = parseInt(cart.querySelector(".quantity-input").value);
+        const price = parseInt(cart.querySelector(".price").textContent);
         sum += quantity * price;
     })
 
@@ -185,7 +183,9 @@ window.onload = function main() {
     loadCartData();
     // renderCartData();
     payCart();
-    getCartListIndex()
+    // getCartListIndex()
     returnMainHome();
+    decreaseQuantity();
+    increaseQuantity();
 }
 

@@ -29,14 +29,12 @@ function loadProdManageData() {
     }
 }
 
-// let isLoading = false;
 
 // function loadMoreItems() {
 //     // if (fetchData.totalPage > pageNum) {
 //     //     pageNum++;
 //     //     console.log("pageNum: ", pageNum);
 //     // }
-//     isLoading = true;
 //     let nextPageData = [];
 
 //     fetch(urls, {
@@ -67,6 +65,26 @@ function loadProdManageData() {
 //   }
 
 let indexOfClickBtn = 0;
+
+function deleteProduct(productId) {
+    let url = `/products/${productId}`
+    /* 통신용 코드 */
+    fetch(url, {
+        method: 'delete',
+        headers: myHeaders,
+    })
+        .then((response) => {
+            response.json()
+            const deletedItem = document.getElementById(`${productId}`);
+            if (deletedItem) {
+                window.alert("상품이 삭제되었습니다!");
+                deletedItem.remove();
+            }
+        })
+        .catch((error) => {
+            console.error('An error occurred while loading store data:', error);
+        });
+}
 
 function renderProdManageData(data) {
     const orderList = document.getElementById('orderList');
@@ -136,28 +154,7 @@ function renderProdManageData(data) {
     // isLoading = false;
 }
 
-function deleteProduct(itemId) {
-    let url = `/products/${itemId}`
-    /* 통신용 코드 */
-    fetch(url, {
-        method: 'delete',
-        headers: myHeaders,
-    })
-        .then((response) => {
-            response.json()
-            const deletedItem = document.getElementById(`${itemId}`);
-            if (deletedItem) {
-                window.alert("상품이 삭제되었습니다!");
-                deletedItem.remove();
-            }
-        })
-        .catch((error) => {
-            console.error('An error occurred while loading store data:', error);
-        });
-}
 
 window.onload = function main() {
     loadProdManageData();
-    // renderProdManageData(fetchData.itemList);
-    ProdInfinityScroll();
 }
