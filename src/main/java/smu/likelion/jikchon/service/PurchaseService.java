@@ -1,9 +1,9 @@
 package smu.likelion.jikchon.service;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import smu.likelion.jikchon.base.PageResult;
 import smu.likelion.jikchon.domain.Cart;
 import smu.likelion.jikchon.domain.Product;
@@ -21,7 +21,6 @@ import smu.likelion.jikchon.repository.PurchaseRepository;
 import java.util.Objects;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class PurchaseService {
     private final PurchaseRepository purchaseRepository;
@@ -31,17 +30,20 @@ public class PurchaseService {
     private final LoginService loginService;
 
 
+    @Transactional(readOnly = true)
     public PageResult<PurchaseResponseDto.BriefForSeller> getSaleList(Pageable pageable) {
         return PageResult.ok(
                 purchaseRepository.findByMemberId(loginService.getLoginMemberId(), pageable)
                         .map(PurchaseResponseDto.BriefForSeller::of));
     }
 
+    @Transactional(readOnly = true)
     public PurchaseResponseDto.Receipt getReceipt(Long purchaseId) {
         Purchase purchase = purchaseRepository.findById(purchaseId).orElseThrow(() ->
                 new CustomNotFoundException(ErrorCode.NOT_FOUND_PURCHASE)
         );
 
+        Long id = purchase.getProduct().getMember().getId();
         if (!Objects.equals(purchase.getProduct().getMember().getId(), loginService.getLoginMemberId())) {
             throw new CustomForbiddenException(ErrorCode.FORBIDDEN);
         }
