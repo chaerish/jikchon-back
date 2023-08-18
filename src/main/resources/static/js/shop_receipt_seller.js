@@ -38,14 +38,14 @@ function getSellerRecieptInfo() {
 
 function setSellerRecieptInfo(data) {
   pCustomerName.innerText = data.customerDto.name;
-  pCustomerContact.innerText = data.customerDto.phone;
+  pCustomerContact.innerText = data.customerDto.phoneNumber;
   pCustomerAddress.innerText = data.customerDto.address;
 
-  pProductName.innerText = `${data.productDto.productName}(${data.productDto.id})`;
-  pProductPrice.innerText = Number(data.productDto.price) / Number(data.productDto.quantity);
-  pProductQuantity.innerText = data.productDto.quantity;
+  pProductName.innerText = `${data.purchaseDto.productName}(${data.purchaseDto.id})`;
+  pProductPrice.innerText = Number(data.purchaseDto.price) / Number(data.purchaseDto.quantity);
+  pProductQuantity.innerText = data.purchaseDto.quantity;
 
-  pTotalPrice.innerText = `${data.productDto.price}원`;
+  pTotalPrice.innerText = `${data.purchaseDto.price}원`;
 }
 
 if (checkTokenExistence()) {
