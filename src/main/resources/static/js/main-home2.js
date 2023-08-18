@@ -202,11 +202,13 @@ function loadMoreItems() {
 }
 
 function ProdInfinityScroll() {
-  window.addEventListener("scroll" , function() {
-    const SCROLLED_HEIGHT = window.scrollY;
-    const WINDOW_HEIGHT = window.innerHeight;
+  const container = document.querySelector(".container");
+
+  container.addEventListener("scroll" , function() {
+    const SCROLLED_HEIGHT = container.scrollY;
+    const CONTAINER_HEIGHT = container.innerHeight;
     const DOC_TOTAL_HEIGHT = document.body.offsetHeight;
-    const IS_END = (WINDOW_HEIGHT + SCROLLED_HEIGHT > DOC_TOTAL_HEIGHT - 10);
+    const IS_END = (CONTAINER_HEIGHT + SCROLLED_HEIGHT > DOC_TOTAL_HEIGHT - 10);
 
     if (IS_END && !isLoading) {
       loadMoreItems();
