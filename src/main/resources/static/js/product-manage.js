@@ -92,7 +92,7 @@ function renderProdManageData(data) {
 
         const price = document.createElement('p');
         price.className = 'price';
-        price.textContent = item.price;
+        price.textContent = item.price + "원";
 
         const inventoryQuantity = document.createElement('p');
         inventoryQuantity.className = 'inventory-quantity';
@@ -117,7 +117,7 @@ function renderProdManageData(data) {
         deleteBtn.className = 'delete-btn';
         deleteBtn.textContent = '삭제하기';
         deleteBtn.addEventListener('click', () => {
-            const clickedItemId = item.id; // 클릭된 버튼의 항목 ID 가져오기
+            const clickedItemId = item.productId; // 클릭된 버튼의 항목 ID 가져오기
             deleteProduct(clickedItemId);
             listItem.remove();
         });
