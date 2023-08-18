@@ -106,7 +106,7 @@ function increaseQuantity() {
             var selectComp = `#cart-li li:nth-child(${index + 1}) .quantity-input`
             const quantityInput = document.querySelector(selectComp);
             const currentValue = parseInt(quantityInput.value);
-            quantityInput.value = currenValue + 1;
+            quantityInput.value = currentValue + 1;
             sumPrice();
         });
     })
@@ -122,8 +122,8 @@ function sumPrice() {
     let sum = 0;
 
     cartComp.forEach(cart, () => {
-        const quantity = cart.querySelector(".quantity-input");
-        const price = cart.querySelector(".price");
+        const quantity = parseInt(cart.querySelector(".quantity-input").value);
+        const price = parseInt(cart.querySelector(".price").textContent);
         sum += quantity * price;
     })
 
@@ -183,7 +183,7 @@ window.onload = function main() {
     loadCartData();
     // renderCartData();
     payCart();
-    getCartListIndex()
+    // getCartListIndex()
     returnMainHome();
     decreaseQuantity();
     increaseQuantity();
