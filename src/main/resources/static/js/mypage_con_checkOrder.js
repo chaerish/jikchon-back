@@ -58,7 +58,7 @@ function getOrders(){
         }
     })
     .then(data => {
-        dataObject=data
+        dataObject=data;
     })
     .catch((error)=>{
         console.error("오류발생",error);
@@ -79,7 +79,7 @@ function formatOrderNumber(orderNumber) {
 function setOrderList(data){
     var orderList= document.getElementById("order-list");
 
-    orders = data.content;
+    var orders = data.content;
     orders.forEach(function(order){
         var orderBox = document.createElement("div");
         orderBox.classList.add("order-box");

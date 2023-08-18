@@ -115,12 +115,11 @@ let interestProd = {
     interestCategory: []
 }
 
-const token = localStorage.getItem('token');
+const token = localStorage.getItem('access_token');
 var myHeaders = new Headers();
 myHeaders.append('Authorization', 'Bearer ' + token);
 myHeaders.append('Content-Type', 'application/json');
 
-let prodStartIndex = 0;
 let prodEndIndex = 9;
 
 
@@ -169,8 +168,6 @@ function loadInterestedList() {
 
         recommendList.appendChild(listItem);
     });
-    // prodStartIndex += 9;
-    // prodEndIndex += 9;
 }
 
 function reloadInterestedList() {
