@@ -14,5 +14,4 @@ import java.util.List;
 public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
     @Query("select p from Purchase p where p.product.member.id = :memberId")
     Page<Purchase> findByMemberId(@Param(value = "memberId") Long memberId, Pageable pageable);
-
 }
