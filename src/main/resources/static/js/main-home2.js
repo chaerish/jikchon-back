@@ -205,7 +205,7 @@ function ProdInfinityScroll() {
     const scrollHeight = container.scrollHeight;
     const scrollTop = container.scrollTop;
     const clientHeight = container.clientHeight;
-    const IS_END = ((scrollHeight - scrollTop) >= clientHeight - 10);
+    const IS_END = ((scrollHeight - scrollTop) <= clientHeight - 10);
 
     if (IS_END && fetchData.totalPage > pageNum) {
       pageNum++;

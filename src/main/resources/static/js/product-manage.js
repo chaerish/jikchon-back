@@ -6,7 +6,7 @@ let urls = "/members/products";
 /* Header 설정 */
 const token = localStorage.getItem('access_token');
 var myHeaders = new Headers();
-myHeaders.append('Authorization', 'Bearer ' + token);
+myHeaders.append('Authorization', `Bearer ${token}`);
 myHeaders.append('Content-Type', 'application/json');
 
 function loadProdManageData() {
