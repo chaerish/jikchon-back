@@ -78,8 +78,8 @@ function formatOrderNumber(orderNumber) {
 function setOrderList(data){
     var orderList= document.getElementById("order-list");
 
-    var orders = data.content;
-    orders.forEach(function(order){
+    var itemLists = data.itemList;
+    itemLists.forEach(function(itemList){
         var orderBox = document.createElement("div");
         orderBox.classList.add("order-box");
 
@@ -88,7 +88,7 @@ function setOrderList(data){
 
         var orderNumber = document.createElement("p");
         orderNumber.classList.add("order-number");
-        orderNumber.textContent = "주문번호 " + formatOrderNumber(order.id);
+        orderNumber.textContent = "주문번호 " + formatOrderNumber(itemList.id);
 
         var itemImageBox = document.createElement("div");
         itemImageBox.classList.add("item-image-box");
@@ -107,11 +107,11 @@ function setOrderList(data){
 
         var orderDate = document.createElement("p");
         orderDate.classList.add("order-date");
-        orderDate.textContent = order.orderDate;
+        orderDate.textContent = itemList.orderDate;
 
         var orderPrice = document.createElement("p");
         orderPrice.classList.add("order-price");
-        orderPrice.textContent = order.price;
+        orderPrice.textContent = itemList.price;
 
         var orderDetailLink = document.createElement("a");
         orderDetailLink.href = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/receipt/customer/?id='+order.id // 자세히 보기에 연결된 링크
