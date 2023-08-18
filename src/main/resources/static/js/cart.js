@@ -58,7 +58,7 @@ function renderCartData(data) {
                 <p class="price">${product.price}</p>
             </div>
         `;
-        cartList.appendChild(li);
+        productList.appendChild(li);
         initSum += product.price;
     });
 }
