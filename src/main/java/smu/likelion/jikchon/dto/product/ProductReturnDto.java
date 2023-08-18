@@ -18,6 +18,7 @@ public class ProductReturnDto {
         private String subCategory;
         private Integer price;
         private String imageUrl;
+        private Long quantity;
 
         public static ProductReturnDto.Simple of(Product product) {
             return Simple.builder()
@@ -27,6 +28,7 @@ public class ProductReturnDto {
                     .subCategory(product.getSubCategory().getDescription())
                     .price(product.getPrice())
                     .imageUrl(product.getImageList().get(0).getImageUrl())
+                    .quantity(product.getQuantity())
                     .build();
         }
     }
