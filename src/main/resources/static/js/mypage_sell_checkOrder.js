@@ -68,7 +68,7 @@ function getData(){
         }
     })
     .then(data => {
-        dataObject=data;
+        dataObject=data.data;
         setOrderList(dataObject);
     })
     .catch((error)=>{
