@@ -132,7 +132,7 @@ function setOrderList(data){
         var orderDetail = document.createElement("a");
         orderDetail.classList.add("order-detail");
         orderDetail.textContent = "자세히보기";
-        orderDetail.href = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/receipt/seller/?id='+itemList.purchasedId;
+        orderDetail.href = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/receipt/seller?id='+itemList.purchaseId;
 
         rightBox.appendChild(conName);
         rightBox.appendChild(orderPrice);
