@@ -64,19 +64,19 @@ public class TokenProvider {
         long nowMillisecond = new Date().getTime();
         return TokenResponseDto.builder()
                 .token(generateToken(jwtType, memberId, authority, nowMillisecond))
-                .expiresIn((nowMillisecond + jwtType.getValidMillisecond()) / 1000L)
-                .role(MemberRole.getRoleName(authority))
+                .expiresIn((nowMillisecond + jwtType.getValidMillisecond()))
+                .role(MemberRole.valueOf(authority).getRoleName())
                 .build();
     }
 
     public TokenResponseDto generateTokenResponse(JwtType jwtType, Authentication authentication) {
         return generateTokenResponse(jwtType,
                 Long.valueOf(authentication.getName()),
-                authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(",")));
+                authentication.getAuthorities().iterator().next().getAuthority());
     }
 
     public TokenResponseDto generateTokenResponse(JwtType jwtType, Member member) {
-        return generateTokenResponse(jwtType, member.getId(), member.getAuthority().toString());
+        return generateTokenResponse(jwtType, member.getId(), member.getRole().toString());
     }
 
 
@@ -91,16 +91,16 @@ public class TokenProvider {
         return new UsernamePasswordAuthenticationToken(claims.getSubject(), "", authority);
     }
 
-    public void validateAccessToken(String token) {
-        parseAccessTokenClaims(token);
+    public void validateToken(JwtType jwtType, String token) {
+        parseTokenClaims(jwtType, token);
     }
 
     public Long getMemberIdFromRefreshToken(String refreshToken) {
         return Long.valueOf(parseRefreshTokenClaims(refreshToken).getSubject());
     }
 
-    public Claims parseAccessTokenClaims(String token) {
-        return parseClaims(token, accessTokenKey);
+    public Claims parseTokenClaims(JwtType jwtType, String token) {
+        return parseClaims(token, getKey(jwtType));
     }
 
     //todo : 메서드 통합

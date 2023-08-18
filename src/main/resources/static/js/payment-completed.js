@@ -2,7 +2,7 @@ import { checkTokenValid, checkTokenExistence } from './common/jwt_token_check.j
 
 let fetchData = [];
 // url 부분 백엔드에 질문
-var url;
+// var url;
 
 /* Header 정보 */
 var myHeaders = new Headers();
@@ -14,9 +14,8 @@ function receiptDataLoad() {
     })
         .then((response) => response.json())
         .then((data) => {
-            let data1 = data.data;
-            console.log(data1);
-            fetchData = data1;
+            console.log(data.data);
+            fetchData = data.data;
         })
         .catch((error) => {
             console.error('An error occurred while loading store data:', error);
@@ -36,7 +35,7 @@ function renderCartData(data) {
     
         const productName = document.createElement('p');
         productName.className = 'product-name';
-        productName.textContent = index+1 + product.productName;
+        productName.textContent = index+1 + " " + product.productName;
     
         const productQuantity = document.createElement('p');
         productQuantity.className = 'product-quantity';
@@ -61,4 +60,9 @@ function renderCartData(data) {
 
 function backToHome() {
     window.location.href = "../html/main-home1.html";
+}
+
+window.onload = function main() {
+    receiptDataLoad();
+
 }

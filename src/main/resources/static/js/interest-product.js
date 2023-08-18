@@ -26,16 +26,10 @@ let prodList = [
         categoryNum: 301
     },
     {
-        imgUrl: '../images/laver.jpg',
-        productName: '김',
-        category: '김/해조류    ',
-        categoryNum: 303
-    },
-    {
-        imgUrl: '../images/milk.png',
-        productName: '우유',
-        category: '유제품',
-        categoryNum: 403
+        imgUrl: '../images/onion.png',
+        productName: '양파',
+        category: '야채',
+        categoryNum: 102
     },
     {
         imgUrl: '../images/redpepper_paste.jpg',
@@ -68,10 +62,10 @@ let prodList = [
         categoryNum: 101
     },
     {
-        imgUrl: '../images/apple.png',
-        productName: '사과',
-        category: '과일',
-        categoryNum: 101
+        imgUrl: '../images/flour (1).jpg',
+        productName: '밀가루',
+        category: '곡물',
+        categoryNum: 104
     },
     {
         imgUrl: '../images/eggs.png',
@@ -115,30 +109,17 @@ let prodList = [
         category: '김/해조류',
         categoryNum: 303
     },
-    {
-        imgUrl: '../images/redpepper_paste.jpg',
-        productName: '고추장',
-        category: '양념류',
-        categoryNum: 401
-    },
-    {
-        imgUrl: '../images/leek.png',
-        productName: '파',
-        category: '야채',
-        categoryNum: 102
-    }
 ];
 
 let interestProd = {
     interestCategory: []
 }
 
-const token = localStorage.getItem('token');
+const token = localStorage.getItem('access_token');
 var myHeaders = new Headers();
 myHeaders.append('Authorization', 'Bearer ' + token);
 myHeaders.append('Content-Type', 'application/json');
 
-let prodStartIndex = 0;
 let prodEndIndex = 9;
 
 
@@ -149,7 +130,10 @@ function loadInterestedList() {
     if (prodEndIndex > prodList.length) {
         prodEndIndex = prodList.length;
     }
-    const firstNineItems = prodList.slice(prodStartIndex, prodEndIndex);
+
+    const shuffledArray = prodList.sort(() => 0.5 - Math.random());
+    const firstNineItems = shuffledArray.slice(0, 9);
+    // const firstNineItems = prodList.slice(prodStartIndex, prodEndIndex);
 
     firstNineItems.forEach(item => {
         const listItem = document.createElement('li');
@@ -184,8 +168,6 @@ function loadInterestedList() {
 
         recommendList.appendChild(listItem);
     });
-    prodStartIndex += 9;
-    prodEndIndex += 9;
 }
 
 function reloadInterestedList() {
@@ -234,6 +216,6 @@ window.onload = function () {
         postInterestCategory();
     }
     else {
-        window.location.href = "../html/login.html";
+        window.location.href = "../login";
     }
 };

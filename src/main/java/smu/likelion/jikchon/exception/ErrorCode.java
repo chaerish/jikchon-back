@@ -35,7 +35,11 @@ public enum ErrorCode {
      * 401
      */
     FORBIDDEN(403, "권한이 없습니다."),
-
+    DUPLICATE_COMPANY_NUMBER(40301, "이미 사용중인 사업자 번호입니다."),
+    /**
+     * * 403
+     */
+    NONEXISTENT_BUSINESS_REGISTRATION_CODE(40302, "사업자 등록번호가 존재하지 않습니다."),
     /**
      * 404 NOT FOUND
      */
@@ -46,7 +50,6 @@ public enum ErrorCode {
     NOT_FOUND_ORDER(40404, "존재하지 않는 주문 번호입니다."),
     NOT_FOUND_PRODUCT(40405,"물건을 찾을 수 없습니다"),
     NOT_FOUND_PURCHASE(40406,"구매 물건을 찾을 수 없습니다."),
-
 
 
 

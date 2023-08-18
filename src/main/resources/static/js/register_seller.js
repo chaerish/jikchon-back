@@ -62,7 +62,7 @@ function checkPhoneNumberNotDuplicated() {
     } else if (response.status === 403) {
       warningPhoneNumber.classList.add('show');
       warningMSGPhoneNumber.innerText = '이미 가입된 전화번호예요.';
-    } else throw new Error(response.status, '전화번호 중복 검사 실패');
+    } else throw new Error(response.json());
   })
   .catch(error => {
     console.error(error);
@@ -103,20 +103,25 @@ function authenticateCompanyRegistration() {
       warningCompanyRegistration.classList.remove('show');
       isCompanyRegistrationAuthenticated = true;
       window.alert('사업자 등록번호 인증에 성공했어요.');
-    } else if (response.status === 403) {
+    } else if (response.status === 40301) {
       warningCompanyRegistration.classList.add('show');
-      warningMSGCompanyRegistration.innerText = '사업자 등록번호가 올바르지 않거나 이미 가입된 번호예요.';
+      warningMSGCompanyRegistration.innerText = '이미 가입된 사업자 등록번호예요.';
       isCompanyRegistrationAuthenticated = false;
-    } else throw new Error(response.status, '사업자 등록번호 조회 실패');
+    } else if (response.status === 40302) {
+      warningCompanyRegistration.classList.add('show');
+      warningMSGCompanyRegistration.innerText = '사업자 등록번호가 올바르지 않아요. 다시 확인해 주세요.';
+      isCompanyRegistrationAuthenticated = false;
+    } else throw new Error(response.json());
   })
   .catch(error => {
+    console.log(error);
     warningCompanyRegistration.classList.add('show');
     warningMSGCompanyRegistration.innerText = '사업자 등록번호 조회에 실패했어요.';
     isCompanyRegistrationAuthenticated = false;
   });
 }
 
-function autoLogin() {
+function autoLogin(phoneNumber) {
   // 회원가입 후 자동 로그인
   fetch('/members/login', {
     method: 'POST',
@@ -124,7 +129,7 @@ function autoLogin() {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      phoneNumber: inputName.value,
+      phoneNumber: phoneNumber,
       password: inputPW.value,
     }),
   })
@@ -132,7 +137,7 @@ function autoLogin() {
     if (response.status === 200) {
       return response.json();
     } else {
-      throw new Error(response.status, '로그인 실패');
+      throw new Error(response.json());
     }
   })
   .then(response => {
@@ -140,11 +145,11 @@ function autoLogin() {
     localStorage.setItem('expires_in', response.data.expiresIn);
     localStorage.setItem('user_role', response.data.role);
     window.alert('로그인에 성공하였습니다.');
-    window.location.href = '/';
+    window.location.href = '/interest-product';
   })
   .catch(error => {
-    console.error('Error:', error)
-    window.alert(`${response.status}: 로그인에 실패하였습니다.`);
+    console.error(error)
+    window.alert('로그인에 실패하였습니다.');
   });
 }
 
@@ -211,8 +216,8 @@ btnRegister.addEventListener('click', () => {
       if (response.status === 200) {
         window.alert('회원가입에 성공하였습니다. 자동으로 로그인합니다.');
         // 회원가입 후 자동 로그인
-        autoLogin();
-      } else throw new Error(response.status, '회원가입 실패');
+        autoLogin(phoneNumber);
+      } else throw new Error(response.json());
     })
     .catch(error => {
       console.error(error);

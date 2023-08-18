@@ -1,3 +1,5 @@
+import { checkTokenExistence } from "./common/jwt_token_check.js";
+
 const REGEX_PHONENUMBER = /^01([0|1|6|7|8|9])-?([0-9]{4})-?([0-9]{4})$/; // 앞자리가 01이며 (0,1,6,7,8,9) 이며 중간에 4자리, 세번째는 4자리인 전화번호
 const REGEX_PASSWORD = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; // 영어와 숫자를 포함한 8자리 이상의 비밀번호
 
@@ -35,8 +37,10 @@ function login() {
     .then(response => {
       if (response.status === 200) {
         return response.json();
+      } else if (response.status === 404) {
+        window.alert('아이디와 비밀번호를 확인해 주세요.');
       } else {
-        throw new Error(response.status, '로그인 실패');
+        throw new Error(response.status);
       }
     })
     .then(response => {
@@ -48,7 +52,7 @@ function login() {
     })
     .catch(error => {
       console.error('Error:', error)
-      window.alert(`${response.status}: 로그인에 실패하였습니다.`);
+      window.alert(error + '로그인에 실패하였습니다.');
     });
   }
 }
@@ -56,6 +60,11 @@ function login() {
 function register() {
   modalScreen.style.display = 'block';
   document.body.style.overflow = 'hidden';
+}
+
+if(checkTokenExistence()) {
+  window.alert('이미 로그인 되어있습니다. 메인 화면으로 이동합니다.')
+  window.location.href = '/';
 }
 
 btnLogin.addEventListener('click', login);

@@ -64,7 +64,6 @@ function getOrders(){
     .catch((error)=>{
         console.error("오류발생",error);
     });
-    
 }
 
 function formatOrderNumber(orderNumber) {

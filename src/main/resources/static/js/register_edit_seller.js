@@ -62,7 +62,7 @@ function checkPhoneNumberNotDuplicated() {
   .then(response => {
     if (response.status === 200) {
       warningPhoneNumber.classList.remove('show');
-    } else if (response.status === 403) {
+    } else if (response.status === 40002) {
       warningPhoneNumber.classList.add('show');
       warningMSGPhoneNumber.innerText = '이미 가입된 전화번호예요.';
     } else {
@@ -109,7 +109,7 @@ function authenticateCompanyRegistration() {
     if (response.status === 200) {
       warningCompanyRegistration.classList.remove('show');
       isCompanyRegistrationAuthenticated = true;
-    } else if (response.status === 403) {
+    } else if (response.status === 40003) {
       warningCompanyRegistration.classList.add('show');
       warningMSGCompanyRegistration.innerText = '사업자 등록번호가 올바르지 않거나 이미 가입된 번호예요.';
       isCompanyRegistrationAuthenticated = false;

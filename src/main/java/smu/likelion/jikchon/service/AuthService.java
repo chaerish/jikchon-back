@@ -75,6 +75,7 @@ public class AuthService implements UserDetailsService {
 
     }
 
+    @Transactional
     public void isValidate(MemberRequestDto.SignUp memberRequestDto) {
         Optional<VerifiedMember> verifiedMemberOptional = verifiedCacheRepository.findByPhoneNumber(memberRequestDto.getPhoneNumber());
 
@@ -98,12 +99,17 @@ public class AuthService implements UserDetailsService {
     }
 
 
+    @Transactional
     public void validationCompanyNumber(MemberRequestDto.VerifyCompanyNumber verifyCompanyNumberRequest) {
         final String VALID_STATUS_CODE = "01";
         final String requestUrl = "https://api.odcloud.kr/api/nts-businessman/v1/status?" +
                 "serviceKey=bFcIfbKjGI8rVFG9xZouBt%2B3s0kITpf0u6Loz8ekrvseXj%2Bye16tUmvGrBgLdK5zbVA3cAanmNPa%2F1o%2B2n2feQ%3D%3D";
 
         checkDuplicatePhoneNumber(verifyCompanyNumberRequest.getPhoneNumber());
+
+        memberRepository.findByCompanyNumber(verifyCompanyNumberRequest.getCompanyNumber()).ifPresent((member) -> {
+            throw new CustomForbiddenException(ErrorCode.DUPLICATE_COMPANY_NUMBER);
+        });
 
         verifiedCacheRepository.findByPhoneNumber(verifyCompanyNumberRequest.getPhoneNumber())
                 .ifPresent(verifiedCacheRepository::delete);
@@ -114,7 +120,7 @@ public class AuthService implements UserDetailsService {
         JSONObject responseJson = callApiAndGetResponse(requestUrl, requestBody.toString());
 
         if (!getBusinessStatus(responseJson).equals(VALID_STATUS_CODE)) {
-            throw new CustomBadRequestException(ErrorCode.BAD_REQUEST);
+            throw new CustomBadRequestException(ErrorCode.NONEXISTENT_BUSINESS_REGISTRATION_CODE);
         }
 
         verifiedCacheRepository.save(VerifiedMember.builder()
@@ -174,6 +180,7 @@ public class AuthService implements UserDetailsService {
             }
         }
     }
+
 
     private String getBusinessStatus(JSONObject apiResponseJson) {
         return apiResponseJson.getJSONArray("data").getJSONObject(0).getString("b_stt_cd");
@@ -235,7 +242,7 @@ public class AuthService implements UserDetailsService {
     @Transactional(readOnly = true)
     public TokenResponseDto refreshAccessToken(HttpServletRequest request) {
         String refreshToken = tokenProvider.getRefreshToken(request);
-        tokenProvider.validateAccessToken(refreshToken);
+        tokenProvider.validateToken(JwtType.REFRESH_TOKEN, refreshToken);
 
         Member member = memberRepository.findByRefreshToken(refreshToken).orElseThrow(() ->
                 new CustomUnauthorizedException(ErrorCode.INVALID_TOKEN)
@@ -284,12 +291,13 @@ public class AuthService implements UserDetailsService {
         member.setPhoneNumber(memberRequestDto.getPhoneNumber());
         member.setZipcode(member.getZipcode());
         member.setAddress(memberRequestDto.getAddress());
-
-        if (member.getRole().equals(MemberRole.ROLE_SELLER)) {
-            if (!memberRequestDto.getCompanyNumber().equals(member.getCompanyNumber())) {
-                isValidate(memberRequestDto);
-                member.setCompanyNumber(memberRequestDto.getCompanyNumber());
-            }
-        }
+//        member.setCompanyNumber(member.getCompaㅌㄴㄴnyNumber());
+//
+//        if (member.getRole().equals(MemberRole.ROLE_SELLER)) {
+//            if (!memberRequestDto.getCompanyNumber().equals(member.getCompanyNumber())) {
+//                isValidate(memberRequestDto);
+//                member.setCompanyNumber(memberRequestDto.getCompanyNumber());
+//            }
+//        }
     }
 }

@@ -26,7 +26,7 @@
     <a id="cart-button">
       <img src="../images/cart_icon.svg">
     </a>
-    <a id="home-button" href="../html/main-home1.html">
+    <a id="home-button" href="/">
       <img src="../images/home_icon.svg">
     </a>
     <a id="mypage-button">
@@ -46,7 +46,7 @@
       <div class="component-container">
         <h1>비밀번호 (최소 8자, 영어 & 숫자로 구성, 각 최소 1자)</h1>
         <div class="input-container">
-          <input id="input-password" class="input-password" type="text">
+          <input id="input-password" class="input-password" type="text" placeholder="수정 시에만 입력하세요.">
         </div>
         <p id="warn-password" class="violation-info">
           <img src="../images/exclamation_mark_icon.svg">
@@ -56,7 +56,7 @@
       <div class="component-container">
         <h1>비밀번호 확인</h1>
         <div class="input-container">
-          <input id="input-password-check" class="input-password" type="password">
+          <input id="input-password-check" class="input-password" type="password" placeholder="수정 시에만 입력하세요.">
         </div>
         <p id="warn-password-check" class="violation-info">
           <img src="../images/exclamation_mark_icon.svg">
@@ -103,7 +103,7 @@
   </footer>
   
   <script src="../js/header.js"></script>
-  <script src="../js/register_customer.js"></script>
+  <script type="module" src="../js/register_edit_customer.js"></script>
   <script type="module" src="../js/navbar.js"></script>
   <script type="module" src="../js/common/jwt_token_check.js"></script>
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

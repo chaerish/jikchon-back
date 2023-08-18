@@ -17,13 +17,13 @@ import smu.likelion.jikchon.service.OrderService;
 public class OrderController {
     private final OrderService orderService;
 
-    @PostMapping
+    @PostMapping("/purchases")
     @PreAuthorize("isAuthenticated()")
     public BaseResponse<OrderResponseDto.Simple> purchaseProduct(@RequestBody PurchaseRequestDto purchaseRequestDto) {
         return BaseResponse.ok(orderService.purchaseProduct(purchaseRequestDto));
     }
 
-    @PostMapping("/cart")
+    @PostMapping("/purchases/cart")
     @PreAuthorize("hasRole('CUSTOMER')")
     public BaseResponse<OrderResponseDto.Simple> purchaseCartProduct(@RequestBody OrderRequestDto.CartOrder orderRequestDto) {
         return BaseResponse.ok(orderService.purchaseCart(orderRequestDto));
@@ -35,7 +35,7 @@ public class OrderController {
         return BaseResponse.ok(orderService.getOrderReceipt(orderId));
     }
 
-    @GetMapping("/purchases")
+    @GetMapping("/customer/purchases")
     @PreAuthorize("hasRole('CUSTOMER')")
     public BaseResponse<PageResult<OrderResponseDto.BriefForCustomer>> getMyOrderList(Pageable pageable) {
         return BaseResponse.ok(orderService.getMyOrderList(pageable));

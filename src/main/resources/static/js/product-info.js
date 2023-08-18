@@ -1,6 +1,7 @@
 import { checkTokenValid, checkTokenExistence } from './common/jwt_token_check.js';
 
 let fetchData = [];
+let price;
 
 /* Header 설정 */
 const token = localStorage.getItem('access_token');
@@ -10,7 +11,7 @@ myHeaders.append('Content-Type', 'application/json');
 // prod id 받아오기
 const urlParams = new URLSearchParams(window.location.search);
 const productId = urlParams.get('id');
-console.log(categoryId);
+console.log(productId);
 
 function loadProdData() {
     var url = `/products/${productId}`
@@ -22,7 +23,8 @@ function loadProdData() {
         .then((response) => response.json())
         .then((data) => {
             let data1 = data.data;
-            fetchData = data1;
+            renderProdData(data1);
+            price = data1.price;
         })
         .catch((error) => {
             console.error('An error occurred while loading store data:', error);
@@ -35,122 +37,157 @@ function renderProdData(data) {
 
     // 데이터를 사용하여 섹션 내부의 내용을 변경
     const imgElement = prodInfoSection.querySelector(".prod-img");
-    imgElement.src = data.imageSrc;
+    imgElement.src = data.imageUrl;
 
     const brandElement = prodInfoSection.querySelector(".brands");
-    brandElement.textContent = data.brandName;
+    brandElement.textContent = data.storeName;
 
-    const productNameElement = prodInfoSection.querySelector(".prod-name1");
-    productNameElement.textContent = data.productName;
+    const productName1Element = prodInfoSection.querySelector(".prod-name1");
+    productName1Element.textContent = data.productName;
 
     const addressElement = prodInfoSection.querySelector(".address");
     addressElement.textContent = data.address;
 
     const priceElement = prodInfoSection.querySelector(".price");
     priceElement.textContent = data.price;
+
+    const addCartSection = document.querySelector(".add-cart");
+
+    const productName2Element = addCartSection.querySelector(".prod-name2");
+    productName2Element.textContent = data.productName;
+
+    const initSumPrice = addCartSection.querySelector(".sum-price");
+    initSumPrice.textContent = data.price;
+
 }
 
 function decreaseQuantity() {
-    const quantityInput = document.querySelector(".quantity-input");
-    const currentValue = parseInt(quantityInput.value);
-    if (currentValue > 1) {
-        quantityInput.value = currentValue - 1;
-    }
+    const downBtn = document.getElementById("decrease");
+
+    downBtn.addEventListener("click", () => {
+        const quantityInput = document.querySelector(".quantity-input");
+        const currentValue = parseInt(quantityInput.value);
+        let sumPrice = document.querySelector(".sum-price");
+    
+        if (currentValue > 1) {
+            quantityInput.value = currentValue - 1;
+        }
+    
+        let sum = price * quantityInput.value;
+        sumPrice.textContent = sum;
+    })
+
 }
 
 function increaseQuantity() {
-    const quantityInput = document.querySelector(".quantity-input");
-    const currentValue = parseInt(quantityInput.value);
-    quantityInput.value = currentValue + 1;
+    const upBtn = document.getElementById("increase");
+    
+    upBtn.addEventListener("click", () => {
+        const quantityInput = document.querySelector(".quantity-input");
+        const currentValue = parseInt(quantityInput.value);
+        let sumPrice = document.querySelector(".sum-price");
+        
+        quantityInput.value = currentValue + 1;
+        let sum = price * quantityInput.value;
+        sumPrice.textContent = sum;
+    })
 }
 
+
+var postHeaders = new Headers();
+var teadbear = `Bearer ${token}`
+postHeaders.append('Content-Type', 'application/json');
+postHeaders.append('Authorization', teadbear);
+
+
 function buy_postFormData() {
-    if (checkTokenExistence()) {
-        var teadbear = 'Bearer ' + token;
-        const quantityInput = document.querySelector(".quantity-input");
-        var postUrl = "/purchases";
+    const buyBtn = document.querySelector(".buy-btn");
+    buyBtn.addEventListener("click", () => {
+        if (checkTokenExistence()) {
+            checkTokenValid();
+            // var teadbear = `Bearer ${token}`
+            console.log(teadbear);
+            const quantityInput = document.querySelector(".quantity-input");
+            var postUrl = "/purchases";
 
-        var formData = {
-            id: fetchData.id,
-            quantity: quantityInput.value
-        };
+            var formData = {
+                id: productId,
+                quantity: quantityInput.value
+            };
 
-        console.log(formData);
-
-        /* 통신용 코드 */
-        fetch(postUrl, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": teadbear
-            },
-            body: JSON.stringify(formData)
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("구매 요청이 실패하였습니다.");
-                }
-                return response.json();
+            /* 통신용 코드 */
+            fetch(postUrl, {
+                method: "POST",
+                headers: postHeaders,
+                body: JSON.stringify(formData)
             })
-            .then(data => {
-                console.log("구매 요청이 성공적으로 전송되었습니다.", data);
-                window.location.href = `../html/payment-completed.html?id=${quantityInput.value}`;
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }
-    else {
-        alert("로그인 후 구매해 주세요!");
-        window.location.href = "../html/login.html";
-    }
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("구매 요청이 실패하였습니다.");
+                    }
+                    else {
+                        return response.json();
+                    }
+                })
+                .then(data => {
+                    console.log("구매 요청이 성공적으로 전송되었습니다.", data);
+                    window.location.href = `../customer/checkorder?id=${quantityInput.value}`;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+        else {
+            alert("로그인 후 구매해 주세요!");
+            window.location.href = "../login";
+        }
+    })
 }
 
 function cart_postFormData() {
-    if (checkTokenExistence()) {
-        const cartButton = document.querySelector(".cart-btn");
-        const quantityInput = document.querySelector(".quantity-input");
-        var teadbear = 'Bearer ' + token;
-        var postUrl = `/products/${productId}/cart`
-
-        var formData = {
-            id: fetchData.id,
-            quantity: quantityInput.value
-        };
-
-        console.log(formData);
-        /* 통신용 코드 */
-        fetch(postUrl, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": teadbear
-            },
-            body: JSON.stringify(formData)
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("구매 요청이 실패하였습니다.");
-                }
-                return response.json();
+    const cartBtn = document.querySelector(".cart-btn");
+    cartBtn.addEventListener("click", () => {
+        if (checkTokenExistence()) {
+            checkTokenValid();
+            // var teadbear = `Bearer ${token}`
+            console.log(teadbear);
+            var postUrl = `/products/${productId}/cart`
+            /* 통신용 코드 */
+            fetch(postUrl, {
+                method: "POST",
+                headers: postHeaders,
             })
-            .then(data => {
-                console.log("요청이 성공적으로 전송되었습니다.");
-                alert("장바구니에 상품이 성공적으로 담겼습니다!");
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }
-    else {
-        alert("로그인 후 구매해 주세요!");
-        window.location.href = "../html/login.html";
-    }
-
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("장바구니 추가 요청이 실패하였습니다.");
+                    }
+                    else if (response.status === 400) {
+                        window.alert("이미 장바구니에 담긴 물품입니다!");
+                    }
+                    else {
+                        return response.json();
+                    }
+                })
+                .then(data => {
+                    console.log("요청이 성공적으로 전송되었습니다.");
+                    alert("장바구니에 상품이 성공적으로 담겼습니다!");
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+        else {
+            alert("로그인 후 구매해 주세요!");
+            window.location.href = "../login";
+        }
+    })
 }
 
 window.onload = function main() {
-    checkTokenValid();
     loadProdData();
-    renderProdData(fetchData);
+    // renderProdData(fetchData);
+    buy_postFormData();
+    cart_postFormData();
+    increaseQuantity();
+    decreaseQuantity();
 }

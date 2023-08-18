@@ -8,101 +8,102 @@ public class HtmlController {
 
     @GetMapping("/login")
     public String getLoginPage() {
-        return "login";
+        return "/html/login.html";
     }
 
     @GetMapping("/cart")
-    public String getCart(){
-        return "cart";
+    public String getCart() {
+        return "/html/cart.html";
     }
 
     @GetMapping("/interest-product")
-    public String getInterestProduct(){
-        return "interest-product";
+    public String getInterestProduct() {
+        return "/html/interest-product.html";
     }
 
     @GetMapping
-    public String getMainHome(){
-        return "main-home1";
+    public String getMainHome() {
+        return "/html/main-home1.html";
     }
 
     @GetMapping("/product")
-    public String getProduct(){
-        return "main-home2";
+    public String getProduct() {
+        return "/html/main-home2.html";
     }
 
     @GetMapping("/customer/checkorder")
-    public String getCustomerCheckOrder(){
-        return "mypage_con_checkOrder";
+    public String getCustomerCheckOrder() {
+        return "/html/mypage_con_checkOrder.html";
     }
 
     @GetMapping("/customer/recommend")
-    public String grtCustomerRecommend(){
-        return "mypage_con_recommend";
+    public String grtCustomerRecommend() {
+        return "/html/mypage_con_recommend.html";
     }
 
     @GetMapping("/mypage/customer")
-    public String getCustomerMypage(){
-        return "mypage_customer";
+    public String getCustomerMypage() {
+        return "/html/mypage_customer.html";
+    }
+
+    @GetMapping("/mypage/seller")
+    public String getSellerMypage() {
+        return "/html/mypage_seller.html";
     }
 
     @GetMapping("/seller/checkorder")
-    public String getSellerCheckorder(){
-        return "mypage_sell_checkOrder";
+    public String getSellerCheckorder() {
+        return "/html/mypage_sell_checkOrder.html";
     }
 
     @GetMapping("/seller/enrollItem")
-    public String getSellerEnrollItem(){
-        return "mypage_sell_enrollItem";
+    public String getSellerEnrollItem() {
+        return "/html/mypage_sell_enrollItem.html";
     }
 
-    @GetMapping("/seller")
-    public String getSellerMypage(){
-        return "mypage_seller";
-    }
 
     @GetMapping("/payment/completed")
-    public String getPaymentCompleted(){
-        return "payment-completed";
+    public String getPaymentCompleted() {
+        return "/html/payment-completed.html";
     }
 
     @GetMapping("/product/info")
-    public String getProductInfo(){
-        return "product-info";
+    public String getProductInfo() {
+        return "/html/product-info.html";
     }
 
     @GetMapping("/product/manage")
-    public String getProductManage(){
-        return "product-manage";
+    public String getProductManage() {
+        return "/html/product-manage.html";
     }
 
     @GetMapping("/signup/customer")
-    public String getRegisterCustomer(){
-        return "register_customer";
+    public String getRegisterCustomer() {
+        return "/html/register_customer.html";
     }
 
-    @GetMapping("/signup/edit/customer")
-    public String getRegisterEditCustomer(){
-        return "register_edit_customer";
+    @GetMapping("/edit")
+    public String getRegisterEditCustomer() {
+        return "/html/register_edit_customer.html";
     }
 
-    @GetMapping("/signup/edit/seller")
-    public String getRegisterEditSeller(){
-        return "register_edit_seller";
-    }
+//    @GetMapping("/edit/seller")
+//    public String getRegisterEditSeller() {
+//        return "/html/register_edit_seller.html";
+//    }
 
     @GetMapping("/signup/seller")
-    public String getRegisterSeller(){
-        return "register_seller";
+    public String getRegisterSeller() {
+        return "/html/register_seller.html";
     }
 
     @GetMapping("/receipt/customer")
-    public String getShopReceiptCustomer(){
-        return "shop_receipt_customer";
+    public String getShopReceiptCustomer() {
+        return "/html/shop_receipt_customer.html";
     }
 
     @GetMapping("/receipt/seller")
-    public String getShopReceiptSeller(){
-        return "shop_receipt_seller";
+    public String getShopReceiptSeller() {
+        return "/html/shop_receipt_seller.html";
     }
 }

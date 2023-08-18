@@ -12,15 +12,16 @@ myHeaders.append('Content-Type', 'application/json');
 // 추천 상품 load
 function loadRecommendList() {
     if (checkTokenExistence()) {
+        checkTokenValid();
+        const head = document.querySelector(".today-recommend");
         fetch(url, {
             headers: myHeaders,
             method: 'GET'
         })
-            .then(checkTokenValid(response))
             .then((response) => response.json())
             .then((data) => {
-                let data1 = data.data;
-                fetchdata = data1;
+                let data1 = data.data.productList;
+                renderRecommendList(data1);
             })
             .catch((error) => {
                 console.error('An error occurred while loading store data:', error);
@@ -28,15 +29,19 @@ function loadRecommendList() {
     }
     else {
         const recommendList = document.querySelector(".recommend-list");
-        const intendLogin = document.createElement("p");
-        intendLogin.innerHTML = "회원가입 하고 맞춤 상품 보러가기!";
-        recommendList.appendChild(intendLogin);
+        recommendList.innerHTML = `
+            <div class="login-text">
+                <p id="login-intend">로그인 하고 맞춤 상품 추천 받기!</p>
+                <a href="../html/login.html"><button>로그인</button></a>
+            </div>
+        `
     }
 }
 
 // 추천 상품 render
 function renderRecommendList(products) {
     const productList = document.getElementById("product-list");
+
     // 데이터를 기반으로 제품 목록을 생성
     products.forEach(product => {
         const li = document.createElement("li");
@@ -45,7 +50,7 @@ function renderRecommendList(products) {
             <div class="prod-info">
                 <div class="product">
                     <div class="brands">
-                        <p>${product.brand}</p>
+                        <p>${product.storeName}</p>
                         <img src="../images/cart_icon.svg" class="cart-img" />
                     </div>
                     <div class="prod-name"><p>${product.productName}</p></div>
@@ -55,7 +60,7 @@ function renderRecommendList(products) {
         `;
 
         li.addEventListener('click', () => {
-            const clickedItemId = product.id;
+            const clickedItemId = product.productId;
             window.location.href = `../product/info?id=${clickedItemId}`;
         })
         productList.appendChild(li);
@@ -83,22 +88,23 @@ function attachMenuClickEvent() {
             else if (index === 2) {
                 console.log(2);
                 // 해산물 페이지인거 main-home2.js에 넘겨주기 -> 3
-                window.location.href = `../product.html?id=${index + 1}`;
+                window.location.href = `../product?id=${index + 1}`;
             }
             else if (index === 3) {
                 console.log(3);
                 // 가공식품 페이지인거 main-home2.js에 넘겨주기 -> 4
-                window.location.href = `../product.html?id=${index + 1}`;
+                window.location.href = `../product?id=${index + 1}`;
             }
         });
         pageNum++;
     });
 }
 
+
 window.onload = function main() {
-    attachMenuClickEvent();
     loadRecommendList();
-    renderRecommendList(fetchdata);
+    // renderRecommendList(fetchdata);
+    attachMenuClickEvent();
 }
 
 
