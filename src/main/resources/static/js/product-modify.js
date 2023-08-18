@@ -27,7 +27,7 @@ function enrollItem(){
 function getData(){
   const url = '/products/'+idValue;
     var myHeaders = new Headers();
-    var data = {
+    var dataObject = {
     //   productId:4,
     //   productName : "해바라기씨",
     //   subcategory : "곡물",
@@ -48,7 +48,7 @@ function getData(){
     })
     .then(data => {
         if(data.httpStatus==='OK'){
-            data = data;
+            dataObject = data.data;
         } else {
             console.error("데이터 가져오기 실패");
         }
@@ -57,7 +57,7 @@ function getData(){
         console.error("오류발생",error);
     });
     
-    setData(data);
+    setData(dataObject);
 }
 
 function setData(data){
