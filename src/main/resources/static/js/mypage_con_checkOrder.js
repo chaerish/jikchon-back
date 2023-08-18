@@ -40,7 +40,7 @@ function getOrders(){
     }
     
 
-    const url = '/customer/purchases?page=0';
+    const url = '/customer/purchases';
     var myHeaders = new Headers();
     const token = localStorage.getItem('access_token');
     myHeaders.append('Authorization',`Bearer ${token}`); 

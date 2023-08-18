@@ -50,7 +50,7 @@ function getData(){
         //     }
         // ]
     }  
-    const url = '/seller/orders?product=null&page=0';
+    const url = '/seller/purchases';
     var myHeaders = new Headers();
     const token = localStorage.getItem('access_token');
     myHeaders.append('Authorization',`Bearer ${token}`);  
