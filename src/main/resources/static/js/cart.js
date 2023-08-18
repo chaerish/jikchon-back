@@ -150,12 +150,13 @@ function payCart() {
         })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error("관심카테고리 선택 실패");
+                    throw new Error("장바구니 결제 실패");
                 }
                 return response.json();
             })
             .then(data => {
-                console.log("관심카테고리 선택 성공.", data);
+                window.alert("결제 성공!");
+                console.log("장바구니 결제 성공.", data);
             })
             .catch(error => {
                 console.error(error);
