@@ -29,41 +29,42 @@ function loadProdManageData() {
     }
 }
 
-let isLoading = false;
+// let isLoading = false;
 
-function loadMoreItems() {
-    if (fetchData.totalPage > pageNum) {
-        pageNum++;
-        console.log("pageNum: ", pageNum);
-    }
-    isLoading = true;
-    let nextPageData = [];
+// function loadMoreItems() {
+//     // if (fetchData.totalPage > pageNum) {
+//     //     pageNum++;
+//     //     console.log("pageNum: ", pageNum);
+//     // }
+//     isLoading = true;
+//     let nextPageData = [];
 
-    fetch(urls, {
-        headers: myHeaders,
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            let data1 = data.data;
-            renderProdManageData(data1.itemList);
-        })
-        .catch((error) => {
-            console.error('An error occurred while loading store data:', error);
-        });
-}
+//     fetch(urls, {
+//         headers: myHeaders,
+//     })
+//         .then((response) => response.json())
+//         .then((data) => {
+//             let data1 = data.data;
+//             renderProdManageData(data1.itemList);
+//         })
+//         .catch((error) => {
+//             console.error('An error occurred while loading store data:', error);
+//         });
+// }
 
-function ProdInfinityScroll() {
-    window.addEventListener("scroll" , function() {
-      const SCROLLED_HEIGHT = window.scrollY;
-      const WINDOW_HEIGHT = window.innerHeight;
-      const DOC_TOTAL_HEIGHT = document.body.offsetHeight;
-      const IS_END = (WINDOW_HEIGHT + SCROLLED_HEIGHT > DOC_TOTAL_HEIGHT - 10);
+// function ProdInfinityScroll() {
+//     window.addEventListener("scroll" , function() {
+//       const SCROLLED_HEIGHT = window.scrollY;
+//       const WINDOW_HEIGHT = window.innerHeight;
+//       const DOC_TOTAL_HEIGHT = document.body.offsetHeight;
+//       const IS_END = (WINDOW_HEIGHT + SCROLLED_HEIGHT > DOC_TOTAL_HEIGHT - 10);
   
-      if (IS_END && !isLoading) {
-        loadMoreItems();
-      }
-    })
-  }
+//       if (IS_END && fetchData.totalPage > pageNum) {
+//         pageNum++;
+//         loadMoreItems();
+//       }
+//     })
+//   }
 
 let indexOfClickBtn = 0;
 
@@ -73,7 +74,7 @@ function renderProdManageData(data) {
     data.forEach(item => {
         const listItem = document.createElement('li');
         listItem.className = 'order-comp';
-        listItem.id = item.id;
+        listItem.id = item.productId;
 
         const image = document.createElement('img');
         image.src = item.imageUrl;
