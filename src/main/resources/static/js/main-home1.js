@@ -20,7 +20,7 @@ function loadRecommendList() {
         })
             .then((response) => response.json())
             .then((data) => {
-                let data1 = data.data;
+                let data1 = data.data.productList;
                 renderRecommendList(data1);
             })
             .catch((error) => {
