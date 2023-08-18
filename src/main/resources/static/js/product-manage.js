@@ -109,8 +109,8 @@ function renderProdManageData(data) {
         changeBtn.className = 'change-btn';
         changeBtn.textContent = '수정하기';
         changeBtn.addEventListener('click', () => {
-            const clickedItemId = item.id; // 클릭된 버튼의 항목 ID 가져오기
-            window.location.href = `..//product/modify?id=${clickedItemId}`
+            const clickedItemId = item.productId; // 클릭된 버튼의 항목 ID 가져오기
+            window.location.href = `../product/modify?id=${clickedItemId}`
         });
 
         const deleteBtn = document.createElement('button');
@@ -147,6 +147,7 @@ function deleteProduct(itemId) {
             response.json()
             const deletedItem = document.getElementById(`${itemId}`);
             if (deletedItem) {
+                window.alert("상품이 삭제되었습니다!");
                 deletedItem.remove();
             }
         })
