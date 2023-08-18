@@ -52,15 +52,16 @@ function getData(id){
         method:"GET",
     })
     .then((response)=>{
-        return response.json();
+        if(response.status==200){
+            return response.json();
+        }
+        else{
+            throw new Error(response.status);
+        }
     })
     .then(data => {
-        if(data.httpStatus==='200'){
-            dataObject = data.data;
-            setPurchaseList(dataObject);
-        } else {
-            console.error("데이터 가져오기 실패");
-        }
+        dataObject = data.data;
+        setPurchaseList(dataObject);
     })
     .catch((error)=>{
         console.error("오류발생",error);
