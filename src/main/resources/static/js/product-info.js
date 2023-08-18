@@ -161,6 +161,9 @@ function cart_postFormData() {
                     if (!response.ok) {
                         throw new Error("장바구니 추가 요청이 실패하였습니다.");
                     }
+                    else if (response.status === 400) {
+                        window.alert("이미 장바구니에 담긴 물품입니다!");
+                    }
                     else {
                         return response.json();
                     }

@@ -11,22 +11,28 @@ myHeaders.append('Authorization', 'Bearer ' + token);
 myHeaders.append('Content-Type', 'application/json');
 
 function loadCartData() {
-    let url = `/members/cart?page=${pageNum}`;
-    /* 통신용 코드 */
-    fetch(url, {
-        headers: myHeaders,
-        method: "GET"
-    })
-        .then(checkTokenValid(response))
-        .then((response) => response.json())
-        .then((data) => {
-            let data1 = data.data;
-            fetchdata = data.data.itemList;
-            renderCartData(data1.itemList);
+    if (checkTokenExistence()){
+        checkTokenValid();
+        let url = `/members/cart?page=${pageNum}`;
+        /* 통신용 코드 */
+        fetch(url, {
+            headers: myHeaders,
+            method: "GET"
         })
-        .catch((error) => {
-            console.error('An error occurred while loading store data:', error);
-        });
+            .then((response) => response.json())
+            .then((data) => {
+                let data1 = data.data;
+                fetchdata = data.data.itemList;
+                renderCartData(data1.itemList);
+            })
+            .catch((error) => {
+                console.error('An error occurred while loading store data:', error);
+            });
+    }
+    else {
+        window.alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다!");
+        window.location.href = '/login';
+    }    
 }
 
 
