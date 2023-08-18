@@ -114,7 +114,7 @@ function setOrderList(data){
         orderPrice.textContent = itemList.price;
 
         var orderDetailLink = document.createElement("a");
-        orderDetailLink.href = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/receipt/customer?id='+order.id // 자세히 보기에 연결된 링크
+        orderDetailLink.href = 'http://jikchon.ap-northeast-2.elasticbeanstalk.com/receipt/customer?id='+itemList.id // 자세히 보기에 연결된 링크
 
         var orderDetail = document.createElement("p");
         orderDetail.classList.add('order-detail');
