@@ -1,7 +1,7 @@
 import { checkTokenValid, checkTokenExistence, checkUserRole } from './common/jwt_token_check.js';
 let fetchData = [];
 let pageNum = 0;
-let urls = `products?page=${pageNum}`;
+let urls = "/members/products";
 
 /* Header 설정 */
 const token = localStorage.getItem('access_token');
