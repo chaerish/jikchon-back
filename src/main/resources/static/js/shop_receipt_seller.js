@@ -10,10 +10,11 @@ const pProductPrice = document.getElementById('product-price');
 
 const pTotalPrice = document.getElementById('total-price');
 
-const purchaseID = window.location.href.split('=')[1].split('=')[1];
-
 function getSellerRecieptInfo() {
   checkTokenValid();
+
+  const purchaseID = window.location.href.split('=')[1].split('=')[1];
+
   fetch(`/seller/receipt/${purchaseID}`, {
     method: 'GET',
     headers: {
@@ -32,7 +33,6 @@ function getSellerRecieptInfo() {
     .catch(error => {
       console.log(error);
       window.alert('영수증 조회에 실패했습니다.');
-      window.location.href = '/seller/checkorder';
     });
 }
 
