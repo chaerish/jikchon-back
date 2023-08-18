@@ -1,7 +1,6 @@
 import { checkTokenExistence, checkTokenValid,checkUserRole } from "./common/jwt_token_check.js";
 document.addEventListener("DOMContentLoaded", function() {
     var idValue = getQueryParamValue('id');
-    console.log(currentUrl)
     getData(idValue);
     con_receipt();
 });
@@ -23,7 +22,7 @@ function con_receipt(){
     checkTokenValid();
 }
 function getData(id){
-    var data = {
+    var dataObject = {
         // orderId: 2,
         // totalPrice : 55000,
         // purchaseList : [
@@ -43,7 +42,7 @@ function getData(id){
     }
        
 
-    const url = "/customer/receipt/"+idValue;
+    const url = "/customer/receipt/"+id;
     var myHeaders = new Headers();
     const token = localStorage.getItem('access_token');
     myHeaders.append('Authorization',`Bearer ${token}`);  
@@ -56,9 +55,9 @@ function getData(id){
         return response.json();
     })
     .then(data => {
-        if(data.httpStatus==='OK'){
-            data = data;
-            setPurchaseList(data);
+        if(data.httpStatus==='200'){
+            dataObject = data.data;
+            setPurchaseList(dataObject);
         } else {
             console.error("데이터 가져오기 실패");
         }
