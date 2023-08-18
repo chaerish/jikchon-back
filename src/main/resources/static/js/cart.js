@@ -47,9 +47,9 @@ function renderCartData(data) {
                 <div class="row-dir-box">
                     <p class="brands">${product.storeName}</p>
                     <div class="amount-box">
-                        <button class="quantity-down-btn"">-</button>
+                        <button class="quantity-down-btn">-</button>
                         <input type="text" class="quantity-input" value="1">
-                        <button class="quantity-up-btn"">+</button>
+                        <button class="quantity-up-btn">+</button>
                     </div>
                 </div>
                 <p class="prod-name">${product.productName}</p>
@@ -61,22 +61,22 @@ function renderCartData(data) {
     });
 }
 
-let liIndex;
+// let liIndex;
 
 // function getCartListIndex() {
-//     const cartList = document.getElementById("cart-li");
-//     const amountBox = document.querySelectorAll(".amount-box");
+    // const cartList = document.getElementById("cart-li");
+    // const amountBox = document.querySelectorAll(".amount-box");
 
-//     amountBox.forEach(btn => {
-//         btn.addEventListener("click", function (event) {
-//             const clickedLi = event.target.closest("li");
-//             if (clickedLi) {
-//                 // 클릭한 li 요소의 인덱스를 찾아서 사용
-//                 liIndex = Array.from(cartList.children).indexOf(clickedLi);
-//                 console.log(liIndex);
-//             }
-//         });
-//     })
+    // amountBox.forEach(btn => {
+    //     btn.addEventListener("click", function (event) {
+    //         const clickedLi = event.target.closest("li");
+    //         if (clickedLi) {
+    //             // 클릭한 li 요소의 인덱스를 찾아서 사용
+    //             liIndex = Array.from(cartList.children).indexOf(clickedLi);
+    //             console.log(liIndex);
+    //         }
+    //     });
+    // })
 // }
 
 function decreaseQuantity() {
