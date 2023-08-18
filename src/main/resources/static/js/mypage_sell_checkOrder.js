@@ -69,12 +69,12 @@ function getData(){
     })
     .then(data => {
         dataObject=data
+        setOrderList(dataObject);
     })
     .catch((error)=>{
         console.error("오류발생",error);
     });
     
-    setOrderList(dataObject);
 }
 
 function setOrderList(data){
