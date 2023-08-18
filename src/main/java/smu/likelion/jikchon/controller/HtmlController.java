@@ -81,7 +81,10 @@ public class HtmlController {
     public String getRegisterCustomer() {
         return "/html/register_customer.html";
     }
-
+    @GetMapping("/product/modify")
+    public String getProductModify(){
+        return "/html/product-modify.html";
+    }
     @GetMapping("/edit")
     public String getRegisterEditCustomer() {
         return "/html/register_edit_customer.html";
