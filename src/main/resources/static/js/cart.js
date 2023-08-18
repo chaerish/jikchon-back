@@ -84,7 +84,8 @@ function decreaseQuantity() {
     const decreaseButton = document.querySelectorAll(".quantity-down-btn");
     decreaseButton.forEach((product, index) => {
         product.addEventListener("click", () => {
-            var selectComp = `#cart-li li:nth-child(${index+1}) .quantity-input`
+            var selectComp = `#cart-li li:nth-child(${index+1}) .quantity-input`;
+            console.log(selectComp);
             const quantityInput = document.querySelector(selectComp);
             const currentValue = parseInt(quantityInput.value);
             if (currentValue > 1) {
@@ -103,8 +104,9 @@ function increaseQuantity() {
     const increaseButton = document.querySelectorAll(".quantity-up-btn");
     increaseButton.forEach((product, index) => {
         product.addEventListener("click", () => {
-            var selectComp = `#cart-li li:nth-child(${index + 1}) .quantity-input`
+            var selectComp = `#cart-li li:nth-child(${index + 1}) .quantity-input`;
             const quantityInput = document.querySelector(selectComp);
+            console.log(selectComp);    
             const currentValue = parseInt(quantityInput.value);
             quantityInput.value = currentValue + 1;
             sumPrice();
