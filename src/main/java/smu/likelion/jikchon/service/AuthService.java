@@ -291,7 +291,7 @@ public class AuthService implements UserDetailsService {
         member.setPhoneNumber(memberRequestDto.getPhoneNumber());
         member.setZipcode(member.getZipcode());
         member.setAddress(memberRequestDto.getAddress());
-        member.setCompanyNumber(member.getCompanyNumber());
+//        member.setCompanyNumber(member.getCompaㅌㄴㄴnyNumber());
 //
 //        if (member.getRole().equals(MemberRole.ROLE_SELLER)) {
 //            if (!memberRequestDto.getCompanyNumber().equals(member.getCompanyNumber())) {
