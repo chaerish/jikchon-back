@@ -216,7 +216,7 @@ btnRegister.addEventListener('click', () => {
       if (response.status === 200) {
         window.alert('회원가입에 성공하였습니다. 자동으로 로그인합니다.');
         // 회원가입 후 자동 로그인
-        autoLogin(phoneNumber);
+        return autoLogin(phoneNumber);
       } else throw new Error(response.json());
     })
     .catch(error => {
