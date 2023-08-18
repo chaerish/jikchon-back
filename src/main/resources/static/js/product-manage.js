@@ -133,7 +133,7 @@ function renderProdManageData(data) {
 
         orderList.appendChild(listItem);
     });
-    isLoading = false;
+    // isLoading = false;
 }
 
 function deleteProduct(itemId) {
