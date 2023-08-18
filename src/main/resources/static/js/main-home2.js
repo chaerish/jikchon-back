@@ -182,13 +182,9 @@ function loadProdData() {
 let isLoading = false;
 
 function loadMoreItems() {
-  if (fetchData.totalPage > pageNum){
-    pageNum++;
-    console.log("pageNum: ", pageNum);
-  }
   isLoading = true;
 
-  fetch(url, {
+  fetch(`/products?category=${categoryId}&page=${pageNum}`, {
     headers: myHeaders,
   })
     .then((response) => response.json())
@@ -201,16 +197,18 @@ function loadMoreItems() {
     });
 }
 
+
 function ProdInfinityScroll() {
   const container = document.querySelector(".container");
 
-  container.addEventListener("scroll" , function() {
+  container.addEventListener("scroll", function () {
     const scrollHeight = container.scrollHeight;
     const scrollTop = container.scrollTop;
     const clientHeight = container.clientHeight;
-    const IS_END = ((scrollHeight-scrollTop) >= clientHeight - 10);
+    const IS_END = ((scrollHeight - scrollTop) >= clientHeight - 10);
 
-    if (IS_END && !isLoading) {
+    if (IS_END && fetchData.totalPage > pageNum) {
+      pageNum++;
       loadMoreItems();
     }
   })
@@ -317,7 +315,7 @@ function categoryFiltering() {
         .catch((error) => {
           console.error("loading fail")
         });
-      
+
     })
   })
 }

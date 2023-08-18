@@ -46,7 +46,7 @@ function renderRecommendList(products) {
     products.forEach(product => {
         const li = document.createElement("li");
         li.innerHTML = `
-            <img src="${product.imgUrl}" alt="${product.productName}" class="prod-img">
+            <img src="${product.imageUrl}" alt="${product.productName}" class="prod-img">
             <div class="prod-info">
                 <div class="product">
                     <div class="brands">
