@@ -2,6 +2,7 @@ import { checkTokenValid, checkTokenExistence, checkUserRole } from './common/jw
 
 let fetchdata = []; // Initialize fetchdata array
 let pageNum = 0;
+let initSum = 0;
 
 /* Header 설정 */
 const token = localStorage.getItem('access_token');
@@ -20,8 +21,8 @@ function loadCartData() {
         .then((response) => response.json())
         .then((data) => {
             let data1 = data.data;
-            console.log(data1);
-            renderCartData(data1);
+            fetchdata = data.data.itemList;
+            renderCartData(data1.itemList);
         })
         .catch((error) => {
             console.error('An error occurred while loading store data:', error);
@@ -52,6 +53,7 @@ function renderCartData(data) {
             </div>
         `;
         cartList.appendChild(li);
+        initSum += product.price;
     });
 }
 
@@ -79,9 +81,12 @@ function decreaseQuantity() {
 
     const quantityInput = document.querySelector(selectComp);
     const currentValue = parseInt(quantityInput.value);
+    const totalPrice =document.querySelector(".total-price-box input");
 
     if (currentValue > 1) {
         quantityInput.value = currentValue - 1;
+        initSum -= fetchdata[liIndex].price;
+        totalPrice.value = initSum;
     }
 }
 
@@ -90,14 +95,19 @@ decreaseButton.forEach(product => {
     product.addEventListener("click", decreaseQuantity);
 })
 
+
+
 function increaseQuantity() {
     console.log("up");
     var selectComp = `#cart-li li:nth-child(${liIndex + 1}) .quantity-input`
 
     const quantityInput = document.querySelector(selectComp);
     const currentValue = parseInt(quantityInput.value);
+    const totalPrice =document.querySelector(".total-price-box input");
 
     quantityInput.value = currentValue + 1;
+    initSum += fetchdata[liIndex].price;
+    totalPrice.value = initSum;
 }
 
 const increaseButton = document.querySelectorAll(".quantity-up-btn");
