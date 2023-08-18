@@ -7,6 +7,8 @@ import lombok.experimental.SuperBuilder;
 import smu.likelion.jikchon.domain.Purchase;
 import smu.likelion.jikchon.dto.member.MemberResponseDto;
 
+import java.util.List;
+
 
 public class PurchaseResponseDto {
     @Getter
@@ -38,7 +40,7 @@ public class PurchaseResponseDto {
         int quantity;
         int totalPrice;
         String orderAt;
-        String imageUrl;
+        List<String> imageUrl;
         MemberResponseDto.Profile purchaseCustomer;
 
         public static BriefForSeller of(Purchase purchase) {
@@ -49,8 +51,7 @@ public class PurchaseResponseDto {
                     .quantity(purchase.getQuantity())
                     .totalPrice(purchase.calculatePrice())
                     .orderAt(purchase.getOrder().getCreatedAtToString())
-                    //todo: imageUrl
-                    .imageUrl(null)
+                    .imageUrl(purchase.getProduct().getProductImageUrlList())
                     .purchaseCustomer(MemberResponseDto.Profile.of(purchase.getMember()))
                     .build();
         }
