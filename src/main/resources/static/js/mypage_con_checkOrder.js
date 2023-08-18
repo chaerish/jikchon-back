@@ -59,12 +59,11 @@ function getOrders(){
     })
     .then(data => {
         dataObject=data;
+        setOrderList(dataObject);
     })
     .catch((error)=>{
         console.error("오류발생",error);
     });
-    
-    setOrderList(dataObject);
 }
 
 function formatOrderNumber(orderNumber) {
