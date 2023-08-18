@@ -43,21 +43,18 @@ function getData(){
         headers:myHeaders,
         method:"GET",
     })
-    .then((response)=>{
+    .then((response)=> {
+      if (response.status === 200) {
         return response.json();
+      } else throw new Error(response.status);
     })
     .then(data => {
-        if(data.httpStatus==='OK'){
-            dataObject = data.data;
-        } else {
-            console.error("데이터 가져오기 실패");
-        }
+      dataObject = data.data;
+      setData(dataObject);
     })
     .catch((error)=>{
         console.error("오류발생",error);
     });
-    
-    setData(dataObject);
 }
 
 function setData(data){
@@ -67,6 +64,7 @@ function setData(data){
 
   var img = document.createElement("img");
   img.classList.add('item-img');
+  console.log(data);
   img.setAttribute("src", data.imageUrl[0]);
   img.style.width = "10rem";
   img.style.height ="10rem";
