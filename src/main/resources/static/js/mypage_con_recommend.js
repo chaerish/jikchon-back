@@ -58,14 +58,16 @@ function sendList(interestCategory){
         method: "POST"
     })
     .then((response)=>response.json())
-    .then((result)=>console.log(result))
+    .then((result)=>{
+        console.log(result);
+        console.log("전송완료 : ",interestCategory)
+        moveChangePage();       
+    })
     .catch((error)=>{
         console.error(error);
     })
-    console.log("전송완료 : ",interestCategory)
-    moveChangePage();
 }
 function moveChangePage(){
     alert("저장이 완료되었습니다.");
-    // window.location.href = "http://jikchon.ap-northeast-2.elasticbeanstalk.com/mypage/customer";
+    window.location.href = "http://jikchon.ap-northeast-2.elasticbeanstalk.com/mypage/customer";
 }

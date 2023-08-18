@@ -46,7 +46,7 @@ function getData(){
     .then((response)=>{
         return response.json();
     })
-    .then(date => {
+    .then(data => {
         if(data.httpStatus==='OK'){
             data = data;
         } else {
@@ -197,12 +197,14 @@ document.getElementById('submit-button').addEventListener("click",()=>{
         method: "PUT"
     })
     .then((Response)=>Response.json())
-    .then((result)=>console.log(result))
+    .then((result)=>{
+      console.log(result);
+      console.log("전송완료 : ",files)
+      moveChangePage();
+    })
     .catch((error)=>{
         console.error(error);
     })
-    console.log("전송완료 : ",files)
-    moveChangePage();
   }
 
   function moveChangePage(){

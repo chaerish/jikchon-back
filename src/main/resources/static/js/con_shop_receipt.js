@@ -55,9 +55,10 @@ function getData(id){
     .then((response)=>{
         return response.json();
     })
-    .then(date => {
+    .then(data => {
         if(data.httpStatus==='OK'){
             data = data;
+            setPurchaseList(data);
         } else {
             console.error("데이터 가져오기 실패");
         }
@@ -65,8 +66,6 @@ function getData(id){
     .catch((error)=>{
         console.error("오류발생",error);
     });
-    
-    setPurchaseList(data);
 }
 
 function setPurchaseList(data){

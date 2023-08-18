@@ -118,12 +118,14 @@ document.getElementById('submit-button').addEventListener("click",()=>{
         method: "POST"
     })
     .then((Response)=>Response.json())
-    .then((result)=>console.log(result))
+    .then((result)=>{
+      console.log(result);
+      console.log("전송완료 : ",files)
+      moveChangePage();
+    })
     .catch((error)=>{
         console.error(error);
     })
-    console.log("전송완료 : ",files)
-    moveChangePage();
   }
 
   function moveChangePage(){

@@ -68,7 +68,7 @@ function getData(){
         }
     })
     .then(data => {
-        dataObject=data
+        dataObject=data;
         setOrderList(dataObject);
     })
     .catch((error)=>{
@@ -82,7 +82,7 @@ function setOrderList(data){
 
     var itemLists = data.itemList;
     itemLists.forEach(function(itemList){
-        purchaseCustomer = itemList.purchaseCustomer;
+        var purchaseCustomer = itemList.purchaseCustomer;
         var orderBox = document.createElement("div");
         orderBox.classList.add("order-box");
 
