@@ -110,7 +110,7 @@ document.getElementById('submit-button').addEventListener("click",()=>{
     const url = "/products";
     const token = localStorage.getItem('access_token');
     myHeaders.append('Authorization',`Bearer ${token}`);
-    myHeaders.append('Content-Type','multipart/form-data')
+    // myHeaders.append('Content-Type','multipart/form-data')
 
     fetch(url,{
         headers: myHeaders,
