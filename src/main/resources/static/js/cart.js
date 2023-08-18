@@ -10,7 +10,7 @@ myHeaders.append('Authorization', 'Bearer ' + token);
 myHeaders.append('Content-Type', 'application/json');
 
 function loadCartData() {
-    if (checkTokenExistence()){
+    if (checkTokenExistence()) {
         checkTokenValid();
         let url = `/members/cart?page=${pageNum}`;
         /* 통신용 코드 */
@@ -31,7 +31,7 @@ function loadCartData() {
     else {
         window.alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다!");
         window.location.href = '/login';
-    }    
+    }
 }
 
 
@@ -80,42 +80,43 @@ function getCartListIndex() {
 }
 
 function decreaseQuantity() {
-    console.log("down");
+    // console.log("down");
+    const decreaseButton = document.querySelectorAll(".quantity-down-btn");
     var selectComp = `#cart-li li:nth-child(${liIndex + 1}) .quantity-input`
 
-    const quantityInput = document.querySelector(selectComp);
-    const currentValue = parseInt(quantityInput.value);
-
-    if (currentValue > 1) {
-        quantityInput.value = currentValue - 1;
-        sumPrice();
-    }
+    decreaseButton.forEach(product => {
+        product.addEventListener("click", () => {
+            const quantityInput = document.querySelector(selectComp);
+            const currentValue = parseInt(quantityInput.value);
+            if (currentValue > 1) {
+                quantityInput.value = currentValue - 1;
+                sumPrice();
+            }
+        });
+    })
 }
 
-const decreaseButton = document.querySelectorAll(".quantity-down-btn");
-decreaseButton.forEach(product => {
-    product.addEventListener("click", decreaseQuantity);
-})
 
 
 
 function increaseQuantity() {
-    console.log("up");
+    // console.log("up");
+    const increaseButton = document.querySelectorAll(".quantity-up-btn");
     var selectComp = `#cart-li li:nth-child(${liIndex + 1}) .quantity-input`
 
-    const quantityInput = document.querySelector(selectComp);
-    const currentValue = parseInt(quantityInput.value);
-
-    quantityInput.value = currentValue + 1;
-    sumPrice();
+    increaseButton.forEach(product => {
+        product.addEventListener("click", () => {
+            const quantityInput = document.querySelector(selectComp);
+            const currentValue = parseInt(quantityInput.value);
+        
+            quantityInput.value = currentValue + 1;
+            sumPrice();
+        });
+    })
 }
 
-const increaseButton = document.querySelectorAll(".quantity-up-btn");
-increaseButton.forEach(product => {
-    product.addEventListener("click", increaseQuantity);
-})
 
-let formData = { 
+let formData = {
     cartList: []
 }
 
@@ -187,5 +188,7 @@ window.onload = function main() {
     payCart();
     getCartListIndex()
     returnMainHome();
+    decreaseQuantity();
+    increaseQuantity();
 }
 

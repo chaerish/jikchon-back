@@ -6,7 +6,7 @@ let urls = "/members/products";
 /* Header 설정 */
 const token = localStorage.getItem('access_token');
 var myHeaders = new Headers();
-myHeaders.append('Authorization', 'Bearer ' + token);
+myHeaders.append('Authorization', `Bearer ${token}`);
 myHeaders.append('Content-Type', 'application/json');
 
 function loadProdManageData() {
@@ -29,41 +29,42 @@ function loadProdManageData() {
     }
 }
 
-let isLoading = false;
+// let isLoading = false;
 
-function loadMoreItems() {
-    if (fetchData.totalPage > pageNum) {
-        pageNum++;
-        console.log("pageNum: ", pageNum);
-    }
-    isLoading = true;
-    let nextPageData = [];
+// function loadMoreItems() {
+//     // if (fetchData.totalPage > pageNum) {
+//     //     pageNum++;
+//     //     console.log("pageNum: ", pageNum);
+//     // }
+//     isLoading = true;
+//     let nextPageData = [];
 
-    fetch(urls, {
-        headers: myHeaders,
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            let data1 = data.data;
-            renderProdManageData(data1.itemList);
-        })
-        .catch((error) => {
-            console.error('An error occurred while loading store data:', error);
-        });
-}
+//     fetch(urls, {
+//         headers: myHeaders,
+//     })
+//         .then((response) => response.json())
+//         .then((data) => {
+//             let data1 = data.data;
+//             renderProdManageData(data1.itemList);
+//         })
+//         .catch((error) => {
+//             console.error('An error occurred while loading store data:', error);
+//         });
+// }
 
-function ProdInfinityScroll() {
-    window.addEventListener("scroll" , function() {
-      const SCROLLED_HEIGHT = window.scrollY;
-      const WINDOW_HEIGHT = window.innerHeight;
-      const DOC_TOTAL_HEIGHT = document.body.offsetHeight;
-      const IS_END = (WINDOW_HEIGHT + SCROLLED_HEIGHT > DOC_TOTAL_HEIGHT - 10);
+// function ProdInfinityScroll() {
+//     window.addEventListener("scroll" , function() {
+//       const SCROLLED_HEIGHT = window.scrollY;
+//       const WINDOW_HEIGHT = window.innerHeight;
+//       const DOC_TOTAL_HEIGHT = document.body.offsetHeight;
+//       const IS_END = (WINDOW_HEIGHT + SCROLLED_HEIGHT > DOC_TOTAL_HEIGHT - 10);
   
-      if (IS_END && !isLoading) {
-        loadMoreItems();
-      }
-    })
-  }
+//       if (IS_END && fetchData.totalPage > pageNum) {
+//         pageNum++;
+//         loadMoreItems();
+//       }
+//     })
+//   }
 
 let indexOfClickBtn = 0;
 
@@ -73,7 +74,7 @@ function renderProdManageData(data) {
     data.forEach(item => {
         const listItem = document.createElement('li');
         listItem.className = 'order-comp';
-        listItem.id = item.id;
+        listItem.id = item.productId;
 
         const image = document.createElement('img');
         image.src = item.imageUrl;
@@ -91,7 +92,7 @@ function renderProdManageData(data) {
 
         const price = document.createElement('p');
         price.className = 'price';
-        price.textContent = item.price;
+        price.textContent = item.price + "원";
 
         const inventoryQuantity = document.createElement('p');
         inventoryQuantity.className = 'inventory-quantity';
@@ -108,15 +109,15 @@ function renderProdManageData(data) {
         changeBtn.className = 'change-btn';
         changeBtn.textContent = '수정하기';
         changeBtn.addEventListener('click', () => {
-            const clickedItemId = item.id; // 클릭된 버튼의 항목 ID 가져오기
-            window.location.href = `..//product/modify?id=${clickedItemId}`
+            const clickedItemId = item.productId; // 클릭된 버튼의 항목 ID 가져오기
+            window.location.href = `../product/modify?id=${clickedItemId}`
         });
 
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'delete-btn';
         deleteBtn.textContent = '삭제하기';
         deleteBtn.addEventListener('click', () => {
-            const clickedItemId = item.id; // 클릭된 버튼의 항목 ID 가져오기
+            const clickedItemId = item.productId; // 클릭된 버튼의 항목 ID 가져오기
             deleteProduct(clickedItemId);
             listItem.remove();
         });
@@ -146,6 +147,7 @@ function deleteProduct(itemId) {
             response.json()
             const deletedItem = document.getElementById(`${itemId}`);
             if (deletedItem) {
+                window.alert("상품이 삭제되었습니다!");
                 deletedItem.remove();
             }
         })
