@@ -35,7 +35,7 @@ public class OrderController {
         return BaseResponse.ok(orderService.getOrderReceipt(orderId));
     }
 
-    @GetMapping("/purchases")
+    @GetMapping("/customer/purchases")
     @PreAuthorize("hasRole('CUSTOMER')")
     public BaseResponse<PageResult<OrderResponseDto.BriefForCustomer>> getMyOrderList(Pageable pageable) {
         return BaseResponse.ok(orderService.getMyOrderList(pageable));
