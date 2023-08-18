@@ -63,29 +63,28 @@ function renderCartData(data) {
 
 let liIndex;
 
-function getCartListIndex() {
-    const cartList = document.getElementById("cart-li");
-    const amountBox = document.querySelectorAll(".amount-box");
+// function getCartListIndex() {
+//     const cartList = document.getElementById("cart-li");
+//     const amountBox = document.querySelectorAll(".amount-box");
 
-    amountBox.forEach(btn => {
-        btn.addEventListener("click", function (event) {
-            const clickedLi = event.target.closest("li");
-            if (clickedLi) {
-                // 클릭한 li 요소의 인덱스를 찾아서 사용
-                liIndex = Array.from(cartList.children).indexOf(clickedLi);
-                console.log(liIndex);
-            }
-        });
-    })
-}
+//     amountBox.forEach(btn => {
+//         btn.addEventListener("click", function (event) {
+//             const clickedLi = event.target.closest("li");
+//             if (clickedLi) {
+//                 // 클릭한 li 요소의 인덱스를 찾아서 사용
+//                 liIndex = Array.from(cartList.children).indexOf(clickedLi);
+//                 console.log(liIndex);
+//             }
+//         });
+//     })
+// }
 
 function decreaseQuantity() {
     // console.log("down");
     const decreaseButton = document.querySelectorAll(".quantity-down-btn");
-    var selectComp = `#cart-li li:nth-child(${liIndex + 1}) .quantity-input`
-
-    decreaseButton.forEach(product => {
+    decreaseButton.forEach((product, index) => {
         product.addEventListener("click", () => {
+            var selectComp = `#cart-li li:nth-child(${index+1}) .quantity-input`
             const quantityInput = document.querySelector(selectComp);
             const currentValue = parseInt(quantityInput.value);
             if (currentValue > 1) {
@@ -102,14 +101,12 @@ function decreaseQuantity() {
 function increaseQuantity() {
     // console.log("up");
     const increaseButton = document.querySelectorAll(".quantity-up-btn");
-    var selectComp = `#cart-li li:nth-child(${liIndex + 1}) .quantity-input`
-
-    increaseButton.forEach(product => {
+    increaseButton.forEach((product, index) => {
         product.addEventListener("click", () => {
+            var selectComp = `#cart-li li:nth-child(${index + 1}) .quantity-input`
             const quantityInput = document.querySelector(selectComp);
             const currentValue = parseInt(quantityInput.value);
-        
-            quantityInput.value = currentValue + 1;
+            quantityInput.value = currenValue + 1;
             sumPrice();
         });
     })
