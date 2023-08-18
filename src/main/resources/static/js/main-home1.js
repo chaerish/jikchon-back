@@ -50,7 +50,7 @@ function renderRecommendList(products) {
             <div class="prod-info">
                 <div class="product">
                     <div class="brands">
-                        <p>${product.brand}</p>
+                        <p>${product.storeName}</p>
                         <img src="../images/cart_icon.svg" class="cart-img" />
                     </div>
                     <div class="prod-name"><p>${product.productName}</p></div>
@@ -60,7 +60,7 @@ function renderRecommendList(products) {
         `;
 
         li.addEventListener('click', () => {
-            const clickedItemId = product.id;
+            const clickedItemId = product.productId;
             window.location.href = `../product/info?id=${clickedItemId}`;
         })
         productList.appendChild(li);
