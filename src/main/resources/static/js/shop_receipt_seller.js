@@ -13,7 +13,7 @@ const pTotalPrice = document.getElementById('total-price');
 function getSellerRecieptInfo() {
   checkTokenValid();
 
-  const purchaseID = window.location.href.split('=')[1].split('=')[1];
+  const purchaseID = window.location.href.split('=')[1];
 
   fetch(`/seller/receipt/${purchaseID}`, {
     method: 'GET',
