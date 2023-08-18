@@ -51,6 +51,7 @@ hr {
     grid-template-rows: 1fr 1fr 1fr;
     height: 26rem;
     flex-shrink: 0;
+    overflow: auto;
 }
 
 .cart-list li {

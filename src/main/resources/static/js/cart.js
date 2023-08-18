@@ -121,7 +121,9 @@ increaseButton.forEach(product => {
     product.addEventListener("click", increaseQuantity);
 })
 
-var formData = [];
+let formData = { 
+    cartList: []
+}
 
 function payCart() {
     const cartBtn = document.querySelector(".cart-btn");
@@ -132,9 +134,13 @@ function payCart() {
         cartItems.forEach((item, index) => {
             const quantityInput = item.querySelector(".quantity-input");
             const quantityValue = quantityInput.value;
-
+            let cart = {
+                id: fetchdata[index].id,
+                quantity: quantityValue
+            }
+            formData.cartList.push(cart);
             // formData.append(`item[${index}][quantity]`, quantityValue);
-            formData.append(`item[${index}][quantity]`, quantityValue);
+            // formData.append(`item[${index}][quantity]`, quantityValue);
         });
 
         fetch(postUrl, {
