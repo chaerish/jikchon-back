@@ -93,7 +93,7 @@ function setOrderList(data){
         var itemImageBox = document.createElement("div");
         itemImageBox.classList.add("item-image-box");
 
-        order.imageUrlList.forEach(function(imageSrc){
+        itemList.imageUrlList.forEach(function(imageSrc){
             var itemImage = document.createElement("img")
             itemImage.classList.add("item-image");
             itemImage.src = imageSrc;
