@@ -205,10 +205,10 @@ function ProdInfinityScroll() {
   const container = document.querySelector(".container");
 
   container.addEventListener("scroll" , function() {
-    const SCROLLED_HEIGHT = container.scrollY;
-    const CONTAINER_HEIGHT = container.innerHeight;
-    const DOC_TOTAL_HEIGHT = document.body.offsetHeight;
-    const IS_END = (CONTAINER_HEIGHT + SCROLLED_HEIGHT > DOC_TOTAL_HEIGHT - 10);
+    const scrollHeight = container.scrollHeight;
+    const scrollTop = container.scrollTop;
+    const clientHeight = container.clientHeight;
+    const IS_END = ((scrollHeight-scrollTop) >= clientHeight - 10);
 
     if (IS_END && !isLoading) {
       loadMoreItems();
